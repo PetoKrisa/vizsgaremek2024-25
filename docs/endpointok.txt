@@ -1,0 +1,34 @@
+#pages
+/ - get
+response index.hmtl text/html
+
+/event - get
+params: id int
+response event.html text/html
+
+/search - get
+params:	query string
+	startDate date-time
+	endDate date-time
+	categories array (?categories=cat1,cat2,cat3...)
+response search.html
+
+/user/@<username> - get
+response user.html
+
+/register - get
+response register.html
+
+/login - get
+response login.html
+
+#api
+/api/user/@<username> - get
+json:	id
+	username
+	email
+	join_date
+	city
+	bio
+	pfp
+response json

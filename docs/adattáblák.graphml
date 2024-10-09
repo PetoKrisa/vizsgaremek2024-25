@@ -55,11 +55,11 @@ description varchar(255)<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelM
     <node id="n2">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="176.4000000000001" width="264.48384" x="989.6000000000001" y="204.4144600000005"/>
+          <y:Geometry height="185.4000000000001" width="264.48384" x="989.6000000000001" y="204.41446000000053"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="34.685546875" x="114.89914656249994" xml:space="preserve" y="4.0">Event</y:NodeLabel>
-          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="136.310546875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="top" visible="true" width="247.427734375" x="2.0" xml:space="preserve" y="30.701171875">id primary key unique auto increment not null
+          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="151.01171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="top" visible="true" width="247.427734375" x="2.0" xml:space="preserve" y="30.701171875">id primary key unique auto increment not null
 name varhcar(100)
 description varchar(1000)
 start_date datetime not null
@@ -67,7 +67,8 @@ end_date datetime null
 visibility varchar(10) ("private" or "public")
 cover varhcar(255) (/assets/images/events/id)
 city varchar(50)	
-location varchar(255)<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:ModelParameter><y:ErdAttributesNodeLabelModelParameter/></y:ModelParameter></y:NodeLabel>
+location varchar(255)
+max_response int null<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:ModelParameter><y:ErdAttributesNodeLabelModelParameter/></y:ModelParameter></y:NodeLabel>
           <y:StyleProperties>
             <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
           </y:StyleProperties>
@@ -77,7 +78,7 @@ location varchar(255)<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelMode
     <node id="n3">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="90.0" width="174.39999999999986" x="816.64192" y="442.0144600000003"/>
+          <y:Geometry height="90.0" width="174.39999999999986" x="816.64192" y="463.0144600000003"/>
           <y:Fill color="#CCCCCC" color2="#CCCCCC" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#CCCCCC" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="60.021484375" x="57.18925781249993" xml:space="preserve" y="4.0">EventUser</y:NodeLabel>
@@ -93,7 +94,7 @@ type ("view","respone", "initve")<y:LabelModel><y:ErdAttributesNodeLabelModel/><
     <node id="n4">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="69.19999999999993" width="174.39999999999986" x="1254.88384" y="452.41446000000036"/>
+          <y:Geometry height="69.19999999999993" width="174.39999999999986" x="1263.6838400000004" y="473.41446000000036"/>
           <y:Fill color="#CCCCCC" color2="#CCCCCC" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#CCCCCC" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="83.376953125" x="45.51152343749982" xml:space="preserve" y="4.0">EventCategory</y:NodeLabel>
@@ -108,7 +109,7 @@ event_id<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:ModelPar
     <node id="n5">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="90.0" width="264.4838400000001" x="1173.6000000000001" y="755.9048469387752"/>
+          <y:Geometry height="90.0" width="264.4838400000001" x="1218.6419200000003" y="755.9048469387752"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="106.046875" x="79.21848250000016" xml:space="preserve" y="4.0">EventGalleryImage</y:NodeLabel>
