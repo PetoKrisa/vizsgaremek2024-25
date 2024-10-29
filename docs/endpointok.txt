@@ -6,6 +6,8 @@ response index.hmtl text/html
 params: id int
 response event.html text/html
 
+/event/add
+
 /search - get
 params:	query string
 	startDate date-time
@@ -30,5 +32,65 @@ json:	id
 	join_date
 	city
 	bio
-	pfp
-response json
+response json	
+
+/api/user/@<username> - patch
+body (json): optional data:
+	email
+	city
+	bio
+	pfp(file)
+	jwt
+response: json status code and message
+
+/api/user/@<username> - delete
+body: jwt
+response: json status code and message
+
+/api/user/@<username>/pfp - get
+respone: file(users profile picture)
+
+/api/user/login - post
+body (json): 	username
+		password
+respones: json status code and message with jwt token if username and password is correct
+
+/api/user/register - post
+body (json): 	username
+		password
+		email
+response: jswon status code, message, jwt if successful
+	
+/api/event - get
+params: id
+json:	id
+	name
+	description
+	start_date
+	end_date
+	visibility
+	cover
+	city
+	location
+	max_response
+	response_count
+	gallery[]
+response: event json
+
+/api/event - post
+form: name
+	description
+	start_date
+	end_date
+	visibility
+	cover (file)
+	city
+	location
+	max_response
+	response_count
+	gallery[] (files)
+response: json status code, 
+
+
+
+ 
