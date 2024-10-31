@@ -19,7 +19,15 @@ ___
 returns `text/html` register.html
 
 # API
-## user
+### Error model
+(If an error occurs the http code will also show an error)
+```
+{
+status: "error",
+message: "Example error message!"
+}
+```
+## 1. User
 ### GET "/api/user/@:username"
 response `application/json`:
 ```
@@ -90,7 +98,7 @@ response `application/json`
 jwt
 ```
 ___
-## Event
+## 2. Event
 ### GET "/api/event/:id"
 response `application/json`
 ```
@@ -166,6 +174,7 @@ invitedUserId
 ```
 response `application/json` status, message
 ___
+## 3. Comment
 ### GET "/api/event/:id/comment"
 body `application/json`:
 ```
@@ -179,7 +188,7 @@ body `application/json`:
 ]
 ```
 response `application/json` status, message
-
+___
 ### POST "/api/event/:id/comment"
 body `application/json`:
 ```
@@ -190,6 +199,7 @@ superCommentId?
 }
 ```
 response `application/json` status, message
+___
 ### DELETE "/api/comment/:id"
 body `application/json`:
 ```
@@ -199,3 +209,40 @@ jwt
 ```
 response `application/json` status, message
 ___
+## 4. Search
+### GET "/api/search"
+query `application/x-www-form-urlencoded`:
+```
+q (text to search for)
+categories? [] (list of categories to search for)
+city?
+startDate? (eg.: 2024.10.31 14:30)
+```
+response `application/json`:
+```
+[
+	{
+	id
+	title
+	cover
+	maxResponse
+	responseCount
+	startDate
+	city
+	ageLimit (boolean)
+	categories []
+	}
+]
+```
+## 5. Category
+### GET "/api/category"
+response `application/json`
+```
+[
+	{	
+		id
+		name
+		description
+	}
+]
+```
