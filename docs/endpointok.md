@@ -216,7 +216,9 @@ query `application/x-www-form-urlencoded`:
 q (text to search for)
 categories? [] (list of categories to search for)
 city?
-startDate? (eg.: 2024.10.31 14:30)
+startDate? (eg.: "2024-10-31 14:30")
+ageLimit? (boolean)
+sortby? (name, startDate) (eg.: "name:desc" "startDate:asc")
 ```
 response `application/json`:
 ```
@@ -234,6 +236,15 @@ response `application/json`:
 	}
 ]
 ```
+___
+### GET "/api/search/popular"
+returns the most viewd events that are not expired
+response `application/json`: same as regular search
+___
+### GET "/api/search/recommended"
+returns events based on the users intrests
+response `application/json`: same as regular search
+
 ## 5. Category
 ### GET "/api/category"
 response `application/json`
