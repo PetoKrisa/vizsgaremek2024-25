@@ -35,7 +35,7 @@ response `application/json`:
 id
 username
 joinDate
-city
+city {id, name, county}
 bio?
 pfp?
 events: [
@@ -53,7 +53,7 @@ ___
 body `multipart/form-data`:
 ```
 bio?
-city?
+city? (id int)
 pfp? (file)
 ```
 response `application/json` status, message:
@@ -91,6 +91,7 @@ body `application/json`
 username
 password
 email
+city (id int)
 }
 ```
 response `application/json`
@@ -110,7 +111,7 @@ startDate
 endDate?
 visibility
 cover
-city
+city {id, name, county}
 location
 maxResponse
 responseCount
@@ -128,7 +129,7 @@ startDate
 endDate?
 visibility (public/private)
 cover (file)
-city
+city (int id)
 location
 max_response
 gallery [] (files)
@@ -145,7 +146,7 @@ startDate?
 endDate?
 visibility? (public/private)
 cover? (file)
-city?
+city? (int id)
 location?
 max_response?
 gallery []? (files)
@@ -216,7 +217,7 @@ query `application/x-www-form-urlencoded`:
 q (text to search for)
 categories? [] (list of categories to search for)
 city?
-startDate? (eg.: "2024-10-31 14:30")
+startDate? (eg.: "2024-10-31 14:30", by default dates that are not in the past)
 ageLimit? (boolean)
 sortby? (name, startDate) (eg.: "name:desc" "startDate:asc")
 ```
@@ -245,8 +246,11 @@ ___
 returns events based on the users intrests
 response `application/json`: same as regular search
 
-## 5. Category
+## 5. Category and cities
 ### GET "/api/category"
+```
+q? (category name, search categories)
+```
 response `application/json`
 ```
 [
@@ -254,6 +258,23 @@ response `application/json`
 		id
 		name
 		description
+	}
+]
+```
+___
+### GET "/api/cities"
+query `application/x-www-form-urlencoded`:
+```
+q? (city name, search cities)
+```
+
+response `application/json`
+```
+[
+	{	
+		id
+		name
+		county
 	}
 ]
 ```
