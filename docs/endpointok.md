@@ -46,6 +46,14 @@ events: [
 		endDate
 		}
 	]
+respondedEvents: [
+		{
+		cover
+		title
+		startDate
+		endDate
+		}
+	]
 }
 ```
 ___
@@ -117,6 +125,7 @@ maxResponse
 responseCount
 gallery: [url, url, url]
 ageLimit (boolean)
+views
 }
 ```
 ___
@@ -220,6 +229,7 @@ city?
 startDate? (eg.: "2024-10-31 14:30", by default dates that are not in the past)
 ageLimit? (boolean)
 sortby? (name, startDate) (eg.: "name:desc" "startDate:asc")
+page? (int, search only returns 12 per page)
 ```
 response `application/json`:
 ```
@@ -234,6 +244,7 @@ response `application/json`:
 	city
 	ageLimit (boolean)
 	categories []
+	views
 	}
 ]
 ```
