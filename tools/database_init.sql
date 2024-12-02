@@ -12,7 +12,7 @@ CREATE Table category(
 id int primary key unique auto_increment,
 name varchar(30),
 description varchar(255)
-)
+);
 
 CREATE Table user(
 id int primary key unique auto_increment not null,
@@ -76,3 +76,7 @@ date datetime not null default NOW(),
 Foreign Key (user_id) REFERENCES user(id) on delete CASCADE,
 Foreign Key (event_id) REFERENCES event(id) on delete CASCADE
 )
+
+
+INSERT INTO `user` (username, email, password, city_id)
+VALUES("Admin", "petokrisa2006@gmail.com", "3b612c75a7b5048a435fb6ec81e52ff92d6d795a8b5a9c17070f6a63c97a53b2", 3572);
