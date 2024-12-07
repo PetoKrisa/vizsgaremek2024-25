@@ -93,6 +93,9 @@ pfp
 }
 ```
 ___
+### DELETE "/api/user/@:username/pfp" (token)
+deletes users profilepicture
+___
 ### POST "/api/user/login"
 body `application/json`
 ```
