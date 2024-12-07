@@ -112,6 +112,35 @@ city (id int)
 ```
 response `application/json` status, message
 ___
+### GET "/api/user/verify"
+url query
+```
+username
+userid
+temppin
+```
+response redirect
+___
+### POST "/api/user/@:username/email" (token)
+body `application/json`
+```
+{
+password
+email
+}
+```
+response `application/json` status, message
+___
+### POST "/api/user/@:username/password" (token)
+body `application/json`
+```
+{
+password
+newPassword
+}
+```
+response `application/json` status, message
+___
 ## 2. Event
 ### GET "/api/event/:id"
 response `application/json`
