@@ -27,6 +27,11 @@ status: "error",
 message: "Example error message!"
 }
 ```
+### Authorization header model
+Every endpoint that has (token) next to it requires the Authorization header in the request
+```
+Authorization: "Bearer <token>"
+```
 ## 1. User
 ### GET "/api/user/@:username"
 response `application/json`:
@@ -65,25 +70,20 @@ city? (id int)
 ```
 response `application/json` status, message:
 ___
-### DELETE "/api/user/@:username"
+### DELETE "/api/user/@:username" (token)
 If the user has permission it will delete the user
-body `applicaion/json`:
-```
-{
-jwt
-}
-```
+
 response `application/json` status, message:
 ___
 ### GET "/api/user/@:username/pfp"
 returns the profilepicture as a file
 ___
-### POST "/api/user/@:username/pfp"
+### POST "/api/user/@:username/pfp" (token)
 updates user profilepicture
 body `multipart/form-data`:
 ```
 {
-jwt
+pfp
 }
 ```
 ___
@@ -110,10 +110,7 @@ email
 city (id int)
 }
 ```
-response `application/json`
-```
-jwt
-```
+response `application/json` status, message
 ___
 ## 2. Event
 ### GET "/api/event/:id"
@@ -137,7 +134,7 @@ views
 }
 ```
 ___
-### POST "/api/event"
+### POST "/api/event" (token)
 body `multipart/form-data` :
 ```
 title
@@ -154,7 +151,7 @@ ageLimit (boolean)
 ```
 response `application/json` status, message
 ___
-### PATCH "/api/event/:id"
+### PATCH "/api/event/:id" (token)
 body `multipart/form-data` :
 ```
 title?
@@ -171,22 +168,16 @@ ageLimit? (boolean)
 ```
 response `application/json` status, message
 ___
-### POST "/api/event/:id/respond"
+### POST "/api/event/:id/respond" (token)
 Toggles user response to an event if the user has permission
-body `application/json`: 
-```
-{
-jwt
-}
-```
+
 response `application/json` status, message
 ___
-### POST "/api/event/:id/invite"
+### POST "/api/event/:id/invite" (token)
 Sends an invite to a user, and add them to the invited users of an event, if a user is invited already it will uninvite them
 body `application/json`: 
 ```
 {
-jwt
 invitedUserId
 }
 ```
@@ -207,24 +198,18 @@ body `application/json`:
 ```
 response `application/json` status, message
 ___
-### POST "/api/event/:id/comment"
+### POST "/api/event/:id/comment" (token)
 body `application/json`:
 ```
 {
-jwt
 text
 superCommentId?
 }
 ```
 response `application/json` status, message
 ___
-### DELETE "/api/comment/:id"
-body `application/json`:
-```
-{
-jwt
-}
-```
+### DELETE "/api/comment/:id" (token)
+deletes comment if user has permission
 response `application/json` status, message
 ___
 ## 4. Search
