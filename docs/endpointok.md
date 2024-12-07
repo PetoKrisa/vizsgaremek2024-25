@@ -58,11 +58,10 @@ respondedEvents: [
 ```
 ___
 ### PATCH "/api/user/@:username"
-body `multipart/form-data`:
+body `application/json`:
 ```
 bio?
 city? (id int)
-pfp? (file)
 ```
 response `application/json` status, message:
 ___
@@ -78,6 +77,15 @@ response `application/json` status, message:
 ___
 ### GET "/api/user/@:username/pfp"
 returns the profilepicture as a file
+___
+### POST "/api/user/@:username/pfp"
+updates user profilepicture
+body `multipart/form-data`:
+```
+{
+jwt
+}
+```
 ___
 ### POST "/api/user/login"
 body `application/json`
