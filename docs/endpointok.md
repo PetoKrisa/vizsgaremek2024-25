@@ -72,6 +72,12 @@ response `application/json` status, message:
 ___
 ### DELETE "/api/user/@:username" (token)
 If the user has permission it will delete the user
+body `application/json`:
+```
+{
+password
+}
+```
 
 response `application/json` status, message:
 ___
