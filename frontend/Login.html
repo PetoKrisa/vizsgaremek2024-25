@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bejelentkezés</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-image: linear-gradient(to bottom, #E2BBE9, #9B86BD);
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+        }
+
+        .left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 55%;
+            height: 100%;
+            background-color: #5A639C;
+            clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%);
+        }
+
+        .right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 55%;
+            height: 100%;
+            background-color: #7776B3;
+            clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
+
+        h1 {
+            position: relative;
+            color: white;
+            font-size: 24px;
+            z-index: 1;
+        }
+
+        .search-container {
+            height: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 2;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px 8px 8px 8px;
+            width: 600px;
+            outline: none;
+            background-color: white;
+        }
+
+        .search-container input {
+            background: none;
+            outline: none;
+            border: none;
+            width: 95%;
+        }
+
+        .search-container button {
+            font-size: 18px;
+            background: none;
+            outline: none;
+            border: none;
+            color: #777;
+        }
+
+        .circle-icon {
+            position: absolute;
+            right: 20px;
+            background-color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #7776B3;
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        .circle-icon i {
+            font-size: 18px;
+            color: #000000;
+        }
+
+        .dropdown-menu {
+            min-width: 160px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 5px 0;
+            position: absolute;
+            left: -160px;
+            top: 50px;
+            border: 1px solid #ccc;
+        }
+
+        .dropdown-menu li {
+            padding: 8px 12px;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-menu li:hover {
+            background-color: #e9ecef;
+        }
+
+        .dropdown-menu a {
+            padding-left: 0;
+        }
+
+        .hamburger-icon {
+            position: absolute;
+            left: 20px;
+            background-color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #7776B3;
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        .hamburger-icon i {
+            font-size: 18px;
+            color: #000000;
+        }
+
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100% - 80px);
+            padding-top: 80px;
+        }
+
+
+        .login-container {
+            width: 400px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+            align-items: center;
+        }
+
+        .login-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #5a5a5a;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 16px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #5a639c;
+            border: none;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-container button:hover {
+            background-color: #474b7d;
+        }
+
+        .login-container .alternative-login {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .login-container .social-login {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .login-container .social-login button {
+            width: 48%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-container .social-login button.facebook {
+            background-color: #3b5998;
+            color: white;
+        }
+
+        .login-container .social-login button.google {
+            background-color: white;
+            color: black;
+            border: 1px solid #ccc;
+        }
+
+        .login-container a {
+            font-size: 14px;
+            text-decoration: none;
+            color: #5a639c;
+        }
+
+        .login-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="left"></div>
+        <div class="right"></div>
+        <div class="search-container">
+            <input type="text" placeholder="Keresés...">
+            <button><i class="glyphicon glyphicon-search"></i></button>
+        </div>
+
+        <div class="hamburger-icon">
+            <i class="glyphicon glyphicon-menu-hamburger"></i>
+        </div>
+    </header>
+    <div class="content-wrapper">
+        <div class="login-container">
+            <h1>Bejelentkezés</h1>
+            <form>
+                <input type="text" placeholder="Felhasználónév" required>
+                <input type="password" placeholder="Jelszó" required>
+                <a href="#">Elfelejtett jelszó</a> | <a href="#">Regisztráció</a>
+                <button type="submit">Bejelentkezés</button>
+            </form>
+            <div class="alternative-login">Vagy használj</div>
+            <div class="social-login">
+                <button class="facebook">Facebook</button>
+                <button class="google">Google</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
