@@ -125,8 +125,8 @@ ___
 url query
 ```
 username
-userid
-temppin
+id
+pin
 ```
 response redirect
 ___
