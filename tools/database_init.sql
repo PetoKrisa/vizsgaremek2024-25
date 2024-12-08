@@ -23,13 +23,19 @@ join_date date default now(),
 city_id int,
 bio varchar(255),
 pfp varchar(255),
-completed int,
+completed BOOLEAN DEFAULT false,
+tempPin int,
 role varchar(12),
 Foreign Key (city_id) REFERENCES city(id)
 )
 
+
+SET FOREIGN_KEY_CHECKS=1;
+DROP TABLE `event`;
+
 CREATE Table event(
 id int primary key unique auto_increment,
+user_id int,
 title varchar(100),
 description varchar(1000),
 start_date datetime not null,
@@ -41,7 +47,8 @@ location varchar(255),
 max_response int null,
 age_limit BOOLEAN,
 date datetime not null default NOW(),
-Foreign Key (city_id) REFERENCES city(id)
+Foreign Key (city_id) REFERENCES city(id),
+Foreign Key (user_id) REFERENCES user(id)
 );
 
 CREATE table EventGalleryImage(
@@ -78,5 +85,10 @@ Foreign Key (event_id) REFERENCES event(id) on delete CASCADE
 )
 
 
-INSERT INTO `user` (username, email, password, city_id)
-VALUES("Admin", "petokrisa2006@gmail.com", "3b612c75a7b5048a435fb6ec81e52ff92d6d795a8b5a9c17070f6a63c97a53b2", 3572);
+INSERT INTO `user` (username, email, password, city_id, role)
+VALUES("Admin", "petokrisa2006@gmail.com", "3b612c75a7b5048a435fb6ec81e52ff92d6d795a8b5a9c17070f6a63c97a53b2", 3572, "admin");
+INSERT INTO `user` (username, email, password, city_id, role, completed)
+VALUES("dummy", "dummy@gmail.com", "3b612c75a7b5048a435fb6ec81e52ff92d6d795a8b5a9c17070f6a63c97a53b2", 3572, "user", true);
+select * from user;
+delete from user;
+update user set pfp="test" where id=8;

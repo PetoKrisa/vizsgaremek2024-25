@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="pfpForm" action="javascript:void(0)" method="post" onsubmit="upload()" enctype="multipart/form-data">
+        <input type="file" name="pfp" id="pfp">
+        <input type="submit" value="Mehet">
+    </form>
+
+    <form id="registerForm" action="javascript:void(0)" method="post", onsubmit="register()" enctype="application/x-www-form-urlencoded">
+        <input type="text" name="username">
+        <br>
+        <input type="text" name="email">
+        <br>
+        <input type="password" name="password">
+        <br>
+        <input type="number" name="city">
+        <br>
+        <input type="submit" value="regisztráció">
+    </form>
+    <br>
+    <br>
+    <form id="loginForm" action="javascript:void(0)" method="post", onsubmit="login()" enctype="application/x-www-form-urlencoded">
+        <input type="text" name="username">
+        <br>
+        <input type="password" name="password">
+        <br>
+        <input type="submit" value="bejelentkezés">
+    </form>
+    <script>
+        function upload(){
+            let formElement = new FormData(document.getElementById("pfpForm"))
+            
+            
+            fetch("/api/user/@dummy/pfp",
+            {   
+                method: "post",
+                headers: { 
+                "Authorization": "bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6OSwiam9pbkRhdGUiOiIyMDI0LTEyLTA2VDIzOjAwOjAwLjAwMFoiLCJ1c2VybmFtZSI6ImR1bW15IiwiY2l0eSI6eyJpZCI6MzU3MiwibmFtZSI6IkJ1ZGFwZXN0IiwiY291bnR5IjoiUGVzdCJ9LCJiaW8iOm51bGwsInBmcCI6bnVsbCwicm9sZSI6InVzZXIifQ.ECooSZZYq2zwgCozRXOwEwdxsW4Ht6YuUUHGO0bvOhs"},
+                body: formElement
+            }
+        )
+        }
+
+        function register(){
+            let formElement = new FormData(document.getElementById("registerForm"))
+            var object = {};
+            formElement.forEach(function(value, key){
+                object[key] = value;
+            });
+            var json = JSON.stringify(object);
+            console.log(json)
+            fetch("/api/user/register",
+            {   
+                method: "post",
+                headers: {"Content-Type": "application/json"},
+                body: json
+            })
+        }
+
+        function login(){
+            let formElement = new FormData(document.getElementById("loginForm"))
+            var object = {};
+            formElement.forEach(function(value, key){
+                object[key] = value;
+            });
+            var json = JSON.stringify(object);
+            console.log(json)
+            fetch("/api/user/login",
+            {   
+                method: "post",
+                headers: {"Content-Type": "application/json"},
+                body: json
+            }).then((r) => r.json())
+            .then((data) => {
+                if(data.status==200){
+                    alert(data.jwt)
+                } else{
+                    alert(data.message)
+                }
+            })
+        }
+
+        fetch("/api/user/@dummy/password", {method: "post", headers:{"Content-Type": "application/json", "Authorization": "bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6OSwiam9pbkRhdGUiOiIyMDI0LTEyLTA2VDIzOjAwOjAwLjAwMFoiLCJ1c2VybmFtZSI6ImR1bW15IiwiY2l0eSI6eyJpZCI6MzU3MiwibmFtZSI6IkJ1ZGFwZXN0IiwiY291bnR5IjoiUGVzdCJ9LCJiaW8iOm51bGwsInBmcCI6bnVsbCwicm9sZSI6InVzZXIifQ.ECooSZZYq2zwgCozRXOwEwdxsW4Ht6YuUUHGO0bvOhs"},
+            body: JSON.stringify({newPassword: "asd", password: "Admin123"})
+        })
+    </script>
+</body>
+</html>

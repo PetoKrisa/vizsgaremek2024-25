@@ -1,9 +1,11 @@
 const db = require("../db")
+require("dotenv").config()
+const crypto = require("crypto")
 
 async function getUserById(id){
     let [rows,fields] = await db.query("select * from user where id = ?;", [parseInt(id)])
     if(rows.length<1){
-        return null
+        throw new Error("A felhasználó nem létezik", {cause: 404})
     }
     let u = rows[0]
     let user = {
@@ -14,6 +16,9 @@ async function getUserById(id){
         bio: u.bio,
         pfp: u.pfp,
         role: u.role
+    }
+    if(u.pfp != null){
+        user.pfp = `http://${process.env.httpHost}:${process.env.httpPort}/public/user/${u.pfp}`
     }
 
     let [cityRows, cityFields] = await db.query("select * from city where id = ?", [parseInt(u["city_id"])])
@@ -24,9 +29,9 @@ async function getUserById(id){
 }
 
 async function getUserByUsername(username){
-    let [rows,fields] = await db.query("select * from user where username = ?;", [username])
+    let [rows,fields] = await db.query("select * from user where lower(username) = lower(?);", [username])
     if(rows.length<1){
-        return null
+        throw new Error("A felhasználó nem létezik", {cause: 404})
     }
     let u = rows[0]
     let user = {
@@ -38,6 +43,9 @@ async function getUserByUsername(username){
         pfp: u.pfp,
         role: u.role
     }
+    if(u.pfp != null){
+        user.pfp = `http://${process.env.httpHost}:${process.env.httpPort}/public/user/${u.pfp}`
+    }
 
     let [cityRows, cityFields] = await db.query("select * from city where id = ?", [parseInt(u["city_id"])])
 
@@ -46,6 +54,62 @@ async function getUserByUsername(username){
     return user
 }
 
-getUserByUsername("Admin")
+async function updateUserData(userId, cityId, bio) {
+    console.log(cityId)
+    let [exitsRows, existsFields] = await db.query("select count(id) as count from user where id = ?;", [parseInt(userId)])
+    if(exitsRows[0].count == 0){
+        throw new Error("A felhasználó nem létezik", {cause: 404})
+    }
+    let [exitsRows2, existsFields2] = await db.query("select count(id) as count from city where id = ?;", [parseInt(cityId)])
+    if(exitsRows2[0].count == 0){
+        throw new Error("A város nem létezik", {cause: 404})
+    }
+    if(bio.length>255){
+        throw new Error("A bio túl hosszú (255+ karakter)", {cause: 400})
+    }
+    await db.query("update user set city_id=?, bio=? where id=?", [parseInt(cityId), bio, parseInt(userId)])
+}
 
-module.exports = {getUserById,getUserByUsername}
+async function deleteUser(userId) {
+    let [exitsRows, existsFields] = await db.query("select count(id) as count from user where id = ?;", [parseInt(userId)])
+    if(exitsRows[0].count == 0){
+        throw new Error("A felhasználó nem létezik", {cause: 404})
+    }
+    await db.query("delete from user where id = ?", [parseInt(userId)])
+}
+
+async function changeEmail(userId, newEmail, password) {
+    if(newEmail==undefined ||newEmail.length==0 || newEmail==null){
+        throw new Error("Az új email nem lehet üres", {cause: 400})
+    }
+    let [exitsRows, existsFields] = await db.query("select * from user where id = ?;", [parseInt(userId)])
+    if(exitsRows.length == 0){
+        throw new Error("A felhasználó nem létezik", {cause: 404})
+    }
+    let passwordHash = crypto.createHash('sha256').update(password).digest('hex');
+    let [userRows, userFields] = await db.query("select * from user where id=? and password = ?", [parseInt(userId), passwordHash])
+    if(userRows.length==0){
+        throw new Error("A jelszó nem egyezik", {cause: 400})
+    }
+    await db.query("update user set email=? where id=?", [newEmail, parseInt(userId)])
+}
+
+async function changePassword(userId, newPassword, password) {
+    console.log(userId, newPassword, password)
+    if(newPassword==undefined ||newPassword.length==0 || newPassword==null){
+        throw new Error("Az új jelszó nem lehet üres", {cause: 400})
+    }
+    let [exitsRows, existsFields] = await db.query("select * from user where id = ?;", [parseInt(userId)])
+    if(exitsRows.length == 0){
+        throw new Error("A felhasználó nem létezik", {cause: 404})
+    }
+    let passwordHash = crypto.createHash('sha256').update(password).digest('hex');
+    let [userRows, userFields] = await db.query("select * from user where id=? and password = ?", [parseInt(userId), passwordHash])
+    if(userRows.length==0){
+        throw new Error("A jelszó nem egyezik", {cause: 400})
+    }
+    let newPasswordHash = crypto.createHash('sha256').update(newPassword).digest('hex');
+    await db.query("update user set password=? where id=?", [newPasswordHash, parseInt(userId)])
+}
+
+module.exports = {getUserById,getUserByUsername, updateUserData, deleteUser, changeEmail, changePassword}
