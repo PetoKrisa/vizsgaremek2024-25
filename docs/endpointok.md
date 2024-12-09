@@ -7,7 +7,10 @@ ___
 returns `text/html` event.html
 ___
 ### GET "/user/@:username"
-returns `text/html` user.html
+returns `text/html` profil.html
+___
+### GET "/user/@:username/edit"
+returns `text/html` profilEdit.html
 ___
 ### GET "/search"
 returns `text/html` search.html
@@ -62,11 +65,12 @@ respondedEvents: [
 }
 ```
 ___
-### PATCH "/api/user/@:username"
+### PUT "/api/user/@:username"
+city is the city's name, only data that is in the /api/cities is accepted
 body `application/json`:
 ```
-bio?
-city? (id int)
+bio
+city
 ```
 response `application/json` status, message:
 ___
@@ -88,9 +92,7 @@ ___
 updates user profilepicture
 body `multipart/form-data`:
 ```
-{
 pfp
-}
 ```
 ___
 ### DELETE "/api/user/@:username/pfp" (token)
@@ -110,13 +112,14 @@ jwt
 ```
 ___
 ### POST "/api/user/register"
+only cities in /api/cities are allowed
 body `application/json`
 ```
 {
 username
 password
 email
-city (id int)
+city  (name)
 }
 ```
 response `application/json` status, message
