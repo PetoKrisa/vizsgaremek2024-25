@@ -5,211 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Felhasználó eseményei</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <style>
-body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
 
-        header {
-            position: relative;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    <link rel="stylesheet" href="/public/style/header.css">
+    <link rel="stylesheet" href="/public/style/profiledit.css">
+    <link rel="stylesheet" href="/public/style/auth.css">
 
-        .left {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 55%;
-            height: 100%;
-            background-color: #5A639C;
-            clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%);
-        }
-
-        .right {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 55%;
-            height: 100%;
-            background-color: #7776B3;
-            clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
-        }
-
-        h1 {
-            position: relative;
-            color: white;
-            font-size: 24px;
-            z-index: 1;
-        }
-
-        .search-container {
-            height: 50%;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            align-items: center;
-            z-index: 2;
-            padding: 8px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 8px 8px 8px 8px;
-            width: 600px;
-            outline: none;
-            background-color: white;
-        }
-
-        .search-container input {
-            background: none;
-            outline: none;
-            border: none;
-            width: 95%;
-        }
-
-        .search-container button {
-            font-size: 18px;
-            background: none;
-            outline: none;
-            border: none;
-            color: #777;
-        }
-
-        .circle-icon {
-            position: absolute;
-            right: 20px;
-            background-color: white;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #7776B3;
-            cursor: pointer;
-            z-index: 3;
-        }
-
-        .circle-icon i {
-            font-size: 18px;
-            color: #000000;
-        }
-
-        .dropdown-menu {
-            min-width: 160px;
-            border-radius: 8px;
-            background-color: #f8f9fa;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-            padding: 5px 0;
-            position: absolute;
-            left: -160px;
-            top: 50px;
-            border: 1px solid #ccc;
-        }
-
-        .dropdown-menu li {
-            padding: 8px 12px;
-            transition: background-color 0.3s ease;
-        }
-
-        .dropdown-menu li:hover {
-            background-color: #e9ecef;
-        }
-
-        .dropdown-menu a {
-            padding-left: 0;
-        }
-
-        .hamburger-icon {
-            position: absolute;
-            left: 20px;
-            background-color: white;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #7776B3;
-            cursor: pointer;
-            z-index: 3;
-        }
-
-        .hamburger-icon i {
-            font-size: 18px;
-            color: #000000;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 10px;
-        }
-
-        .form-row label {
-            flex-shrink: 0;
-            min-width: 120px;
-            font-weight: bold;
-        }
-
-        .form-row .form-control,
-        .form-row .btn {
-            flex: 1;
-            border-radius: 16px;
-        }
-
-        .form-row input[type="file"] {
-            flex: none;
-        }
-
-        .profile-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 20px;
-        }
-
-        .profile-icon {
-            background-color: #e0e0e0;
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 45px;
-            color: #777;
-        }
-
-        .btn-danger {
-            background-color: #d9534f;
-            color: white;
-        }
-
-        .btn-secondary {
-            background-color: #7776B3;
-            color: white;
-        }
-    </style>
 </head>
 <body>
-    <header>
-        <div class="left"></div>
-        <div class="right"></div>
+    <header> 
         <div class="search-container">
             <input type="text" placeholder="Keresés...">
             <button><i class="glyphicon glyphicon-search"></i></button>
@@ -219,63 +22,92 @@ body, html {
             <i class="glyphicon glyphicon-menu-hamburger"></i>
         </div>
 
-        <div class="dropdown circle-icon">
+        <div class="loginLinks loggedOut">
+            <a href="/login" class="link-light">Login</a>
+            &nbsp;•&nbsp;
+            <a href="/register" class="link-light">Register</a>
+        </div>
+
+        <div class="dropdown circle-icon loggedIn" id="profile-dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="glyphicon glyphicon-user"></i>
+                <img id="headerPfp" src="/public/assets/placeholder.png" alt="profilkép">
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a href="#"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
+                <li><a id="profileLink" href="/"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
+                <li><a id="profileEditLink" href="/"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
                 <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Új esemény</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
+                <li><a href="#" onclick="logout()"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
             </ul>
+        </div>
+        <div id="message">
+            <h3 id="messageText">Üzenet</h3>
+        </div>
+        <div id="errorMessage">
+            <h3 id="errorMessageText">Üzenet</h3>
         </div>
     </header>
 
+
+
     <div class="container">
-        <form>
-            <div class="profile-header">
-                <div class="profile-icon">
-                    <i class="glyphicon glyphicon-user"></i>
-                </div>
-                <h2 style="font-size: 300%;"><strong>@Felhasználó1</strong></h2>
+        <div class="profile-header">
+            <div class="profile-icon">
+                <img id="pfp" src="/public/assets/placeholder.png" alt="">
             </div>
+            <h2 style="font-size: 300%;"><strong>@<span id="username"></span></strong></h2>
+        </div>
+        <form id="pfpForm" action="javascript:void(0)" onsubmit="updatePfp()">
             <hr>
             <!-- Profilkép -->
             <div class="form-row">
                 <label>Profilkép:</label>
-                <input type="file" class="form-control-file">
-                <button type="button" class="btn btn-secondary">Feltöltés</button>
-                <button type="button" class="btn btn-danger">Törlés</button>
+                <input type="file" name="pfp" class="form-control-file">
+                <button type="submit" class="btn btn-secondary">Feltöltés</button>
+                <button type="button" class="btn btn-danger" onclick="deletePfp()">Törlés</button>
             </div>
+        </form>
+
+        <form action="javascipt:void(0)" onsubmit="updateUserData()" id="userDataForm">
             <hr>
             <!-- Város -->
             <div class="form-row">
                 <label for="city">Város:</label>
-                <input type="text" id="city" class="form-control" placeholder="Add meg a városod">
+                <input type="text" id="city" name="city" class="form-control cityInput" placeholder="Add meg a városod" list="cityInputDatalist">
+                <datalist id="cityInputDatalist"></datalist>
             </div>
-
+        
             <!-- Bio -->
             <div class="form-row">
                 <label for="bio">Bio:</label>
-                <textarea id="bio" class="form-control" rows="2" placeholder="Írj néhány szót magadról" style="height: 200px;"></textarea>
+                <textarea id="bio" name="bio" class="form-control" rows="2" placeholder="Írj néhány szót magadról" style="height: 200px;"></textarea>
             </div>
+            
+            <div class="form-row">
+                <button type="submit" class="btn btn-secondary">Frissítés</button>
+            </div>
+        </form>
+        <form action="javascript:void(0)" id="emailForm" onsubmit="updateEmail()">
             <hr>
             <!-- Email és jelszó -->
             <div class="form-row">
                 <label>Email:</label>
-                <input type="email" id="email" class="form-control" placeholder="Email">
-                <input type="password" id="email-password" class="form-control" placeholder="Jelszó">
+                <input type="email" id="email" name="email" class="form-control" placeholder="Email">
+                <input type="password" name="password" id="email-password" class="form-control" placeholder="Jelszó">
                 <button type="submit" class="btn btn-secondary">Frissítés</button>
             </div>
+        </form>
+        <form action="javascript:void(0)" id="passwordForm" onsubmit="updatePassword()">
             <hr>
             <!-- Jelszó módosítás -->
             <div class="form-row">
                 <label>Jelszó:</label>
-                <input type="password" id="old-password" class="form-control" placeholder="Régi jelszó">
-                <input type="password" id="new-password" class="form-control" placeholder="Új jelszó">
+                <input type="password" id="old-password" name="password" class="form-control" placeholder="Régi jelszó">
+                <input type="password" id="new-password" name="newPassword" class="form-control" placeholder="Új jelszó">
                 <button type="submit" class="btn btn-secondary">Frissítés</button>
             </div>
+        </form>
+
+        <form action="javascript:void(0)" id="deleteUserForm" onsubmit="deleteUser()">
             <hr>
             <div style="padding-bottom: 30px;"></div>
             <!-- Fiók törlése -->
@@ -286,8 +118,13 @@ body, html {
             </div>
         </form>
     </div>
-
+    <br>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script src="/public/scripts/popups.js"></script>
+<script src="/public/scripts/showLoggedInStuff.js"></script>
+<script src="/public/scripts/profilEdit.js"></script>
+<script src="/public/scripts/cityInput.js"></script>
 </body>
 </html>

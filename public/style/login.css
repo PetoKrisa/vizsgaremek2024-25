@@ -1,0 +1,119 @@
+:root{
+    --dark: rgba(90,99,156,1);
+    --light: rgba(119,118,179,1);
+    --border: #ccc;
+    --soft-text: #5a5a5a;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-image: linear-gradient(to bottom, #E2BBE9, #9B86BD);
+    font-family: Arial, sans-serif;
+}
+
+.content-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 80px);
+    padding-top: 80px;
+}
+
+
+.login-container, .registration-container  {
+    width: 400px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+    align-items: center;
+}
+
+.login-container h1, .registration-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: var(--soft-text);
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"],
+.registration-container input[type="text"],
+.registration-container input[type="email"],
+.registration-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.login-container button,
+.registration-container button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: var(--dark);
+    border: none;
+    color: white;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-container button:hover
+.registration-container button:hover {
+    filter: brightness(0.8);
+}
+
+.login-container .alternative-login,
+.registration-container .alternative-login {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.login-container .social-login,
+.registration-container .social-login {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.login-container .social-login button,
+.registration-container .social-login button {
+    width: 48%;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-container .social-login button.facebook,
+.registration-container .social-login button.facebook{
+    background-color: #3b5998;
+    color: white;
+}
+
+.login-container .social-login button.google 
+.registration-container .social-login button.google{
+    background-color: white;
+    color: black;
+    border: 1px solid var(--border);
+}
+
+.login-container a,
+.registration-container a {
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--dark);
+}
+
+.login-container a:hover,
+.registration-container a:hover {
+    text-decoration: underline;
+}

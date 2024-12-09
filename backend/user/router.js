@@ -45,7 +45,7 @@ router.put("/api/user/@:username",auth.decodeJWT, async (req,res)=>{
         }
         await user.updateUserData(req.decodedToken.id, req.body.city, req.body.bio)
 
-        res.json({status: 200, message: "ok"})
+        res.json({status: 200, message: "Profil frissítve"})
     } catch(e){
         res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
     }
@@ -76,7 +76,7 @@ router.post("/api/user/@:username/pfp", auth.decodeJWT, savePfp.single("pfp"), a
         }
         let userToUpdate = await user.getUserByUsername(req.params.username)
         await db.query("update user set pfp=? where id=?", [req.file.filename, parseInt(userToUpdate.id)])
-        res.status(201).json({status: 201, message: "Létrehozva"})
+        res.status(201).json({status: 200, message: "Profilkép frissítve"})
 
     } catch(e){
         res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
@@ -183,6 +183,7 @@ router.get("/api/user/verify", async(req,res)=>{
 
 router.post("/api/user/login", async (req,res)=>{
     try{
+        console.log(req.body)
         let token = await auth.login(req.body.username, req.body.password)
         res.status(200).json({status: 200, jwt: token})
     } catch(e){
@@ -200,6 +201,20 @@ router.post("/api/user/@:username/email", auth.decodeJWT, async (req,res)=>{
         let userToUpdate = await user.getUserByUsername(req.params.username)
         await user.changeEmail(userToUpdate.id, req.body.email, req.body.password)
         res.status(200).json({status: 200, message: "Sikeresen megváltoztatta az email címét"})
+    } catch(e){
+        res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
+    }
+})
+
+router.get("/api/user/@:username/email", auth.decodeJWT, async (req,res)=>{
+    try{
+        let hasPerm = await auth.hasPermission(req.decodedToken, req.params.username, ["edit:user"], ["edit:allUsers"])
+        if(!hasPerm){
+            res.status(403).json({status: 403, message: "Nincs jogosultsága"})
+            return
+        }
+        let [rows,fields] = await db.query("select * from user where lower(username) = lower(?)", [req.params.username])
+        res.status(200).json({status: 200, email: rows[0].email})
     } catch(e){
         res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
     }

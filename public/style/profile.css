@@ -1,0 +1,186 @@
+:root{
+    --dark: rgba(90,99,156,1);
+    --light: rgba(119,118,179,1);
+    --border: #ccc;
+    --soft-text: #5a5a5a;
+}
+
+.profile-card {
+    background-color: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 30px;
+    width: 75%; /* A kártya szélessége 75% az oldal szélességéhez képest */
+    max-width: 1200px; /* Maximális szélesség, hogy nagy képernyőkön ne nyúljon túl hosszúra */
+    margin: 40px auto;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.profile-icon {
+    background-color: none;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 45px;
+}
+
+.profile-icon img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-card h2 {
+    font-size: 32px;
+    margin: 0;
+}
+
+.join-date {
+    font-size: 18px;
+    color: var(--soft-text);
+    margin-bottom: 15px;
+}
+
+.bio {
+    margin-top: 10px;
+    font-size: 18px;
+    color: var(--soft-text);
+    line-height: 1.6;
+}
+
+.interests {
+    margin-top: 20px;
+}
+
+.interests .badge {
+    /*background-color: #ee40d7;*/
+    color: white;
+    padding: 12px 18px;
+    margin-right: 10px;
+    border-radius: 20px;
+    font-size: 16px;
+}
+
+/* Reszponzív kialakítás kisebb képernyőkhöz */
+@media (max-width: 768px) {
+    .profile-card {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .profile-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 30px;
+    }
+
+    .profile-card h2 {
+        font-size: 24px;
+    }
+
+    .bio, .join-date {
+        font-size: 14px;
+    }
+
+    .interests .badge {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}
+.event-container {
+        position: relative; /* szükséges a belső abszolút elemek pozícionálásához */
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        padding: 30px;
+        width: 75%;
+        max-width: 1200px;
+        margin: 40px auto;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        text-align: left;
+        transition: all 0.3s ease;
+    }
+
+    .event-container h2 {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 20px;
+    }
+
+    .more-link {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 14px;
+        color: #007bff;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .more-link:hover {
+        text-decoration: underline;
+    }
+
+    .event-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .event-card {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        width: 300px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        text-align: left;
+    }
+
+    .event-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .event-card .content {
+        padding: 15px;
+    }
+
+    .event-card .content h4 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: black;
+    }
+
+    .event-card .content p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--soft-text);
+    }
+
+    .event-card .content .event-date {
+        margin-top: 10px;
+        font-size: 16px;
+        color: var(--soft-text);
+    }

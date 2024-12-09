@@ -5,334 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Felhasználó eseményei</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <style>
-body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
+    <link rel="stylesheet" href="/public/style/header.css">
+    <link rel="stylesheet" href="/public/style/profile.css">
+    <link rel="stylesheet" href="/public/style/auth.css">
 
-        header {
-            position: relative;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .left {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 55%;
-            height: 100%;
-            background-color: #5A639C;
-            clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%);
-        }
-
-        .right {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 55%;
-            height: 100%;
-            background-color: #7776B3;
-            clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
-        }
-
-        h1 {
-            position: relative;
-            color: white;
-            font-size: 24px;
-            z-index: 1;
-        }
-
-        .search-container {
-            height: 50%;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            align-items: center;
-            z-index: 2;
-            padding: 8px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 8px 8px 8px 8px;
-            width: 600px;
-            outline: none;
-            background-color: white;
-        }
-
-        .search-container input {
-            background: none;
-            outline: none;
-            border: none;
-            width: 95%;
-        }
-
-        .search-container button {
-            font-size: 18px;
-            background: none;
-            outline: none;
-            border: none;
-            color: #777;
-        }
-
-        .circle-icon {
-            position: absolute;
-            right: 20px;
-            background-color: white;
-            border-radius: 50%; /* A border-radius itt 50%-ra van állítva, hogy kerek legyen */
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #7776B3;
-            cursor: pointer;
-            z-index: 3;
-        }
-
-        .circle-icon i {
-            font-size: 18px;
-            color: #000000;
-        }
-
-        /* Új pozíció: a dropdown balra nyílik az ikonhoz képest */
-        .dropdown-menu {
-            min-width: 160px;
-            border-radius: 8px;
-            background-color: #f8f9fa;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-            padding: 5px 0;
-            position: absolute;
-            left: -160px;
-            top: 50px;
-            border: 1px solid #ccc;
-        }
-
-        .dropdown-menu li {
-            padding: 8px 12px;
-            transition: background-color 0.3s ease;
-        }
-
-        .dropdown-menu li:hover {
-            background-color: #e9ecef;
-        }
-
-        .dropdown-menu a {
-            padding-left: 0;
-        }
-
-        /* Új hamburger menü gomb bal oldalon */
-        .hamburger-icon {
-            position: absolute;
-            left: 20px;
-            background-color: white;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #7776B3;
-            cursor: pointer;
-            z-index: 3;
-        }
-
-        .hamburger-icon i {
-            font-size: 18px;
-            color: #000000;
-        }
-
-        .profile-card {
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    padding: 30px;
-    width: 75%; /* A kártya szélessége 75% az oldal szélességéhez képest */
-    max-width: 1200px; /* Maximális szélesség, hogy nagy képernyőkön ne nyúljon túl hosszúra */
-    margin: 40px auto;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    transition: all 0.3s ease;
-}
-
-.profile-header {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.profile-icon {
-    background-color: #e0e0e0;
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 45px;
-    color: #777;
-}
-
-.profile-card h2 {
-    font-size: 32px;
-    margin: 0;
-}
-
-.join-date {
-    font-size: 18px;
-    color: #777;
-    margin-bottom: 15px;
-}
-
-.bio {
-    margin-top: 10px;
-    font-size: 18px;
-    color: #444;
-    line-height: 1.6;
-}
-
-.interests {
-    margin-top: 20px;
-}
-
-.interests .badge-r {
-    background-color: #e74c3c;
-    color: white;
-    padding: 12px 18px;
-    margin-right: 10px;
-    border-radius: 20px;
-    font-size: 16px;
-}
-.interests .badge-k {
-    background-color: #ee40d7;
-    color: white;
-    padding: 12px 18px;
-    margin-right: 10px;
-    border-radius: 20px;
-    font-size: 16px;
-}
-
-/* Reszponzív kialakítás kisebb képernyőkhöz */
-@media (max-width: 768px) {
-    .profile-card {
-        width: 95%;
-        padding: 20px;
-    }
-
-    .profile-icon {
-        width: 70px;
-        height: 70px;
-        font-size: 30px;
-    }
-
-    .profile-card h2 {
-        font-size: 24px;
-    }
-
-    .bio, .join-date {
-        font-size: 14px;
-    }
-
-    .interests .badge {
-        font-size: 12px;
-        padding: 8px 12px;
-    }
-}
-.event-container {
-        position: relative; /* szükséges a belső abszolút elemek pozícionálásához */
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        padding: 20px;
-        max-width: 1200px;
-        margin: 0 auto;
-        background: white;
-        border: 1px solid #ccc;
-        border-radius: 12px;
-        padding: 30px;
-        width: 75%;
-        max-width: 1200px;
-        margin: 40px auto;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        text-align: left;
-        transition: all 0.3s ease;
-    }
-
-    .event-container h2 {
-        width: 100%;
-        text-align: left;
-        margin-bottom: 20px;
-    }
-
-    .more-link {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 14px;
-        color: #007bff;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .more-link:hover {
-        text-decoration: underline;
-    }
-
-    .event-cards {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: center;
-    }
-
-    .event-card {
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        width: 300px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        text-align: left;
-    }
-
-    .event-card img {
-        width: 100%;
-        height: 180px;
-        object-fit: cover;
-    }
-
-    .event-card .content {
-        padding: 15px;
-    }
-
-    .event-card .content h4 {
-        margin: 0 0 10px;
-        font-size: 18px;
-        color: #333;
-    }
-
-    .event-card .content p {
-        margin: 0;
-        font-size: 14px;
-        color: #777;
-    }
-
-    .event-card .content .event-date {
-        margin-top: 10px;
-        font-size: 16px;
-        color: #555;
-    }
-    </style>
 </head>
 <body>
-    <header>
-        <div class="left"></div>
-        <div class="right"></div>
+    <header> 
         <div class="search-container">
             <input type="text" placeholder="Keresés...">
             <button><i class="glyphicon glyphicon-search"></i></button>
@@ -342,39 +21,51 @@ body, html {
             <i class="glyphicon glyphicon-menu-hamburger"></i>
         </div>
 
-        <div class="dropdown circle-icon">
+        <div class="loginLinks loggedOut">
+            <a href="/login" class="link-light">Login</a>
+            •
+            <a href="/register" class="link-light">Register</a>
+        </div>
+
+        <div class="dropdown circle-icon loggedIn" id="profile-dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="glyphicon glyphicon-user"></i>
+                <img id="headerPfp" src="/public/assets/placeholder.png" alt="profilkép">
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a href="#"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
+                <li><a id="profileLink" href="/"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
+                <li><a id="profileEditLink" href="/"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
                 <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Új esemény</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
+                <li><a href="#" onclick="logout()"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
             </ul>
+        </div>
+        <div id="message">
+            <h3 id="messageText">Üzenet</h3>
+        </div>
+        <div id="errorMessage">
+            <h3 id="errorMessageText">Üzenet</h3>
         </div>
     </header>
 
     <div class="profile-card">
         <div class="profile-header">
             <div class="profile-icon">
-                <i class="glyphicon glyphicon-user"></i>
+                <img id="pfp" src="/public/assets/placeholder.png" alt="">
             </div>
-            <h2 style="font-size: 400%;"><strong>@Felhasználó1</strong></h2>
+            <h2 style="font-size: 400%;"><strong>@<span id="username"></span></strong></h2>
         </div>
-        <p class="join-date">Csatlakozott: 2024.10.05 • Budapest</p>
-        <p class="bio"><strong>Bio:</strong><br>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pellentesque laoreet nunc, sed iaculis risus pulvinar non. 
+        <p class="join-date" id="joinDate">Csatlakozott: 2024.10.05 • Budapest</p>
+        <p class="bio" ><strong>Bio:</strong><br>
+            <span id="bio"></span> 
         </p>
         <p class="bio"><strong>Érdeklődési körök:</strong><br></p>
-        <div class="interests">
+        <!--<div class="interests">
             <span class="badge-k">Koncert</span>
             <span class="badge-r">Rock</span>
-        </div>
+        </div>-->
     </div>
 
     <div class="event-container">
-        <h2><strong>@Felhasználó1 eseményei</strong></h2>
+        <h2><strong>@<span id="username2"></span> eseményei</strong></h2>
         <a href="#" class="more-link">Mutass többet</a>
         <div class="event-cards">
             <div class="event-card">
@@ -406,7 +97,7 @@ body, html {
     
 
     <div class="event-container">
-        <h2><strong>@Felhasználó1 eseményei</strong></h2>
+        <h2><strong>@<span id="username3"></span> regisztrációi</strong></h2>
         <a href="#" class="more-link">Mutass többet</a>
         <div class="event-cards">
             <div class="event-card">
@@ -435,8 +126,14 @@ body, html {
             </div>
         </div>
     </div>
+
+    <br>
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script src="/public/scripts/popups.js"></script>
+<script src="/public/scripts/showLoggedInStuff.js"></script>
+<script src="/public/scripts/loadUser.js"></script>
 </body>
 </html>

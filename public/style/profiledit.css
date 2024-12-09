@@ -1,0 +1,79 @@
+:root{
+    --dark: rgba(90,99,156,1);
+    --light: rgba(119,118,179,1);
+    --border: #ccc;
+    --soft-text: #5a5a5a;
+    --danger: #d9534f;
+}
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.form-row label {
+    flex-shrink: 0;
+    min-width: 120px;
+    font-weight: bold;
+}
+
+.form-row .form-control,
+.form-row .btn {
+    flex: 1;
+    border-radius: 16px;
+}
+
+.form-row input[type="file"] {
+    flex: none;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.profile-icon {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 45px;
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: var(--light);
+    color: white;
+}
+
+.profile-icon img{
+    width: 120px;
+    height: 120px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+input[type=file]::-webkit-file-upload-button{
+    border-radius: 16px;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+}

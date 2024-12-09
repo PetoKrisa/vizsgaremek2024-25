@@ -1,6 +1,7 @@
 const db = require("../db")
 require("dotenv").config()
 const crypto = require("crypto")
+const city = require("../city/model")
 
 async function getUserById(id){
     let [rows,fields] = await db.query("select * from user where id = ?;", [parseInt(id)])
@@ -18,7 +19,9 @@ async function getUserById(id){
         role: u.role
     }
     if(u.pfp != null){
-        user.pfp = `http://${process.env.httpHost}:${process.env.httpPort}/public/user/${u.pfp}`
+        user.pfp = `${process.env.url}public/user/${u.pfp}`
+    } else{
+        user.pfp = `${process.env.url}public/assets/placeholder.png`
     }
 
     let [cityRows, cityFields] = await db.query("select * from city where id = ?", [parseInt(u["city_id"])])
@@ -44,7 +47,9 @@ async function getUserByUsername(username){
         role: u.role
     }
     if(u.pfp != null){
-        user.pfp = `http://${process.env.httpHost}:${process.env.httpPort}/public/user/${u.pfp}`
+        user.pfp = `${process.env.url}public/user/${u.pfp}`
+    } else{
+        user.pfp = `${process.env.url}public/assets/placeholder.png`
     }
 
     let [cityRows, cityFields] = await db.query("select * from city where id = ?", [parseInt(u["city_id"])])
@@ -54,21 +59,18 @@ async function getUserByUsername(username){
     return user
 }
 
-async function updateUserData(userId, cityId, bio) {
-    console.log(cityId)
+async function updateUserData(userId, cityName, bio) {
     let [exitsRows, existsFields] = await db.query("select count(id) as count from user where id = ?;", [parseInt(userId)])
     if(exitsRows[0].count == 0){
         throw new Error("A felhasználó nem létezik", {cause: 404})
     }
-    let [exitsRows2, existsFields2] = await db.query("select count(id) as count from city where id = ?;", [parseInt(cityId)])
-    if(exitsRows2[0].count == 0){
-        throw new Error("A város nem létezik", {cause: 404})
-    }
+    let cityData = await city.getCities(cityName)
     if(bio.length>255){
         throw new Error("A bio túl hosszú (255+ karakter)", {cause: 400})
     }
-    await db.query("update user set city_id=?, bio=? where id=?", [parseInt(cityId), bio, parseInt(userId)])
+    await db.query("update user set city_id=?, bio=? where id=?", [parseInt(cityData[0].id), bio, parseInt(userId)])
 }
+
 
 async function deleteUser(userId) {
     let [exitsRows, existsFields] = await db.query("select count(id) as count from user where id = ?;", [parseInt(userId)])

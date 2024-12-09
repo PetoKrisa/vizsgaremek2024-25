@@ -5,150 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Felhasználó eseményei</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <style>
-body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
+    <link rel="stylesheet" href="/public/style/header.css">
 
-        header {
-            position: relative;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .left {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 55%;
-            height: 100%;
-            background-color: #5A639C;
-            clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%);
-        }
-
-        .right {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 55%;
-            height: 100%;
-            background-color: #7776B3;
-            clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
-        }
-
-        h1 {
-            position: relative;
-            color: white;
-            font-size: 24px;
-            z-index: 1;
-        }
-
-        .search-container {
-            height: 50%;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            align-items: center;
-            z-index: 2;
-            padding: 8px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 8px 8px 8px 8px;
-            width: 600px;
-            outline: none;
-            background-color: white;
-        }
-
-        .search-container input {
-            background: none;
-            outline: none;
-            border: none;
-            width: 95%;
-        }
-
-        .search-container button {
-            font-size: 18px;
-            background: none;
-            outline: none;
-            border: none;
-            color: #777;
-        }
-
-        .circle-icon {
-            position: absolute;
-            right: 20px;
-            background-color: white;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #7776B3;
-            cursor: pointer;
-            z-index: 3;
-        }
-
-        .circle-icon i {
-            font-size: 18px;
-            color: #000000;
-        }
-
-        .dropdown-menu {
-            min-width: 160px;
-            border-radius: 8px;
-            background-color: #f8f9fa;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-            padding: 5px 0;
-            position: absolute;
-            left: -160px;
-            top: 50px;
-            border: 1px solid #ccc;
-        }
-
-        .dropdown-menu li {
-            padding: 8px 12px;
-            transition: background-color 0.3s ease;
-        }
-
-        .dropdown-menu li:hover {
-            background-color: #e9ecef;
-        }
-
-        .dropdown-menu a {
-            padding-left: 0;
-        }
-
-        .hamburger-icon {
-            position: absolute;
-            left: 20px;
-            background-color: white;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #7776B3;
-            cursor: pointer;
-            z-index: 3;
-        }
-
-        .hamburger-icon i {
-            font-size: 18px;
-            color: #000000;
-        }
-    </style>
 </head>
 <body>
     <header>
-        <div class="left"></div>
-        <div class="right"></div>
+        
         <div class="search-container">
             <input type="text" placeholder="Keresés...">
             <button><i class="glyphicon glyphicon-search"></i></button>
@@ -160,7 +22,7 @@ body, html {
 
         <div class="dropdown circle-icon">
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="glyphicon glyphicon-user"></i>
+                <img src="/public/assets/placeholder.png" alt="profilkép">
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a href="#"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
@@ -170,6 +32,8 @@ body, html {
             </ul>
         </div>
     </header>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </body>

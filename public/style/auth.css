@@ -1,0 +1,12 @@
+.loggedIn{
+    display: none !important;
+}
+
+.loggedOut{
+    display: none !important;
+}
+
+.show{
+    display: inherit !important;
+    opacity: 1;
+}
