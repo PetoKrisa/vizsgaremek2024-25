@@ -140,6 +140,15 @@ email
 ```
 response `application/json` status, message
 ___
+### GET "/api/user/@:username/email" (token)
+returns the email of the user (only admins and profile owners can see email beacuse it is not public information)
+response `application/json`
+```
+{
+email
+}
+```
+___
 ### POST "/api/user/@:username/password" (token)
 body `application/json`
 ```
