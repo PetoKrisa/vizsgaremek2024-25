@@ -7,6 +7,7 @@ const path = require("path")
 const fs = require("fs")
 const crypto = require("crypto")
 const jwt = require("jsonwebtoken")
+const { constrainedMemory } = require("process")
 
 const basePath =  __dirname.replace("backend\\user", "")
 const pfpStorage = multer.diskStorage({
@@ -137,6 +138,7 @@ router.delete("/api/user/@:username", auth.decodeJWT, async (req,res)=>{
         await user.deleteUser(userData.id)
         res.status(200).json({status:200, message: "Felhasználó törölve"})
     } catch(e){
+        console.error(e)
         res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
     }
 })
@@ -166,8 +168,9 @@ router.post("/api/user/register", async (req,res)=>{
         let verification = await auth.register(req.body.username, req.body.password, req.body.email, req.body.city)
         console.log(verification)
         //todo email
-        res.json({status: 200, message: "Sikeres regisztráció"})
+        res.json({status: 200, message: "Sikeres regisztráció", link: verification})
     } catch(e){
+        console.error(e)
         res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
     }
 })

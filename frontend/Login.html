@@ -28,6 +28,13 @@
         <div id="errorMessage">
             <h3 id="errorMessageText">Üzenet</h3>
         </div>
+        <dialog id="confirmPopup">
+            <h3 id="confirmPopupText">
+
+            </h3>
+            <button id="confirmPopupOk">Ok</button>
+            <button id="confirmPopupBack">Mégse</button>
+        </dialog>
     </header>
     <div class="content-wrapper">
         <div class="login-container">
@@ -35,7 +42,7 @@
             <form id="loginForm" onsubmit="login()" action="javascript:void(0)">
                 <input type="text" name="username" placeholder="Felhasználónév" required>
                 <input type="password" name="password" placeholder="Jelszó" required>
-                <a href="#">Elfelejtett jelszó</a> | <a href="#">Regisztráció</a>
+                <a href="#">Elfelejtett jelszó</a> | <a href="/register">Regisztráció</a>
                 <button type="submit">Bejelentkezés</button>
             </form>
             <div class="alternative-login">Vagy használj</div>

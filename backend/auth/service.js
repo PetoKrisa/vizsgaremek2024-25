@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken")
 require("dotenv").config()
 var crypto = require('crypto');
 const user = require("../user/model")
+const city = require("../city/model");
 
 const permissions = {
     "admin": new Set([
@@ -57,10 +58,14 @@ const permissions = {
 async function login(username, password) {
 
         let passHash = crypto.createHash('sha256').update(password).digest('hex');
-        let [rows,fields]=await db.query("select * from user where username = ? and password = ?", [username, passHash])
-    
+        let [existsRows,existsFields] = await db.query("select * from user where lower(username) = lower(?)", [username])
+        let [rows,fields]=await db.query("select * from user where lower(username) = lower(?) and password = ?", [username, passHash])
+
+        if(existsRows.length==0){
+            throw new Error("Ilyen nevű felhasználó nem létezik!", {cause: 404})
+        }
         if(rows.length==0){
-            throw (new Error("Jelszó vagy felhasználómnév nem megfelelő", {cause: 404}));
+            throw (new Error("Hibás jelszó", {cause: 400}));
         }
         if(Boolean(rows[0].completed) == false){
             throw (new Error("A Profil még nincs megerősítve", {cause: 401}))
@@ -73,25 +78,25 @@ async function login(username, password) {
     
 }
 
-async function register(username, password, email, cityId) {
-    console.log(username, password, email, cityId)
-    console.log("1")
+async function register(username, password, email, cityName) {
+    if(username.trim().length<3){
+        throw new Error("A felhasználónév túl rövid (<3 karakter)", {cause: 400})
+    }
     let [existsRows, existsFields] = await db.query("select count(id) as count from user where LOWER(username) = LOWER(?);", [username])
     if(existsRows[0].count > 0){
         throw new Error("A felhasználónév már létezik", {cause: 400})
     }
-    console.log("2")
     let [existsRows2, existsFields2] = await db.query("select count(id) as count from user where LOWER(email) = LOWER(?);", [email])
-    console.log("2.5")
     if(existsRows2[0].count > 0){
         throw new Error("Az email már használatban van", {cause: 400})
     }
-    console.log("3")
     let passHash = crypto.createHash('sha256').update(password).digest('hex');
+
+    let cityData = await city.getCities(cityName)
     let [rows,fields]= await db.query(`
     insert into user (username, password, email, city_id, completed, role)
     values (?,?,?,?,?,?)`,
-    [username, passHash, email, cityId, false, "user"])
+    [username, passHash, email, cityData[0].id, false, "user"])
     console.log("4")
     let pin = Math.floor(Math.random() * (999999 - 100000) + 999999);
     

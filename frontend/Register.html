@@ -20,17 +20,30 @@
             <i class="glyphicon glyphicon-menu-hamburger"></i>
         </div>
 
-        
+        <div id="message">
+            <h3 id="messageText">Üzenet</h3>
+        </div>
+        <div id="errorMessage">
+            <h3 id="errorMessageText">Üzenet</h3>
+        </div>
+        <dialog id="confirmPopup">
+            <h3 id="confirmPopupText">
+
+            </h3>
+            <button id="confirmPopupOk">Ok</button>
+            <button id="confirmPopupBack">Mégse</button>
+        </dialog>
     </header>
     <div class="content-wrapper">
         <div class="registration-container">
             <h1>Regisztráció</h1>
-            <form>
-                <input type="text" placeholder="Felhasználónév" required>
-                <input type="email" placeholder="Email cím" required>
-                <input type="password" placeholder="Jelszó" required>
-                <input type="password" placeholder="Jelszó mégegyszer" required>
-                <input type="text" placeholder="Város" required>
+            <form id="registerForm" action="javascript:void(0)" onsubmit="register()">
+                <input type="text" name="username" placeholder="Felhasználónév" required>
+                <input type="email" name="email" placeholder="Email cím" required>
+                <input type="password" id="password" name="password" placeholder="Jelszó" required>
+                <input type="password" id="password2" placeholder="Jelszó mégegyszer" required>
+                <input type="text" name="city" class="cityInput" placeholder="Város" list="cityInputDatalist" required>
+                <datalist id="cityInputDatalist"></datalist>
                 <button type="submit">Regisztráció</button>
             </form>
             <div class="alternative-login">Vagy használj</div>
@@ -44,5 +57,9 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="/public/scripts/popups.js"></script>
+    <script src="/public/scripts/cityInput.js"></script>
+    <script src="/public/scripts/login.js"></script>
 </body>
 </html>

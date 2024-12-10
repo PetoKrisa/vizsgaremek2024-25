@@ -154,7 +154,7 @@ h1 {
 
 #message{
     background: rgb(7, 227, 7);
-    background: linear-gradient(90deg, rgba(7,227,7,1) 2%, rgba(255,255,255,1) 2%);
+    background: linear-gradient(90deg, rgba(7,227,7,1) 10px, rgba(255,255,255,1) 2%);
     max-width: 95%;
     text-align: center;
     width: fit-content;
@@ -177,7 +177,7 @@ h1 {
 
 #errorMessage{
     background: rgb(255,0,0);
-    background: linear-gradient(90deg, rgba(255,0,0,1) 2%, rgba(255,255,255,1) 2%);
+    background: linear-gradient(90deg, rgba(255,0,0,1) 10px, rgba(255,255,255,1) 2%);
     max-width: 95%;
     text-align: center;
     width: fit-content;
@@ -200,4 +200,32 @@ h1 {
 #message h3, #errorMessage h3{
     margin: 0px;
     padding: 0px;
+}
+
+#confirmPopup{
+    max-width: 95%;
+    text-align: center;
+    width: fit-content;
+    padding: 8px;
+    padding-left: 16px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    z-index: 999;
+    visibility: visible;
+    opacity: 1;
+
+    transition: all 0.5ms ease-in-out;
+}
+
+#confirmPopup button{
+    color: white;
+    background-color: var(--light);
+    border-radius: 16px;
+    font-size: large;
+    border: 1px solid var(--border);
+    outline: none;
+}
+#confirmPopup button:hover{
+    filter: brightness(0.8);
 }

@@ -45,9 +45,13 @@
         <div id="errorMessage">
             <h3 id="errorMessageText">Üzenet</h3>
         </div>
+        <dialog id="confirmPopup">
+            <h3 id="confirmPopupText">
+            </h3>
+            <button id="confirmPopupOk">Ok</button>
+            <button id="confirmPopupBack">Mégse</button>
+        </dialog>
     </header>
-
-
 
     <div class="container">
         <div class="profile-header">
@@ -56,6 +60,7 @@
             </div>
             <h2 style="font-size: 300%;"><strong>@<span id="username"></span></strong></h2>
         </div>
+        <p id="userId" class="soft-text"></p>
         <form id="pfpForm" action="javascript:void(0)" onsubmit="updatePfp()">
             <hr>
             <!-- Profilkép -->
@@ -113,8 +118,8 @@
             <!-- Fiók törlése -->
             <div class="form-row">
                 <label>Fiók törlése:</label>
-                <input type="password" id="delete-password" class="form-control" placeholder="Add meg a jelszavad">
-                <button type="button" class="btn btn-danger">Fiók törlése</button>
+                <input type="password" id="delete-password" name="password" class="form-control" placeholder="Add meg a jelszavad">
+                <button type="submit" class="btn btn-danger">Fiók törlése</button>
             </div>
         </form>
     </div>

@@ -26,4 +26,8 @@ router.get("/login", (req,res)=>{
     res.sendFile(basePath+"\\frontend\\Login.html")
 })
 
+router.get("/register", (req,res)=>{
+    res.sendFile(basePath+"\\frontend\\Register.html")
+})
+
 module.exports = router
