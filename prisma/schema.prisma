@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root@localhost:3306/projekt2425"
+}
+
+model category {
+  id            Int             @id @default(autoincrement())
+  name          String?         @db.VarChar(30)
+  description   String?         @db.VarChar(255)
+  eventcategory eventcategory[] 
+}
+
+model city {
+  id     Int     @id @default(autoincrement())
+  name   String? @db.VarChar(100)
+  county String? @db.VarChar(100)
+  event  event[]
+  user   user[]
+}
+
+model event {
+  id                Int                 @id @default(autoincrement())
+  userId           Int?
+  title             String?             @db.VarChar(100)
+  description       String?             @db.VarChar(1000)
+  startDate        DateTime            @db.DateTime(0)
+  endDate          DateTime?           @db.DateTime(0)
+  visibility        String?             @default("public") @db.VarChar(10)
+  cover             String?             @db.VarChar(255)
+  cityId           Int?
+  location          String?             @db.VarChar(255)
+  maxResponse      Int?
+  ageLimit         Boolean?
+  date              DateTime            @default(now()) @db.DateTime(0)
+  city              city?               @relation(fields: [cityId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "event_ibfk_1")
+  user              user?               @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "event_ibfk_2")
+  eventcategory     eventcategory[]    
+  eventcomment      eventcomment[]
+  eventgalleryimage eventgalleryimage[] 
+  eventuser         eventuser[]         
+
+  @@index([cityId], map: "cityId")
+  @@index([userId], map: "userId")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model eventcategory {
+  id               Int      @id @default(autoincrement())
+  categoryId Int?
+  eventId    Int?
+  category    category? @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "eventcategory_ibfk_1")
+  event       event?    @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "eventcategory_ibfk_2")
+
+  @@index([categoryId], map: "categoryId")
+  @@index([eventId], map: "eventId")
+}
+
+model eventcomment {
+  id               Int      @id @default(autoincrement())
+  eventId         Int?
+  userId          Int?
+  commentText     String   @db.VarChar(255)
+  superCommentId Int?
+  date             DateTime @default(now()) @db.DateTime(0)
+  user             user?    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "eventcomment_ibfk_1")
+  event            event?   @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "eventcomment_ibfk_2")
+
+  @@index([eventId], map: "eventId")
+  @@index([userId], map: "userId")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model eventgalleryimage {
+  id               Int      @id @default(autoincrement())
+  eventId Int?
+  image    String? @db.VarChar(500)
+  event    event?  @relation(fields: [eventId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "eventgalleryimage_ibfk_1")
+
+  @@index([eventId], map: "eventId")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model eventuser {
+  id               Int      @id @default(autoincrement())
+  userId  Int?
+  eventId Int?
+  type     String?   @db.VarChar(20)
+  date     DateTime? @default(now()) @db.DateTime(0)
+  user     user?     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "eventuser_ibfk_1")
+  event    event?    @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "eventuser_ibfk_2")
+
+  @@index([eventId], map: "eventId")
+  @@index([userId], map: "userId")
+}
+
+model user {
+  id           Int            @id @default(autoincrement())
+  username     String?        @unique(map: "username") @db.VarChar(30)
+  email        String         @unique(map: "email") @db.VarChar(100)
+  password     String?        @db.VarChar(255)
+  joinDate     DateTime?      @default(now()) @db.Date
+  cityId       Int?
+  bio          String?        @db.VarChar(255)
+  pfp          String?        @db.VarChar(255)
+  completed    Boolean?       @default(false)
+  tempPin      Int?
+  role         String?        @db.VarChar(12)
+  event        event[]        
+  eventcomment eventcomment[] 
+  eventuser    eventuser[]    
+  city         city?          @relation(fields: [cityId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "user_ibfk_1")
+  oauthType    String?        
+
+  @@index([cityId], map: "cityId")
+}

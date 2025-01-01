@@ -85,10 +85,12 @@ Foreign Key (event_id) REFERENCES event(id) on delete CASCADE
 )
 
 
-INSERT INTO `user` (id, username, email, password, city_id, role)
-VALUES(1, "Admin", "petokrisa2006@gmail.com", "3b612c75a7b5048a435fb6ec81e52ff92d6d795a8b5a9c17070f6a63c97a53b2", 3572, "admin");
+INSERT INTO `user` (id, username, email, password, cityId, role, completed)
+VALUES(1, "Admin", "petokrisa2006@gmail.com", "3b612c75a7b5048a435fb6ec81e52ff92d6d795a8b5a9c17070f6a63c97a53b2", 340, "admin", true);
 INSERT INTO `user` (username, email, password, city_id, role, completed)
 VALUES("dummy", "dummy@gmail.com", "3b612c75a7b5048a435fb6ec81e52ff92d6d795a8b5a9c17070f6a63c97a53b2", 3572, "user", true);
 select * from user;
 delete from user;
 update user set pfp="test" where id=8;
+
+drop DATABASE projekt2425

@@ -15,7 +15,7 @@ fetch(`/api/user/${userName}`)
     document.getElementById("username3").innerText = data.username
 
     var joinDate = document.getElementById("joinDate")
-    
+    console.log(data)
     var time = new Date(data.joinDate)
     var city = `${data.city.name}, ${data.city.county}`
     

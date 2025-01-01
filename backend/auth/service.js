@@ -1,4 +1,4 @@
-const db = require("../db")
+const {db, prisma} = require("../db")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 var crypto = require('crypto');
@@ -58,8 +58,8 @@ const permissions = {
 async function login(username, password) {
 
         let passHash = crypto.createHash('sha256').update(password).digest('hex');
-        let [existsRows,existsFields] = await db.query("select * from user where lower(username) = lower(?)", [username])
-        let [rows,fields]=await db.query("select * from user where lower(username) = lower(?) and password = ?", [username, passHash])
+        let existsRows = await prisma.user.findMany({where: {username: username}})
+        let rows = await prisma.user.findMany({where: {username: username, password: passHash}})
 
         if(existsRows.length==0){
             throw new Error("Ilyen nevű felhasználó nem létezik!", {cause: 404})
@@ -82,32 +82,44 @@ async function register(username, password, email, cityName) {
     if(username.trim().length<3){
         throw new Error("A felhasználónév túl rövid (<3 karakter)", {cause: 400})
     }
-    let [existsRows, existsFields] = await db.query("select count(id) as count from user where LOWER(username) = LOWER(?);", [username])
-    if(existsRows[0].count > 0){
+    let existsRows = await prisma.user.count({
+        where: {username: username}
+    })
+    if(existsRows > 0){
         throw new Error("A felhasználónév már létezik", {cause: 400})
     }
-    let [existsRows2, existsFields2] = await db.query("select count(id) as count from user where LOWER(email) = LOWER(?);", [email])
-    if(existsRows2[0].count > 0){
+    let existsRows2 = await prisma.user.count({
+        where: {email: email}
+    })
+    if(existsRows2 > 0){
         throw new Error("Az email már használatban van", {cause: 400})
     }
     let passHash = crypto.createHash('sha256').update(password).digest('hex');
 
     let cityData = await city.getCities(cityName)
-    let [rows,fields]= await db.query(`
-    insert into user (username, password, email, city_id, completed, role)
-    values (?,?,?,?,?,?)`,
-    [username, passHash, email, cityData[0].id, false, "user"])
-    console.log("4")
     let pin = Math.floor(Math.random() * (999999 - 100000) + 999999);
-    
-    await db.query("update user set tempPin = ? where username=?", [pin, username])
 
-    return `${process.env.url}api/user/verify?username=${username}&id=${rows.insertId}&pin=${pin}`
+    let rows = await prisma.user.create({data:{
+        username: username,
+        password: passHash,
+        email: email,
+        cityId: cityData[0].id,
+        oauthType: null,
+        tempPin: pin
+    }
+    })
+
+    return `${process.env.url}api/user/verify?username=${username}&id=${rows.id}&pin=${pin}`
 }
 
 
 async function verifyEmail(username, userid, tempPin){
-    let [rows,fields] = await db.query("select * from user where username=? and id=?", [username, parseInt(userid)])
+    let rows = await prisma.user.findMany({
+        where: {
+            username: username,
+            id: parseInt(userid)
+        }
+    })
     if(rows.length==0){
         throw new Error("A felhasználó nem létezik vagy hibásak az adatai", {cause: 404})
     }
@@ -117,7 +129,15 @@ async function verifyEmail(username, userid, tempPin){
     if(parseInt(rows[0].tempPin) != parseInt(tempPin)){
         throw new Error("A megerősítéshez használt kód hibás", {cause: 400})
     }
-    await db.query("update user set tempPin = null, completed = true where user.id = ?", [parseInt(userid)])
+    await prisma.user.update({
+        where: {
+            id: parseInt(userid)
+        },
+        update: {
+            tempPin: null,
+            completed: true
+        }
+    })
 }
 
 function decodeJWT(req, res, next){
@@ -147,20 +167,19 @@ async function hasPermission(decodedJwt, ownerUsername, ownerPermissionList, per
     if(ownerPermissionList == undefined || ownerPermissionList == null){
         return true
     }
-
-    let [rows, fields] = await db.query("select * from user where lower(username) = lower(?)", [decodedJwt.username])
-    let [rows2, fields2] = await db.query("select * from user where lower(username) = lower(?)", [ownerUsername])
+    
+    let rows = await prisma.user.findMany({where: {username: decodedJwt.username}})
+    let rows2 = await prisma.user.findMany({where: {username: ownerUsername}})
     if(rows.length==0){
         throw new Error("A felhasználó akihez a token tartozik nem létezik", {cause: 404})
     }
     if(rows2.length==0){
         throw new Error("A szerkesztendő felhasználó nem létezik", {cause: 404})
     }
-
     let user = rows[0]
     let owner = rows2[0]
-
     let hasPerm = true;
+
     if(user.id != owner.id){
         hasPerm = true;
         for (let i of permissionList){

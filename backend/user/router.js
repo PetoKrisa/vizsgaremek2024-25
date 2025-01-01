@@ -1,4 +1,4 @@
-const db = require("../db")
+const {db, prisma} = require("../db")
 const user = require("./model")
 const router = require("express").Router()
 const auth = require("../auth/service")
@@ -76,7 +76,10 @@ router.post("/api/user/@:username/pfp", auth.decodeJWT, savePfp.single("pfp"), a
             return
         }
         let userToUpdate = await user.getUserByUsername(req.params.username)
-        await db.query("update user set pfp=? where id=?", [req.file.filename, parseInt(userToUpdate.id)])
+        await prisma.user.update({
+            where: {id: userToUpdate.id},
+            data: {pfp: req.file.filename}
+        })
         res.status(201).json({status: 200, message: "Profilkép frissítve"})
 
     } catch(e){
@@ -92,7 +95,10 @@ router.delete("/api/user/@:username/pfp", auth.decodeJWT, async (req,res)=>{
             return
         }
         let userToUpdate = await user.getUserByUsername(req.params.username)
-        await db.query("update user set pfp=? where id=?", [null, parseInt(userToUpdate.id)])
+        await prisma.user.update({
+            where: {id: userToUpdate.id},
+            data: {pfp: null}
+        })
         res.status(201).json({status: 200, message: "Sikeres törlés"})
     } catch(e){
         res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
@@ -101,14 +107,17 @@ router.delete("/api/user/@:username/pfp", auth.decodeJWT, async (req,res)=>{
 
 router.get("/api/user/@:username/pfp", async (req,res)=>{
     try{
-        let [userRows, userFields] = await db.query("select * from user where lower(username) = lower(?)", [req.params.username])
+        let userRows = await prisma.user.findMany({where: {username: req.params.username}})
         if(userRows.length==0){
             res.status(404).json({status: 404, message: "A felhasználó nem létezik"})
+            return
         }
         if(!fs.existsSync(basePath+"\\public\\user\\"+userRows[0].pfp)){
             res.sendFile(basePath+"\\public\\assets\\placeholder.png")
+            return
         } else{
             res.sendFile(basePath+"\\public\\user\\"+userRows[0].pfp)
+            return
         }
     } catch(e){
         res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
@@ -130,7 +139,7 @@ router.delete("/api/user/@:username", auth.decodeJWT, async (req,res)=>{
         }
         let passwordHash = crypto.createHash('sha256').update(password).digest('hex');
 
-        let [rows,fields] = await db.query("select count(*) as count from user where password=? and lower(username)=lower(?)", [passwordHash, req.body.username])
+        let [rows,fields] = await prisma.user.count({where: {id: userData.id, password: passwordHash}})
         if(rows[0].count==0){
             res.status(403).json({status: 400, message: "A jelszó helytelen"})
             return
@@ -216,7 +225,7 @@ router.get("/api/user/@:username/email", auth.decodeJWT, async (req,res)=>{
             res.status(403).json({status: 403, message: "Nincs jogosultsága"})
             return
         }
-        let [rows,fields] = await db.query("select * from user where lower(username) = lower(?)", [req.params.username])
+        let rows = await prisma.user.findMany({where: {username: req.params.username}})
         res.status(200).json({status: 200, email: rows[0].email})
     } catch(e){
         res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
