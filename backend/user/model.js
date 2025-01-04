@@ -61,9 +61,9 @@ async function getUserByUsername(username){
         role: u.role
     }
     if(u.pfp != null){
-        user.pfp = `${process.env.url}public/user/${u.pfp}`
+        user.pfp = `${u.pfp}`
     } else{
-        user.pfp = `${process.env.url}public/assets/placeholder.png`
+        user.pfp = `/public/assets/placeholder.png`
     }
 
     let cityRow = await prisma.city.findFirst({
@@ -133,7 +133,7 @@ async function changeEmail(userId, newEmail, password) {
     }
     await prisma.user.update({
         where: {id: parseInt(userId)},
-        update: {email: newEmail}
+        data: {email: newEmail}
     })
 }
 

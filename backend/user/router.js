@@ -78,7 +78,7 @@ router.post("/api/user/@:username/pfp", auth.decodeJWT, savePfp.single("pfp"), a
         let userToUpdate = await user.getUserByUsername(req.params.username)
         await prisma.user.update({
             where: {id: userToUpdate.id},
-            data: {pfp: req.file.filename}
+            data: {pfp: "/public/user/"+req.file.filename}
         })
         res.status(201).json({status: 200, message: "Profilkép frissítve"})
 
@@ -112,13 +112,18 @@ router.get("/api/user/@:username/pfp", async (req,res)=>{
             res.status(404).json({status: 404, message: "A felhasználó nem létezik"})
             return
         }
-        if(!fs.existsSync(basePath+"\\public\\user\\"+userRows[0].pfp)){
+        if(userRows[0].oauthType == "google" && userRows[0].pfp != null){
+            res.redirect(userRows[0].pfp)
+            return
+        }
+        else if(!fs.existsSync(basePath+"\\public\\user\\"+userRows[0].pfp)){
             res.sendFile(basePath+"\\public\\assets\\placeholder.png")
             return
         } else{
             res.sendFile(basePath+"\\public\\user\\"+userRows[0].pfp)
             return
         }
+        
     } catch(e){
         res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
     }
@@ -133,13 +138,20 @@ router.delete("/api/user/@:username", auth.decodeJWT, async (req,res)=>{
         }
         let userData = req.decodedToken
         let password = req.body.password || undefined
-        if(password==undefined){
+
+        let userToDelete = await user.getUserByUsername(req.params.username)
+
+        if(password==undefined && userToDelete.oauthType != "google"){
             res.status(400).json({status: 400, message: "A jelszó megadása kötelező"})
+            return  
+        } else if (password==undefined && userToDelete.oauthType == "google"){
+            await user.deleteUser(userData.id)
+            res.status(200).json({status:200, message: "Felhasználó törölve"})
             return
         }
         let passwordHash = crypto.createHash('sha256').update(password).digest('hex');
 
-        let [rows,fields] = await prisma.user.count({where: {id: userData.id, password: passwordHash}})
+        let rows = await prisma.user.count({where: {id: userData.id, password: passwordHash}})
         if(rows[0].count==0){
             res.status(403).json({status: 400, message: "A jelszó helytelen"})
             return

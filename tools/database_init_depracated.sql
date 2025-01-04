@@ -90,7 +90,7 @@ VALUES(1, "Admin", "petokrisa2006@gmail.com", "3b612c75a7b5048a435fb6ec81e52ff92
 INSERT INTO `user` (username, email, password, city_id, role, completed)
 VALUES("dummy", "dummy@gmail.com", "3b612c75a7b5048a435fb6ec81e52ff92d6d795a8b5a9c17070f6a63c97a53b2", 3572, "user", true);
 select * from user;
-delete from user;
+delete from user where username="elitedoggo";
 update user set pfp="test" where id=8;
 
 drop DATABASE projekt2425

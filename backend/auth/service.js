@@ -78,6 +78,45 @@ async function login(username, password) {
     
 }
 
+async function oauthLogin(token) {
+    if(token == undefined || token == null){
+        throw new Error("A google token üres, próbáld újra", {cause: 400})
+    }
+    let userDataReq = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`)
+    let userData = await userDataReq.json()
+    console.log(userData)
+    let exists = await prisma.user.findMany({where:  {email: userData.email}})
+    let userToLogin = null
+    if(exists.length==0){
+        userToLogin = await prisma.user.create({data: {
+            username: userData.email.replace("@gmail.com", ""),
+            email: userData.email,
+            completed: true,
+            pfp: userData.picture,
+            oauthType: "google",
+            password: null,
+            cityId: 1,
+            role: "user"
+        }})
+    } else if(exists.length>0 && exists[0].oauthType == "google"){
+        userToLogin = await prisma.user.findFirst({where: {id: exists[0].id}})
+        await prisma.user.update({where: {id: userToLogin.id},
+        data: {
+            pfp: userData.picture
+        }
+        }
+
+        )
+    } else if(exists.length>0 && exists[0].oauthType != "google") {
+        throw new Error("Ebbe a profilba nem lehet google-el bejelentkezni", {cause: 400})
+    }
+    else{
+        throw new Error("Hibatörtént a bejelentkezés során", {cause: 403})
+    }
+
+    return [jwt.sign(JSON.stringify(await user.getUserById(userToLogin.id)), process.env.secret), userToLogin.username]
+}
+
 async function register(username, password, email, cityName) {
     if(username.trim().length<3){
         throw new Error("A felhasználónév túl rövid (<3 karakter)", {cause: 400})
@@ -105,7 +144,8 @@ async function register(username, password, email, cityName) {
         email: email,
         cityId: cityData[0].id,
         oauthType: null,
-        tempPin: pin
+        tempPin: pin,
+        role: "user"
     }
     })
 
@@ -133,7 +173,7 @@ async function verifyEmail(username, userid, tempPin){
         where: {
             id: parseInt(userid)
         },
-        update: {
+        data: {
             tempPin: null,
             completed: true
         }
@@ -151,11 +191,6 @@ function decodeJWT(req, res, next){
     }
     
 }
-
-//resource = {name: "comment", id: 1}
-//resource = {name: "event", id: 2}
-//resource = {name: "user", id: 3}
-//resource = {name: "admin", id: null}
 
 async function hasPermission(decodedJwt, ownerUsername, ownerPermissionList, permissionList) {
     if(decodedJwt.username == null || decodedJwt.username == undefined){
@@ -199,4 +234,18 @@ async function hasPermission(decodedJwt, ownerUsername, ownerPermissionList, per
     return hasPerm
 }
 
-module.exports = {login, register, verifyEmail, hasPermission, decodeJWT}
+async function googleGetTokenFromCode(code){
+    let request = await fetch(`https://oauth2.googleapis.com/token
+?code=${code}
+&client_id=${process.env.gClientId}
+&client_secret=${process.env.gClientSecret}
+&redirect_uri=${process.env.url}oauth
+&grant_type=authorization_code
+`.replaceAll("\n", ""), {method: "post",
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+       })
+    let response = await request.json()
+    return response.access_token
+}
+
+module.exports = {login, register, verifyEmail, hasPermission, decodeJWT, googleGetTokenFromCode, oauthLogin}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bejelentkezés</title>
+</head>
+<body>
+    Bejelentkezés folyamatban...
+
+    <script src="/public/scripts/login.js"></script>
+    <script>
+        const searchParams = new URLSearchParams(window.location.search);
+        const code = searchParams.get("code")
+        var token = undefined
+        if(code == undefined){
+            document.body.innerText = "Bejelentkezés sikertelen"
+        } 
+        fetch(`https://eventor.petokrisa.hu/oauthLogin?code=${code}`).then(r=>r.json())
+        .then(data=>{
+            if(data.status != 200){
+                document.body.innerText = data.message
+            } else{
+                localStorage.setItem("isLoggedIn", true)
+                localStorage.setItem("username", data.username)
+                localStorage.setItem("token", data.jwt)
+                window.location = "/user/@"+data.username
+            }
+            
+        })
+    </script>
+</body>
+</html>

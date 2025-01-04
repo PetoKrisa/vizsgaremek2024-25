@@ -19,10 +19,12 @@ app.use('/public', express.static('public'))
 const userRouter = require("./backend/user/router")
 const frontendRouter = require("./backend/frontendRouter")
 const cityRouter = require("./backend/city/router")
+const authRouter = require("./backend/auth/router")
 
 app.use("/", userRouter)
 app.use("/", frontendRouter)
 app.use("/", cityRouter)
+app.use("/", authRouter)
 
 app.get("/test", (req,res)=>{
     res.sendFile(__dirname+"/test.html") 

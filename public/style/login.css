@@ -53,7 +53,9 @@ body, html {
 }
 
 .login-container button,
-.registration-container button {
+.registration-container button,
+.login-container a.google,
+.registration-container a.google {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -84,7 +86,9 @@ body, html {
 }
 
 .login-container .social-login button,
-.registration-container .social-login button {
+.registration-container .social-login button,
+.registration-container .social-login a
+.login-container .social-login a {
     width: 48%;
     padding: 10px;
     border: 1px solid var(--border);
@@ -99,8 +103,8 @@ body, html {
     color: white;
 }
 
-.login-container .social-login button.google 
-.registration-container .social-login button.google{
+.login-container .social-login a.google 
+.registration-container .social-login a.google{
     background-color: white;
     color: black;
     border: 1px solid var(--border);
@@ -117,3 +121,11 @@ body, html {
 .registration-container a:hover {
     text-decoration: underline;
 }
+
+.social-login{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
