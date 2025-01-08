@@ -181,6 +181,7 @@ responseCount
 gallery: [url, url, url]
 ageLimit (boolean)
 views
+categories
 }
 ```
 ___
@@ -193,11 +194,12 @@ startDate
 endDate?
 visibility (public/private)
 cover (file)
-city (int id)
+city (name)
 location
 max_response
 gallery [] (files)
 ageLimit (boolean)
+categories []
 ```
 response `application/json` status, message
 ___
