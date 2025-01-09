@@ -1,0 +1,343 @@
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #F5F3F5;
+        }
+
+        header {
+            position: relative;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 55%;
+            height: 100%;
+            background-color: #5A639C;
+            clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%);
+        }
+
+        .right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 55%;
+            height: 100%;
+            background-color: #7776B3;
+            clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
+
+        h1 {
+            position: relative;
+            color: white;
+            font-size: 31px;
+            z-index: 1;
+        }
+
+        .search-container {
+            height: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 2;
+            padding: 10px;
+            font-size: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px 8px 8px 8px;
+            width: 600px;
+            outline: none;
+            background-color: white;
+        }
+
+        .search-container input {
+            background: none;
+            outline: none;
+            border: none;
+            width: 95%;
+        }
+
+        .search-container button {
+            font-size: 18px;
+            background: none;
+            outline: none;
+            border: none;
+            color: #777;
+        }
+
+        .circle-icon {
+            position: absolute;
+            right: 20px;
+            background-color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #7776B3;
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        .circle-icon i {
+            font-size: 18px;
+            color: #000000;
+        }
+
+        .dropdown-menu {
+            min-width: 160px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 5px 0;
+            position: absolute;
+            left: -160px;
+            top: 50px;
+            border: 1px solid #ccc;
+        }
+
+        .dropdown-menu li {
+            padding: 8px 12px;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-menu li:hover {
+            background-color: #e9ecef;
+        }
+
+        .dropdown-menu a {
+            padding-left: 0;
+        }
+
+        .hamburger-icon {
+            position: absolute;
+            left: 20px;
+            background-color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #7776B3;
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        .hamburger-icon i {
+            font-size: 18px;
+            color: #000000;
+        }
+
+        .event-page {
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+        .header {
+            position: relative;
+            text-align: center;
+            color: white;
+        }
+
+        .header img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .header h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+        
+        .fill {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .fill img {
+            flex-shrink: 0;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            width: 50px;
+            height: 400px;
+        }
+
+        
+        .tags {
+            margin-bottom: 15px;
+            padding-top: 10px;
+            padding-left: 10px;
+        }
+
+        .tags span {
+            display: inline-block;
+            padding: 10px 16px;
+            margin-right: 10px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+        }
+
+
+        .tag-18 {
+            background-color: #d32f2f;
+        }
+
+        .tag-koncert {
+            background-color: #00796b;
+        }
+
+        .tag-rock {
+            background-color: #512da8;
+        }
+        .content {
+            display: flex;
+            gap: 26px;
+            margin-top: 26px;
+        }
+
+        .details {
+            flex: 2;
+            background-color: #ffffff;
+            padding: 26px;
+            border-radius: 15.6px;
+            box-shadow: 0 5.2px 13px rgba(0, 0, 0, 0.1);
+            font-size: 1.3rem;
+        }
+
+        .info {
+            flex: 1;
+            background-color: #f8f8f8;
+            border-radius: 15.6px;
+            padding: 26px;
+            box-shadow: 0 5.2px 13px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .info button {
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            padding: 13px 20.8px;
+            border-radius: 7.8px;
+            margin-bottom: 13px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 30%;
+        }
+
+        .info button:hover {
+            background-color: #3700b3;
+        }
+
+        .info p {
+            font-size: 1.3rem;
+            color: #000000;
+            margin-top: 13px;
+            text-align: left;
+        }
+
+        .organizer {
+            margin-top: 19.5px;
+            font-size: 1.2rem;
+            color: #333333;
+        }
+
+        .organizer span {
+            display: inline-block;
+            padding: 7.8px 13px;
+            background-color: #eeeeee;
+            border-radius: 6.5px;
+        }
+
+        .gallery {
+            margin-top: 26px;
+            padding: 13px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 26px;
+            background-color: white;
+            padding: 26px;
+            border-radius: 13px;
+            box-shadow: 0 2.6px 6.5px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery img {
+            width: 100%;
+            border-radius: 13px;
+            box-shadow: 0 5.2px 13px rgba(0, 0, 0, 0.2);
+        }
+
+        .comments {
+            margin-top: 26px;
+            background-color: white;
+            padding: 26px;
+            border-radius: 13px;
+            box-shadow: 0 2.6px 6.5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            max-width: 80%;
+            margin-left: 20%;
+            margin-right: 20%;
+            margin-top: 5%;
+        }
+
+        .comment-input {
+            display: flex;
+            gap: 13px;
+        }
+
+        .comment-input input {
+            flex: 1;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 7.8px;
+        }
+
+        .comment-input button {
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            padding: 13px 26px;
+            border-radius: 7.8px;
+            cursor: pointer;
+        }
+
+        .comment {
+            margin-top: 13px;
+            padding: 13px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comment:last-child {
+            border-bottom: none;
+        }
+
+        .comment .author {
+            font-weight: bold;
+            color: #6200ea;
+        }
+
+        .comment .text {
+            margin-top: 6.5px;
+        }
