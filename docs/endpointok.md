@@ -196,7 +196,7 @@ visibility (public/private)
 cover (file)
 city (name)
 location
-max_response
+maxResponse
 gallery [] (files)
 ageLimit (boolean)
 categories []
@@ -214,7 +214,7 @@ visibility? (public/private)
 cover? (file)
 city? (int id)
 location?
-max_response?
+maxResponse?
 gallery []? (files)
 ageLimit? (boolean)
 ```
