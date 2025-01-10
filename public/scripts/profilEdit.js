@@ -22,6 +22,7 @@ fetch(`/api/user/@${localStorage.getItem("username")}`)
     document.getElementById("bio").value = data.bio
     document.getElementById("pfp").src = data.pfp
     document.getElementById("username").innerText = data.username
+    document.title = `@${data.username} fiók`
     console.log(data)
 })
 

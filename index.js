@@ -8,9 +8,9 @@ const cors = require("cors")
 const baseDirectory = __dirname
 
 app.use(bodyParser.urlencoded({
-    extended: true
-  }));
-app.use(bodyParser.json())
+    extended: false
+}));
+app.use(bodyParser.json());
 app.use(cors())
 
 app.use('/public', express.static('public'))
@@ -20,11 +20,13 @@ const userRouter = require("./backend/user/router")
 const frontendRouter = require("./backend/frontendRouter")
 const cityRouter = require("./backend/city/router")
 const authRouter = require("./backend/auth/router")
+const eventRouter = require("./backend/event/router")
 
 app.use("/", userRouter)
 app.use("/", frontendRouter)
 app.use("/", cityRouter)
 app.use("/", authRouter)
+app.use("/", eventRouter)
 
 app.get("/test", (req,res)=>{
     res.sendFile(__dirname+"/test.html") 

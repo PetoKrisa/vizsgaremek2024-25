@@ -193,6 +193,7 @@ function decodeJWT(req, res, next){
 }
 
 async function hasPermission(decodedJwt, ownerUsername, ownerPermissionList, permissionList) {
+
     if(decodedJwt.username == null || decodedJwt.username == undefined){
         throw new Error("Csak bejelentkezett fehasználók férnek hozzá az erőforráshoz", {cause: 401})
     }

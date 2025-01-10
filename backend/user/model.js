@@ -2,7 +2,6 @@ const {db, prisma} = require("../db")
 require("dotenv").config()
 const crypto = require("crypto")
 const city = require("../city/model")
-const { equal } = require("assert")
 
 async function getUserById(id){
     let rows = await prisma.user.findMany({

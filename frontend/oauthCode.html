@@ -19,7 +19,10 @@
         fetch(`https://eventor.petokrisa.hu/oauthLogin?code=${code}`).then(r=>r.json())
         .then(data=>{
             if(data.status != 200){
-                document.body.innerText = data.message
+                document.body.innerText = data.message + "\nÁtírányítás 3 másodpercen belül..."
+                setTimeout(()=>{
+                    window.location = "/login"
+                }, 3000)
             } else{
                 localStorage.setItem("isLoggedIn", true)
                 localStorage.setItem("username", data.username)

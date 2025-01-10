@@ -23,5 +23,6 @@ fetch(`/api/user/${userName}`)
 
     document.getElementById("bio").innerText = data.bio
 
-    document.getElementById("pfp").src = data.pfp    
+    document.getElementById("pfp").src = data.pfp
+    document.title = `@${data.username} profil`
 })

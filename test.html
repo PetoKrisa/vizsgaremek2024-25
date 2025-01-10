@@ -31,7 +31,41 @@
         <br>
         <input type="submit" value="bejelentkezés">
     </form>
+    <br>
+    <br>
+    <form id="eventForm" enctype="multipart/form-data" action="javascript:void(0)" method="post" onsubmit="eventr()">
+        <input type="text" name="title" id="title" value="asd"> <br>
+        <input type="text" name="description" id="description"> <br>
+        <input type="datetime-local" name="startDate" value="2025-01-10 10:00"> <br>
+        <input type="datetime-local" name="endDate" value="2025-01-10 16:30"> <br>
+        <input type="text" name="visibility" value="public"> <br>
+        <input type="text" name="location" value="itt-ott"> <br>
+        <input type="text" name="city" value="budapest"> <br>
+        <input type="file" name="cover" id="cover"> <br>
+        <input type="file" name="gallery" id="gallery" multiple> <br>
+        <input type="submit" value="Küld">
+    </form>
+    <br>
+    <br>
+    <form id="imageForm" enctype="multipart/form-data" action="javascript:void(0)" method="post" onsubmit="uploadImages()">
+        <input type="file" name="gallery" multiple>
+        <input type="submit" value="képek feltöltése 11 re">
+    </form>
     <script>
+        function uploadImages(){
+            let formElement = new FormData(document.getElementById("imageForm"))
+            
+            
+            fetch("/api/event/11/gallery",
+            {   
+                method: "post",
+                headers: { 
+                "Authorization": "bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiam9pbkRhdGUiOiIyMDI0LTEyLTE2VDAwOjAwOjAwLjAwMFoiLCJ1c2VybmFtZSI6IkFkbWluIiwiY2l0eSI6eyJpZCI6MTc2MiwibmFtZSI6Ik1pc2tvbGMiLCJjb3VudHkiOiJCb3Jzb2QtQWJhw7pqLVplbXBsw6luIn0sImJpbyI6IiIsInBmcCI6Imh0dHBzOi8vZXZlbnRvci5wZXRva3Jpc2EuaHUvcHVibGljL3VzZXIvL3B1YmxpYy91c2VyL0FkbWluLnBuZyIsInJvbGUiOiJhZG1pbiJ9.XZzwLDn2xtShFNNLtwHI9RxMMtMIdQu0tk3DzbLK--0"},
+                body: formElement
+            }
+        )
+        }
+
         function upload(){
             let formElement = new FormData(document.getElementById("pfpForm"))
             
@@ -41,6 +75,19 @@
                 method: "post",
                 headers: { 
                 "Authorization": "bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6OSwiam9pbkRhdGUiOiIyMDI0LTEyLTA2VDIzOjAwOjAwLjAwMFoiLCJ1c2VybmFtZSI6ImR1bW15IiwiY2l0eSI6eyJpZCI6MzU3MiwibmFtZSI6IkJ1ZGFwZXN0IiwiY291bnR5IjoiUGVzdCJ9LCJiaW8iOm51bGwsInBmcCI6bnVsbCwicm9sZSI6InVzZXIifQ.ECooSZZYq2zwgCozRXOwEwdxsW4Ht6YuUUHGO0bvOhs"},
+                body: formElement
+            }
+        )
+        }
+
+        function eventr(){
+            let formElement = new FormData(document.getElementById("eventForm"))
+            
+            fetch("/api/event",
+            {   
+                method: "post",
+                headers: { 
+                "Authorization": "bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiam9pbkRhdGUiOiIyMDI0LTEyLTE2VDAwOjAwOjAwLjAwMFoiLCJ1c2VybmFtZSI6IkFkbWluIiwiY2l0eSI6eyJpZCI6MTc2MiwibmFtZSI6Ik1pc2tvbGMiLCJjb3VudHkiOiJCb3Jzb2QtQWJhw7pqLVplbXBsw6luIn0sImJpbyI6IiIsInBmcCI6Imh0dHBzOi8vZXZlbnRvci5wZXRva3Jpc2EuaHUvcHVibGljL3VzZXIvL3B1YmxpYy91c2VyL0FkbWluLnBuZyIsInJvbGUiOiJhZG1pbiJ9.XZzwLDn2xtShFNNLtwHI9RxMMtMIdQu0tk3DzbLK--0"},
                 body: formElement
             }
         )
@@ -85,9 +132,7 @@
             })
         }
 
-        fetch("/api/user/@dummy/password", {method: "post", headers:{"Content-Type": "application/json", "Authorization": "bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6OSwiam9pbkRhdGUiOiIyMDI0LTEyLTA2VDIzOjAwOjAwLjAwMFoiLCJ1c2VybmFtZSI6ImR1bW15IiwiY2l0eSI6eyJpZCI6MzU3MiwibmFtZSI6IkJ1ZGFwZXN0IiwiY291bnR5IjoiUGVzdCJ9LCJiaW8iOm51bGwsInBmcCI6bnVsbCwicm9sZSI6InVzZXIifQ.ECooSZZYq2zwgCozRXOwEwdxsW4Ht6YuUUHGO0bvOhs"},
-            body: JSON.stringify({newPassword: "asd", password: "Admin123"})
-        })
+        
     </script>
 </body>
 </html>

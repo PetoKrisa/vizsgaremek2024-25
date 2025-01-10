@@ -7,7 +7,6 @@ const path = require("path")
 const fs = require("fs")
 const crypto = require("crypto")
 const jwt = require("jsonwebtoken")
-const { constrainedMemory } = require("process")
 
 const basePath =  __dirname.replace("backend\\user", "")
 const pfpStorage = multer.diskStorage({
@@ -116,11 +115,11 @@ router.get("/api/user/@:username/pfp", async (req,res)=>{
             res.redirect(userRows[0].pfp)
             return
         }
-        else if(!fs.existsSync(basePath+"\\public\\user\\"+userRows[0].pfp)){
+        else if(!fs.existsSync(basePath+userRows[0].pfp)){
             res.sendFile(basePath+"\\public\\assets\\placeholder.png")
             return
         } else{
-            res.sendFile(basePath+"\\public\\user\\"+userRows[0].pfp)
+            res.sendFile(basePath+userRows[0].pfp)
             return
         }
         
