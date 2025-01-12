@@ -15,6 +15,7 @@ fetch(`/api/event/${eventId}`)
     document.getElementById("responses").innerText = data.maxResponse
     document.getElementById("location").innerText = data.location
     document.getElementById("organizer").innerText = `${data.author.username}`
+    document.getElementById("views").innerText = `${data.views}`
 
     if(data.ageLimit){
         document.getElementById("tags").innerHTML = "<span class='tag-18'>18+</span>" + document.getElementById("tags").innerHTML
@@ -35,4 +36,8 @@ fetch(`/api/event/${eventId}`)
         `<img src='/${i.image}' />`
     }
 
+})
+
+fetch(`/api/event/${eventId}/view`, {
+    headers: {"Authorization": `bearer ${localStorage.getItem("token")}`}
 })

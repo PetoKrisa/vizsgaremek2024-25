@@ -142,4 +142,15 @@ router.delete("/api/event/:id/gallery/:imageId", auth.decodeJWT, saveFiles, asyn
   }
 })
 
+router.get("/api/event/:id/view", auth.decodeJWT, async (req,res)=>{
+  try{
+    
+    await event.addView(req.params.id, req.decodedToken.id)
+    res.status(200).json({status: 200, message: `megtekintve`})
+
+  } catch(e){
+    res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
+  }
+})
+
 module.exports = router

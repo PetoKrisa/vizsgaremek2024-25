@@ -4,6 +4,7 @@ const crypto = require("crypto")
 const city = require("../city/model")
 const user = require("../user/model")
 const { start } = require("repl")
+const { error } = require("console")
 
 const basePath =  __dirname.replace("backend\\event", "")
 
@@ -70,6 +71,11 @@ async function getEventById(id) {
     events[0].author = await user.getUserById(events[0].userId)
     events[0].city = cityData
     delete events[0].cityId
+
+    let views = await prisma.eventuser.count({where: {eventId: parseInt(id), type: "view"}})
+
+    events[0].views = views
+
     return events[0]
 }
 
@@ -144,4 +150,17 @@ async function deleteGalleryImage(galleryImageId) {
     })
 }
 
-module.exports = {createEvent, getEventById, deleteEventById, updateEventById, saveGalleryImages, deleteGalleryImage}
+async function addView(eventId, userId){
+    let count = await prisma.eventuser.count({where: {userId: parseInt(userId), eventId: parseInt(eventId)}})
+    if(count==0){
+        await prisma.eventuser.create({data: {
+            eventId: parseInt(eventId),
+            userId: parseInt(userId),
+            type: "view"
+        }})
+    } else{
+        throw new Error("Már megtekintve", {cause: 202})
+    }
+}
+
+module.exports = {createEvent, getEventById, deleteEventById, updateEventById, saveGalleryImages, deleteGalleryImage, addView}
