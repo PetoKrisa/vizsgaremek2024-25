@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Új Esemény Létrehozása</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="newEvent.css">
+</head>
+<body>
+    <header>
+        <div class="left"></div>
+        <div class="right"></div>
+        <div class="search-container">
+            <input type="text" placeholder="Keresés...">
+            <button><i class="glyphicon glyphicon-search"></i></button>
+        </div>
+        <div class="hamburger-icon">
+            <i class="glyphicon glyphicon-menu-hamburger"></i>
+        </div>
+        <div class="dropdown circle-icon">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="glyphicon glyphicon-user"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a href="#"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Új esemény</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
+            </ul>
+        </div>
+    </header>
+    <div class="container">
+        <h1>Új Esemény Létrehozása</h1>
+        <form action="/submit-event" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="eventName">Esemény Neve</label>
+                <input type="text" id="eventName" name="eventName" class="form-control" placeholder="Esemény neve..." required>
+            </div>
+            <div class="form-group">
+                <label for="eventDate">Dátum</label>
+                <input type="datetime-local" id="eventDate" name="eventDate" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="eventLocation">Helyszín</label>
+                <input type="text" id="eventLocation" name="eventLocation" class="form-control" placeholder="Esemény helyszíne..." required>
+            </div>
+            <div class="form-group">
+                <label for="eventAttend">Férőhely</label>
+                <input type="number" id="eventAttend" name="eventAttend" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="eventDescription">Leírás</label>
+                <textarea id="eventDescription" name="eventDescription" class="form-control" rows="5" placeholder="Esemény leírása..." required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="eventImages">Képek Feltöltése</label>
+                <input type="file" id="eventImages" name="eventImages[]" class="form-control" multiple required>
+            </div>
+            <button type="submit" class="submitbutton">Létrehozás</button>
+        </form>
+    </div>
+</body>
+</html>

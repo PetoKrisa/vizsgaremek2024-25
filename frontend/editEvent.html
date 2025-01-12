@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esemény Szervezése</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="editEvent.css">
+</head>
+<body>
+    <header>
+        <div class="left"></div>
+        <div class="right"></div>
+        <div class="search-container">
+            <input type="text" placeholder="Keresés...">
+            <button><i class="glyphicon glyphicon-search"></i></button>
+        </div>
+        <div class="hamburger-icon">
+            <i class="glyphicon glyphicon-menu-hamburger"></i>
+        </div>
+        <div class="dropdown circle-icon">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="glyphicon glyphicon-user"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a href="#"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
+            </ul>
+        </div>
+    </header>
+    <div class="event-page">
+        <div class="fill">
+            <img src="https://unnepekaruhaza.hu/grafika/images/blog/felnott-szulinap.jpg" alt="Event Header">
+            <button class="change-image-button">Kép Cserélése</button>
+        </div>
+
+        <div class="tags">
+            <span class="tag-18">
+                18+
+                <button class="delete-tag-button">X</button>
+            </span>
+            <span class="tag-koncert">
+                Koncert
+                <button class="delete-tag-button">X</button>
+            </span>
+            <span class="tag-rock">
+                Rock
+                <button class="delete-tag-button">X</button>
+            </span>
+            <button class="add-tag-button">+</button>
+        </div>
+        <div class="content">
+            <div class="details">
+                <p class="EditFelhivasSzoveg"><strong>Adatok szerkesztése:</strong></p>
+                <div class="description">
+                    <p><strong>Leírás:</strong></p>
+                    <textarea class="edit-description" rows="5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget orci ullamcorper, commodo enim nec, mattis eros.</textarea>
+                </div>
+                <div class="data">
+                    <p>
+                        <br>
+                        <p><strong>Kezdés és végzés:</strong></p>
+                        <input type="datetime-local" class="edit-start-date" value="2024-12-13T16:00"><br>
+                        <input type="datetime-local" class="edit-end-date" value="2024-12-14T05:00"><br>
+                        <br>
+                        <p><strong>Helyszín:</strong></p>
+                        <input type="text" class="edit-location" value="Budapest, Gercsei út 11"><br>
+                        <br>
+                        <p><strong>Max létszám:</strong></p>
+                        <input type="number" class="edit-attendees" value="21" min="0">
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="gallery">
+            <span>
+                <img src="https://kep.cdn.indexvas.hu/welove-media/4f/kristaly-szinter-buli.exact1980w.jpg" alt="Gallery Image 1">
+                <button class="delete-image-button">Kép Törlése</button>
+            </span>
+            <span>
+                <img src="https://kep.cdn.indexvas.hu/welove-media/4f/kristaly-szinter-buli.exact1980w.jpg" alt="Gallery Image 1">
+                <button class="delete-image-button">Kép Törlése</button>
+            </span>
+            <span>
+                <img src="https://kep.cdn.indexvas.hu/welove-media/4f/kristaly-szinter-buli.exact1980w.jpg" alt="Gallery Image 1">
+                <button class="delete-image-button">Kép Törlése</button>
+            </span>
+            <button class="add-image-button">+</button>
+        </div>
+    </div>
+    <button type="submit" class="submitbutton">Változások Elfogadása</button>
+</body>
+</html>
