@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const user = require("./user/model")
+const event = require("./event/model")
 
 const basePath = __dirname.replace("\\backend", "")
 
@@ -28,6 +29,15 @@ router.get("/login", (req,res)=>{
 
 router.get("/register", (req,res)=>{
     res.sendFile(basePath+"\\frontend\\Register.html")
+})
+
+router.get("/event/:id", async (req,res)=>{
+    try{
+        let eventData = await event.getEventById(req.params.id)
+        res.sendFile(basePath+"\\frontend\\Event.html")
+    } catch{
+        res.status(404).send("Az esemény nem létezik")
+    }
 })
 
 module.exports = router

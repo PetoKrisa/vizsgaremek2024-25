@@ -5,41 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Felhasználó eseményei</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/style/Event.css">
+    <link rel="stylesheet" href="/public/style/header.css">
+    <link rel="stylesheet" href="/public/style/auth.css">
 </head>
 <body>
-    <header>
-        <div class="left"></div>
-        <div class="right"></div>
+    <header> 
         <div class="search-container">
             <input type="text" placeholder="Keresés...">
             <button><i class="glyphicon glyphicon-search"></i></button>
         </div>
+
         <div class="hamburger-icon">
             <i class="glyphicon glyphicon-menu-hamburger"></i>
         </div>
-        <div class="dropdown circle-icon">
+
+        <div class="loginLinks loggedOut">
+            <a href="/login" class="link-light">Login</a>
+            &nbsp;•&nbsp;
+            <a href="/register" class="link-light">Register</a>
+        </div>
+
+        <div class="dropdown circle-icon loggedIn" id="profile-dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="glyphicon glyphicon-user"></i>
+                <img id="headerPfp" src="/public/assets/placeholder.png" alt="profilkép">
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a href="#"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
+                <li><a id="profileLink" href="/"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
+                <li><a id="profileEditLink" href="/"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
                 <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Új esemény</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
+                <li><a href="#" onclick="logout()"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
             </ul>
         </div>
+        <div id="message">
+            <h3 id="messageText">Üzenet</h3>
+        </div>
+        <div id="errorMessage">
+            <h3 id="errorMessageText">Üzenet</h3>
+        </div>
+        <dialog id="confirmPopup">
+            <h3 id="confirmPopupText">
+
+            </h3>
+            <button id="confirmPopupOk">Ok</button>
+            <button id="confirmPopupBack">Mégse</button>
+        </dialog>
     </header>
     <div class="event-page">
         <div class="fill">
-            <img src="https://unnepekaruhaza.hu/grafika/images/blog/felnott-szulinap.jpg" alt="Event Header">
+            <img id="cover" src="https://unnepekaruhaza.hu/grafika/images/blog/felnott-szulinap.jpg" alt="Event Header">
+            <h1 id="title">Titel titel</h1>
         </div>
-        <div class="tags">
-            <span class="tag-18">18+</span>
+        <div id="tags" class="tags">
+            
             <span class="tag-koncert">Koncert</span>
             <span class="tag-rock">Rock</span>
         </div>        
         <div class="content">
-            <div class="details">
+            <div id="description" class="details">
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget orci ullamcorper, commodo enim nec, mattis eros. Cras venenatis egestas tellus in convallis. Praesent commodo libero purus, vitae gravida metus dapibus ut. In hac habitasse platea dictumst. Praesent placerat dictum justo ut egestas.</p>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget orci ullamcorper, commodo enim nec, mattis eros. Cras venenatis egestas tellus in convallis. Praesent commodo libero purus, vitae gravida metus dapibus ut. In hac habitasse platea dictumst. Praesent placerat dictum justo ut egestas.</p>
             </div>
@@ -47,21 +70,18 @@
                 <button>Érdekel</button>
                 <button>Meghívó Küldése</button>
                 <p>
-                    <i class="glyphicon glyphicon-calendar"></i><strong> 2024.12.13 16:00 - 2024.12.14 5:00</strong><br>
-                    <i class="glyphicon glyphicon-pushpin"></i><strong> Budapest, Gercsei út 11</strong><br>
-                    <i class="glyphicon glyphicon-user"></i><strong> 21 / 36</strong>
+                    <i class="glyphicon glyphicon-calendar"></i><strong id="date"> 2024.12.13 16:00 - 2024.12.14 5:00</strong><br>
+                    <i class="glyphicon glyphicon-pushpin"></i><strong id="location"> Budapest, Gercsei út 11</strong><br>
+                    <i class="glyphicon glyphicon-user"></i><strong id="responses"> 21 / 36</strong>
                 </p>
                 <p>Ez az esemény érdeklődi önt.</p>
                 <div class="organizer">
-                    <span><strong>Szervező:</strong> John Doe</span>
+                    <span><strong>Szervező:</strong> <span id="organizer">John Doe</span>
                 </div>
             </div>
         </div>
-        <div class="gallery">
-            <img src="https://kep.cdn.indexvas.hu/welove-media/4f/kristaly-szinter-buli.exact1980w.jpg" alt="Gallery Image 1">
-            <img src="https://kep.cdn.indexvas.hu/welove-media/4f/kristaly-szinter-buli.exact1980w.jpg" alt="Gallery Image 2">
-            <img src="https://kep.cdn.indexvas.hu/welove-media/4f/kristaly-szinter-buli.exact1980w.jpg" alt="Gallery Image 3">
-            <img src="https://kep.cdn.indexvas.hu/welove-media/4f/kristaly-szinter-buli.exact1980w.jpg" alt="Gallery Image 4">
+        <div class="gallery" id="gallery">
+
         </div>
         <div class="comments">
             <h3>Hozzászólások</h3>
@@ -83,5 +103,12 @@
             </div>
         </div>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="/public/scripts/popups.js"></script>
+    <script src="/public/scripts/showLoggedInStuff.js"></script>
+    <script src="/public/scripts/event.js"></script>
 </body>
 </html>

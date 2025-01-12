@@ -7,7 +7,7 @@ fetch(`/api/user/${userName}`)
 .then(data=>{
     console.log(data)
     if(data.status != undefined && data.status != 200){
-        alert("Hiba: "+data.message)
+        alert("Hiba: "+ data.message)
         return
     }
     document.getElementById("username").innerText = data.username
