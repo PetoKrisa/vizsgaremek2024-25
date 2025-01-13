@@ -152,7 +152,6 @@ async function register(username, password, email, cityName) {
     return `${process.env.url}api/user/verify?username=${username}&id=${rows.id}&pin=${pin}`
 }
 
-
 async function verifyEmail(username, userid, tempPin){
     let rows = await prisma.user.findMany({
         where: {
@@ -182,12 +181,27 @@ async function verifyEmail(username, userid, tempPin){
 
 function decodeJWT(req, res, next){
     try{
-        let token = req.headers.authorization.split(" ")[1]
+        let hasToken = false
+        let token = ""
+        if(req.headers.authorization != undefined){
+           hasToken = true
+           token = req.headers.authorization.split(" ")[1]
+        }
+        if(req.cookies.token != undefined){
+            hasToken = true
+            token = req.cookies.token
+        }
+        if(!hasToken){
+            res.redirect("/login")
+            return
+        }
+        
         let decodedToken = jwt.verify(token, process.env.secret)
         req.decodedToken = decodedToken
         next()
     } catch(e){
-        res.status(403).json({status: 403,message: "A token nem megfelelő vagy üres"})
+        res.status(403).json({status: 403, message: "A token hibás vagy üres"})
+        return
     }
     
 }

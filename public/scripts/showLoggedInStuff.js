@@ -1,5 +1,10 @@
 var isLoggedIn = Boolean(localStorage.getItem("isLoggedIn")) || false
 
+if(!isLoggedIn){
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+}
+
 if(isLoggedIn){
     let loggedInItems = document.getElementsByClassName("loggedIn") 
     for(let i of loggedInItems){
@@ -19,6 +24,7 @@ function logout(){
     localStorage.removeItem("token")
     localStorage.removeItem("username")
     localStorage.removeItem("isLoggedIn")
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     console.log(window.location)
     window.location = `${window.location.origin}/`
 }

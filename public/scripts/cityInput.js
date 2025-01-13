@@ -21,5 +21,6 @@ function loadCities(event){
 
 for(let i of cityInputs){
     i.addEventListener("input", loadCities)
+
 }
 

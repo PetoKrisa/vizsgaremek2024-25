@@ -93,3 +93,6 @@ select * from user;
 select * from `event`;
 delete from user where username="dummy";
 update user set pfp="test" where id=8;
+
+delete from eventgalleryimage WHERE `eventId` < 12;
+delete from `event` WHERE id < 12;

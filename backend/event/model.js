@@ -9,6 +9,12 @@ const { error } = require("console")
 const basePath =  __dirname.replace("backend\\event", "")
 
 async function createEvent(eventObject){
+    if(eventObject.ageLimit == "on" || eventObject.ageLimit == "true"){
+        eventObject.ageLimit = true
+    } else{
+        eventObject.ageLimit = false
+    }
+    console.log(eventObject)
     let defaultObject = {
             title: null,
             description: null,
@@ -23,9 +29,9 @@ async function createEvent(eventObject){
             ageLimit: false
     }
     let eventObjectToPush = {...defaultObject, ...eventObject}
-    if(eventObject.title == null ||
-        eventObject.startDate == null ||
-        eventObject.city == null
+    if(eventObject.title == null || eventObject.title == "" ||
+        eventObject.startDate == null || eventObject.startDate == "" ||
+        eventObject.city == null || eventObject.city == ""
     ){
         throw new Error("A Cím, kezdő időpont vagy város üres!", {cause: 400})
     }
@@ -39,9 +45,15 @@ async function createEvent(eventObject){
     delete eventObjectToPush.city
 
     let startDate = new Date(eventObjectToPush.startDate)
-    let endDate = new Date(eventObjectToPush.endDate)
+    let endDate;
+    if(endDate==undefined || endDate == ""){
+        endDate = null
+    } else{
+        endDate = new Date(eventObjectToPush.endDate)
+        endDate.setHours(endDate.getHours()+1)
+    }
     startDate.setHours(startDate.getHours()+1)
-    endDate.setHours(endDate.getHours()+1)
+    
     eventObjectToPush.startDate = startDate
     eventObjectToPush.endDate = endDate
     

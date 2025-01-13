@@ -2,8 +2,17 @@ const express = require("express")
 const router = express.Router()
 const user = require("./user/model")
 const event = require("./event/model")
+const auth = require("./auth/service")
 
 const basePath = __dirname.replace("\\backend", "")
+
+router.get("/event/create", auth.decodeJWT, async(req,res)=>{
+    try{
+        res.sendFile(basePath+"\\frontend\\newEvent.html")
+    } catch{
+        res.status(500).send("Ismeretlen hiba történt")
+    }
+})
 
 router.get("/user/@:username", async (req,res)=>{
     try{
@@ -39,5 +48,7 @@ router.get("/event/:id", async (req,res)=>{
         res.status(404).send("Az esemény nem létezik")
     }
 })
+
+
 
 module.exports = router

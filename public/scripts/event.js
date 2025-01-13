@@ -29,7 +29,12 @@ fetch(`/api/event/${eventId}`)
         endDate = null
     }
 
-    document.getElementById("date").innerText = `${startDate.getFullYear()}.${startDate.getMonth()+1}.${startDate.getDate()} ${startDate.getHours()<10 ? "0" : ""}${startDate.getHours()}:${startDate.getMinutes()<10 ? "0" : ""}${startDate.getMinutes()} - ${endDate.getFullYear()}.${endDate.getMonth()+1}.${endDate.getDate()} ${endDate.getHours()<10 ? "0" : ""}${endDate.getHours()}:${endDate.getMinutes()<10 ? "0" : ""}${endDate.getMinutes()}`
+    if(endDate != null){
+        document.getElementById("date").innerText = `${startDate.getFullYear()}.${startDate.getMonth()+1}.${startDate.getDate()} ${startDate.getHours()<10 ? "0" : ""}${startDate.getHours()}:${startDate.getMinutes()<10 ? "0" : ""}${startDate.getMinutes()} - ${endDate.getFullYear()}.${endDate.getMonth()+1}.${endDate.getDate()} ${endDate.getHours()<10 ? "0" : ""}${endDate.getHours()}:${endDate.getMinutes()<10 ? "0" : ""}${endDate.getMinutes()}`
+    } else{
+        document.getElementById("date").innerText = `${startDate.getFullYear()}.${startDate.getMonth()+1}.${startDate.getDate()} ${startDate.getHours()<10 ? "0" : ""}${startDate.getHours()}:${startDate.getMinutes()<10 ? "0" : ""}${startDate.getMinutes()}`
+    }
+    
 
     for(let i of data.gallery){
         document.getElementById("gallery").innerHTML = document.getElementById("gallery").innerHTML + 

@@ -100,6 +100,20 @@
         font-size: 12px;
         padding: 8px 12px;
     }
+
+    .event-container {
+        width: 95% !important;
+    }
+    .event-card{
+        width: 80% !important;
+    }
+
+    .event-card img{
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 4/3 !important;
+
+    }
 }
 .event-container {
         position: relative; /* szükséges a belső abszolút elemek pozícionálásához */
@@ -160,8 +174,13 @@
 
     .event-card img {
         width: 100%;
-        height: 180px;
+        height: auto;
         object-fit: cover;
+        aspect-ratio: 4/3 !important;
+    }
+
+    .event-card a{
+        color: black;
     }
 
     .event-card .content {

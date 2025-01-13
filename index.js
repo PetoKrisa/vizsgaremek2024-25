@@ -4,6 +4,8 @@ require("dotenv").config()
 const db = require("./backend/db")
 const bodyParser = require("body-parser")
 const cors = require("cors")
+const cookieParser = require("cookie-parser")
+app.use(cookieParser());
 
 const baseDirectory = __dirname
 

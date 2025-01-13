@@ -34,7 +34,7 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a id="profileLink" href="/"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
                 <li><a id="profileEditLink" href="/"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Új esemény</a></li>
+                <li><a href="/event/create"><i class="glyphicon glyphicon-plus"></i> Új esemény</a></li>
                 <li><a href="#" onclick="logout()"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
             </ul>
         </div>
@@ -74,7 +74,7 @@
     <div class="event-container">
         <h2><strong>@<span id="username2"></span> eseményei</strong></h2>
         <a href="#" class="more-link">Mutass többet</a>
-        <div class="event-cards">
+        <div class="event-cards"  id="event-cards">
             <div class="event-card">
                 <img src="https://thumbs.dreamstime.com/b/young-party-cheerful-people-showered-confetti-club-31137048.jpg" alt="Esemény">
                 <div class="content">

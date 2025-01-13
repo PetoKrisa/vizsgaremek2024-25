@@ -2,6 +2,7 @@ const {db, prisma} = require("../db")
 const user = require("./model")
 const router = require("express").Router()
 const auth = require("../auth/service")
+const event = require("../event/model")
 const multer  = require('multer')
 const path = require("path")
 const fs = require("fs")
@@ -29,9 +30,15 @@ router.get("/api/user/@:username", async (req,res)=>{
         userData.events = []
         userData.respondedEvents = []
         //todo fill events and responded events once they are implemented
-
+        let events = await prisma.event.findMany({where: {user: {username: userData.username}}})
+        for(let i of events){
+            let tempEvent = await event.getEventById(i.id)
+            userData.events.push(tempEvent)
+        }
+        
         res.json(userData)
     } catch(e){
+        console.log(e)
         res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
     }
 })
@@ -208,6 +215,7 @@ router.post("/api/user/login", async (req,res)=>{
     try{
         console.log(req.body)
         let token = await auth.login(req.body.username, req.body.password)
+        res.cookie("token", token)
         res.status(200).json({status: 200, jwt: token})
     } catch(e){
         res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
