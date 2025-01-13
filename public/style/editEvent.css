@@ -1,0 +1,415 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #F5F3F5;
+}
+
+header {
+    position: relative;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 55%;
+    height: 100%;
+    background-color: #5A639C;
+    clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%);
+}
+
+.right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 55%;
+    height: 100%;
+    background-color: #7776B3;
+    clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+h1 {
+    position: relative;
+    color: white;
+    font-size: 31px;
+    z-index: 1;
+}
+
+.search-container {
+    height: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    z-index: 2;
+    padding: 10px;
+    font-size: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 50%;
+    outline: none;
+    background-color: white;
+}
+
+.search-container input {
+    background: none;
+    outline: none;
+    border: none;
+    width: 95%;
+}
+
+.search-container button {
+    font-size: 18px;
+    background: none;
+    outline: none;
+    border: none;
+    color: #777;
+}
+
+.circle-icon {
+    position: absolute;
+    right: 20px;
+    background-color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #7776B3;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.circle-icon i {
+    font-size: 18px;
+    color: #000000;
+}
+
+.dropdown-menu {
+    min-width: 160px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 5px 0;
+    position: absolute;
+    left: -160px;
+    top: 50px;
+    border: 1px solid #ccc;
+}
+
+.dropdown-menu li {
+    padding: 8px 12px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu li:hover {
+    background-color: #e9ecef;
+}
+
+.dropdown-menu a {
+    padding-left: 0;
+}
+
+.hamburger-icon {
+    position: absolute;
+    left: 20px;
+    background-color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #7776B3;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.hamburger-icon i {
+    font-size: 18px;
+    color: #000000;
+}
+
+.event-page {
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.header {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.header img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.header h1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.fill {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 400px;
+}
+
+.fill img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fill:hover .change-image-button {
+    display: block;
+}
+
+.change-image-button {
+    display: none;
+    position: absolute;
+    bottom: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.tags {
+    margin-bottom: 15px;
+    padding-top: 10px;
+    padding-left: 10px;
+    position: relative;
+}
+
+.tags span {
+    position: relative;
+    display: inline-block;
+    padding: 10px 16px;
+    margin: 10px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+
+.tags span:hover .delete-tag-button {
+    display: block;
+}
+
+.delete-tag-button {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    padding: 10px 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    text-align: center;
+}
+
+
+.add-tag-button {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+    font-weight: bold;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.37);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 100%;
+}
+
+.tag-18 {
+    background-color: #d32f2f;
+}
+
+.tag-koncert {
+    background-color: #00796b;
+}
+
+.tag-rock {
+    background-color: #512da8;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    margin-top: 26px;
+}
+
+.details {
+    flex: 2;
+    background-color: #ffffff;
+    padding: 26px;
+    border-radius: 15.6px;
+    box-shadow: 0 5.2px 13px rgba(0, 0, 0, 0.1);
+    font-size: 1.3rem;
+}
+
+.organizer {
+    margin-top: 19.5px;
+    font-size: 1.2rem;
+    color: #333333;
+}
+
+.organizer span {
+    display: inline-block;
+    padding: 7.8px 13px;
+    background-color: #eeeeee;
+    border-radius: 6.5px;
+}
+
+.gallery span {
+    position: relative;
+    display: inline-block;
+}
+
+.gallery span:hover .delete-image-button {
+    display: block;
+}
+
+.gallery {
+    margin-top: 26px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 26px;
+    flex: 2;
+    background-color: #ffffff;
+    padding: 26px;
+    border-radius: 15.6px;
+    box-shadow: 0 5.2px 13px rgba(0, 0, 0, 0.1);
+    font-size: 1.3rem;
+    position: relative;
+}
+
+.gallery img {
+    width: 100%;
+    border-radius: 13px;
+    box-shadow: 0 5.2px 13px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.gallery img {
+    position: relative;
+}
+
+.delete-image-button {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.add-image-button {
+    margin-top: 10px;
+    background-color: rgba(0, 0, 0, 0.37);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 300%;
+}
+
+.edit-description {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1.1rem;
+    resize: vertical;
+}
+
+.edit-date,
+.edit-location,
+.edit-attendees,
+.edit-max-attendees {
+    width: 100%;
+    padding: 5px;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    max-width: 300px;
+}
+
+.edit-attendees,
+.edit-max-attendees {
+    width: 60px;
+    display: inline-block;
+}
+
+.EditFelhivasSzoveg {
+    text-align: center;
+    border-bottom: solid;
+    border-bottom-width: thin;
+    margin-bottom: 20px;
+    opacity: 90%;
+}
+
+.submitbutton{
+    background-color: #6200ea;
+    color: white;
+    border: none;
+    padding: 13px 20.8px;
+    border-radius: 7.8px;
+    margin: 20px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    text-align: center;
+}
+@media (min-width: 768px) {
+    .content {
+        flex-direction: row;
+    }
+
+    .info button {
+        font-size: 100%;
+        width: 80%;
+        margin: 10px auto;
+    }
+}
