@@ -5,34 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Esemény Szervezése</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="editEvent.css">
+    <link rel="stylesheet" href="/public/style/editEvent.css">
+    <link rel="stylesheet" href="/public/style/header.css">
+    <link rel="stylesheet" href="/public/style/auth.css">
 </head>
 <body>
-    <header>
-        <div class="left"></div>
-        <div class="right"></div>
+    <header> 
         <div class="search-container">
             <input type="text" placeholder="Keresés...">
             <button><i class="glyphicon glyphicon-search"></i></button>
         </div>
+
         <div class="hamburger-icon">
             <i class="glyphicon glyphicon-menu-hamburger"></i>
         </div>
-        <div class="dropdown circle-icon">
+
+        <div class="loginLinks loggedOut">
+            <a href="/login" class="link-light">Login</a>
+            &nbsp;•&nbsp;
+            <a href="/register" class="link-light">Register</a>
+        </div>
+
+        <div class="dropdown circle-icon loggedIn" id="profile-dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="glyphicon glyphicon-user"></i>
+                <img id="headerPfp" src="/public/assets/placeholder.png" alt="profilkép">
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a href="#"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
+                <li><a id="profileLink" href="/"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
+                <li><a id="profileEditLink" href="/"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Új esemény</a></li>
+                <li><a href="#" onclick="logout()"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
             </ul>
         </div>
+        <div id="message">
+            <h3 id="messageText">Üzenet</h3>
+        </div>
+        <div id="errorMessage">
+            <h3 id="errorMessageText">Üzenet</h3>
+        </div>
+        <dialog id="confirmPopup">
+            <h3 id="confirmPopupText">
+
+            </h3>
+            <button id="confirmPopupOk">Ok</button>
+            <button id="confirmPopupBack">Mégse</button>
+        </dialog>
     </header>
     <div class="event-page">
-        <div class="fill">
-            <img src="https://unnepekaruhaza.hu/grafika/images/blog/felnott-szulinap.jpg" alt="Event Header">
-            <button class="change-image-button">Kép Cserélése</button>
+        <div class="fill" >
+            <img id="cover-fill" src="https://unnepekaruhaza.hu/grafika/images/blog/felnott-szulinap.jpg" alt="Event Header">
         </div>
 
         <div class="tags">
@@ -51,45 +72,56 @@
             <button class="add-tag-button">+</button>
         </div>
         <div class="content">
-            <div class="details">
+            <form class="details" enctype="multipart/form-data" method="put" action="javascript:void(0)" onsubmit="submitForm(this)">
                 <p class="EditFelhivasSzoveg"><strong>Adatok szerkesztése:</strong></p>
+                <p><strong>Borítókép:</strong></p>
+                
+                <input type="file" id="cover" name="cover">
+                <input type="button" onclick="deleteCover()" class="submitbutton" value="Borítókép Törlése">
+
+                <p><strong>Cím*:</strong></p>
+                        <input id="title" name="title" type="text" class="edit-title">
+
                 <div class="description">
                     <p><strong>Leírás:</strong></p>
-                    <textarea class="edit-description" rows="5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget orci ullamcorper, commodo enim nec, mattis eros.</textarea>
+                    <textarea id="description" name="description" class="edit-description" rows="5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget orci ullamcorper, commodo enim nec, mattis eros.</textarea>
                 </div>
                 <div class="data">
-                    <p>
+                    <p> 
+                        
                         <br>
-                        <p><strong>Kezdés és végzés:</strong></p>
-                        <input type="datetime-local" class="edit-start-date" value="2024-12-13T16:00"><br>
-                        <input type="datetime-local" class="edit-end-date" value="2024-12-14T05:00"><br>
+                        <p><strong>Kezdés* és végzés:</strong></p>
+                        <input id="startDate" name="startDate" type="datetime-local" class="edit-start-date" value=""><br><br>
+                        <input id="endDate" name="endDate" type="datetime-local" class="edit-end-date" value=""><br>
                         <br>
+                        <p><strong>Város*:</strong></p>
+                        <input list="cityInputDatalist" id="city" name="city" type="text" class="edit-location cityInput" value="Budapest, Gercsei út 11"><br>
+                        <datalist id="cityInputDatalist">
+                            
+                        </datalist>
+                        
                         <p><strong>Helyszín:</strong></p>
-                        <input type="text" class="edit-location" value="Budapest, Gercsei út 11"><br>
+                        <input id="location" name="location" type="text" class="edit-location" value="Budapest, Gercsei út 11"><br>
                         <br>
                         <p><strong>Max létszám:</strong></p>
-                        <input type="number" class="edit-attendees" value="21" min="0">
+                        <input id="maxResponse" name="maxResponse" type="number" class="edit-attendees" value="21" min="0">
                     </p>
                 </div>
-            </div>
+                <button type="submit" class="submitbutton">Változások Mentése</button>
+            </form>
         </div>
         
-        <div class="gallery">
-            <span>
-                <img src="https://kep.cdn.indexvas.hu/welove-media/4f/kristaly-szinter-buli.exact1980w.jpg" alt="Gallery Image 1">
-                <button class="delete-image-button">Kép Törlése</button>
-            </span>
-            <span>
-                <img src="https://kep.cdn.indexvas.hu/welove-media/4f/kristaly-szinter-buli.exact1980w.jpg" alt="Gallery Image 1">
-                <button class="delete-image-button">Kép Törlése</button>
-            </span>
-            <span>
-                <img src="https://kep.cdn.indexvas.hu/welove-media/4f/kristaly-szinter-buli.exact1980w.jpg" alt="Gallery Image 1">
-                <button class="delete-image-button">Kép Törlése</button>
-            </span>
-            <button class="add-image-button">+</button>
+        <div id="gallery" class="gallery">
+
         </div>
     </div>
-    <button type="submit" class="submitbutton">Változások Elfogadása</button>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="/public/scripts/popups.js"></script>
+    <script src="/public/scripts/showLoggedInStuff.js"></script>
+    <script src="/public/scripts/cityInput.js"></script>
+    <script src="/public/scripts/editEvent.js"></script>
 </body>
 </html>

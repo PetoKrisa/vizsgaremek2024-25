@@ -33,7 +33,7 @@ fetch(`/api/user/${userName}`)
         <div class="content">
             <h4>${i.title}</h4>
             <p><i class="glyphicon glyphicon-pushpin"></i> ${i.city.name}, ${i.location}</p>
-            <p class="event-date"><i class="glyphicon glyphicon-calendar"></i>${i.startDate}</p>
+            <p class="event-date"><i class="glyphicon glyphicon-calendar"></i>${new Date(i.startDate).toLocaleString("hu-HU")}</p>
         </div>
         </div>
         </a>

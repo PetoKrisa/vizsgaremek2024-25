@@ -118,6 +118,8 @@ if(body.title == null ||
 //fixing data types
 if(eventObjectToPush.cover != null){
     eventObjectToPush.cover.replace("\\", "/")
+} else{
+    delete eventObjectToPush.cover
 }
 let cityData = await city.getCities(eventObjectToPush.city)
 eventObjectToPush.cityId = cityData[0].id

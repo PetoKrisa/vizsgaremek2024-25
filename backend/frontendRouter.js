@@ -3,6 +3,7 @@ const router = express.Router()
 const user = require("./user/model")
 const event = require("./event/model")
 const auth = require("./auth/service")
+const {prisma,db} = require("./db")
 
 const basePath = __dirname.replace("\\backend", "")
 
@@ -45,6 +46,23 @@ router.get("/event/:id", async (req,res)=>{
         let eventData = await event.getEventById(req.params.id)
         res.sendFile(basePath+"\\frontend\\Event.html")
     } catch{
+        res.status(404).send("Az esemény nem létezik")
+    }
+})
+
+router.get("/event/:id/edit",auth.decodeJWT, async (req,res)=>{
+    try{
+        let eventData = await event.getEventById(req.params.id)
+        let [ownerResource] = await prisma.event.findMany({where: {id: parseInt(req.params.id)}})
+        let [owner] = await prisma.user.findMany({where: {id: ownerResource.userId}})
+        let hasPerm = await auth.hasPermission(req.decodedToken, owner.username, ["edit:event"], ["edit:allEvents"])
+        if(!hasPerm){
+            res.status(403).json({status: 403, message: "Nincs jogosultsága"})
+            return
+        } 
+        res.sendFile(basePath+"\\frontend\\editEvent.html")
+    } catch(e){
+        console.log(e)
         res.status(404).send("Az esemény nem létezik")
     }
 })

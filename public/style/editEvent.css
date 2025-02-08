@@ -5,137 +5,7 @@ body, html {
     background-color: #F5F3F5;
 }
 
-header {
-    position: relative;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.left {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 55%;
-    height: 100%;
-    background-color: #5A639C;
-    clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%);
-}
-
-.right {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 55%;
-    height: 100%;
-    background-color: #7776B3;
-    clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
-}
-
-h1 {
-    position: relative;
-    color: white;
-    font-size: 31px;
-    z-index: 1;
-}
-
-.search-container {
-    height: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    z-index: 2;
-    padding: 10px;
-    font-size: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    width: 50%;
-    outline: none;
-    background-color: white;
-}
-
-.search-container input {
-    background: none;
-    outline: none;
-    border: none;
-    width: 95%;
-}
-
-.search-container button {
-    font-size: 18px;
-    background: none;
-    outline: none;
-    border: none;
-    color: #777;
-}
-
-.circle-icon {
-    position: absolute;
-    right: 20px;
-    background-color: white;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #7776B3;
-    cursor: pointer;
-    z-index: 3;
-}
-
-.circle-icon i {
-    font-size: 18px;
-    color: #000000;
-}
-
-.dropdown-menu {
-    min-width: 160px;
-    border-radius: 8px;
-    background-color: #f8f9fa;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 5px 0;
-    position: absolute;
-    left: -160px;
-    top: 50px;
-    border: 1px solid #ccc;
-}
-
-.dropdown-menu li {
-    padding: 8px 12px;
-    transition: background-color 0.3s ease;
-}
-
-.dropdown-menu li:hover {
-    background-color: #e9ecef;
-}
-
-.dropdown-menu a {
-    padding-left: 0;
-}
-
-.hamburger-icon {
-    position: absolute;
-    left: 20px;
-    background-color: white;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #7776B3;
-    cursor: pointer;
-    z-index: 3;
-}
-
-.hamburger-icon i {
-    font-size: 18px;
-    color: #000000;
-}
 
 .event-page {
     margin-top: 20px;
@@ -360,6 +230,8 @@ h1 {
     resize: vertical;
 }
 
+input[type="datetime-local"],
+.edit-title,
 .edit-date,
 .edit-location,
 .edit-attendees,
@@ -402,6 +274,11 @@ h1 {
     height: auto;
     text-align: center;
 }
+
+.hidden{
+    display: none;
+}
+
 @media (min-width: 768px) {
     .content {
         flex-direction: row;

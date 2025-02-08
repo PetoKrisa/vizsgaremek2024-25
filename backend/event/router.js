@@ -101,6 +101,27 @@ router.put("/api/event/:id", auth.decodeJWT, saveFiles, async (req,res)=>{
   }
 })
 
+router.get("/api/event/:id/deleteCover", auth.decodeJWT, async (req,res)=>{
+ 
+    try{
+      let [ownerResource] = await prisma.event.findMany({where: {id: parseInt(req.params.id)}})
+      let [owner] = await prisma.user.findMany({where: {id: ownerResource.userId}})
+      let hasPerm = await auth.hasPermission(req.decodedToken, owner.username, ["edit:event"], ["edit:allEvents"])
+      if(!hasPerm){
+          res.status(403).json({status: 403, message: "Nincs jogosultsága"})
+          return
+      } 
+
+      console.log("deleteing cover of "+req.params.id)
+      await prisma.event.update({where: {id: parseInt(req.params.id)}, data: {cover: null}})
+      res.send({status: 200, message: "Borítókép törölve"})
+
+    } catch(e){
+      console.log(e)
+      res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
+    } 
+})
+
 router.post("/api/event/:id/gallery", auth.decodeJWT, saveFiles, async (req,res)=>{
   try{
     let [ownerResource] = await prisma.event.findMany({where: {id: parseInt(req.params.id)}})

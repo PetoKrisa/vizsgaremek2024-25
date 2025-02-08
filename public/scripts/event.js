@@ -17,22 +17,35 @@ fetch(`/api/event/${eventId}`)
     document.getElementById("organizer").innerText = `${data.author.username}`
     document.getElementById("views").innerText = `${data.views}`
 
+    if(data.author.username == localStorage.getItem("username")){
+        document.getElementById("editLink").classList.remove("hidden")
+        document.getElementById("editLink").href = `/event/${eventId}/edit`
+    }
+
     if(data.ageLimit){
         document.getElementById("tags").innerHTML = "<span class='tag-18'>18+</span>" + document.getElementById("tags").innerHTML
     }
 
     let startDate = new Date(data.startDate)
+    let t1 = startDate.getMonth()+1 
+    let t2 = startDate.getHours()-1 
+    startDate.setMonth(t1)
+    startDate.setHours(t2)
     let endDate;
     if(data.endDate != null){
         endDate = new Date(data.endDate)
+        let t3 = endDate.getMonth()+1 
+        let t4 = endDate.getHours()-1 
+        endDate.setMonth(t3)
+        endDate.setHours(t4)
     } else{
         endDate = null
     }
 
     if(endDate != null){
-        document.getElementById("date").innerText = `${startDate.getFullYear()}.${startDate.getMonth()+1}.${startDate.getDate()} ${startDate.getHours()<10 ? "0" : ""}${startDate.getHours()}:${startDate.getMinutes()<10 ? "0" : ""}${startDate.getMinutes()} - ${endDate.getFullYear()}.${endDate.getMonth()+1}.${endDate.getDate()} ${endDate.getHours()<10 ? "0" : ""}${endDate.getHours()}:${endDate.getMinutes()<10 ? "0" : ""}${endDate.getMinutes()}`
+        document.getElementById("date").innerText = `${startDate.getFullYear()}.${startDate.getMonth()}.${startDate.getDate()} ${startDate.getHours()<10 ? "0" : ""}${startDate.getHours()}:${startDate.getMinutes()<10 ? "0" : ""}${startDate.getMinutes()} - ${endDate.getFullYear()}.${endDate.getMonth()}.${endDate.getDate()} ${endDate.getHours()<10 ? "0" : ""}${endDate.getHours()}:${endDate.getMinutes()<10 ? "0" : ""}${endDate.getMinutes()}`
     } else{
-        document.getElementById("date").innerText = `${startDate.getFullYear()}.${startDate.getMonth()+1}.${startDate.getDate()} ${startDate.getHours()<10 ? "0" : ""}${startDate.getHours()}:${startDate.getMinutes()<10 ? "0" : ""}${startDate.getMinutes()}`
+        document.getElementById("date").innerText = `${startDate.getFullYear()}.${startDate.getMonth()}.${startDate.getDate()} ${startDate.getHours()<10 ? "0" : ""}${startDate.getHours()}:${startDate.getMinutes()<10 ? "0" : ""}${startDate.getMinutes()}`
     }
     
 
