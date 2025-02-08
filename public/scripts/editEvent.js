@@ -65,12 +65,15 @@ async function submitForm(form) {
 
 async function deleteCover(){
     console.log("deleteing cover")
-    fetch(`/api/event/${eventId}/deleteCover`).then(r=>r.json())
-    .then(d=>{
-        if(d.status == 200){
-            showMessage(d.message)
-        } else{
-            showErrorMessage(d.message)
-        }
-    })
+    confirmPopup("Biztosan törli a borító képet?", ()=>{
+        fetch(`/api/event/${eventId}/deleteCover`).then(r=>r.json())
+        .then(d=>{
+            if(d.status == 200){
+                showMessage(d.message)
+            } else{
+                showErrorMessage(d.message)
+            }
+        })
+        })
+    
 }
