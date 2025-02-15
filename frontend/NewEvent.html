@@ -54,6 +54,7 @@
     <div class="container">
         <h1>Új Esemény Létrehozása</h1>
         <form action="javascript:void(0)" method="post" enctype="multipart/form-data" onsubmit="uploadEvent(this)">
+            
             <div class="form-group">
                 <label for="title">Esemény Neve*</label>
                 <input type="text" id="title" name="title" class="form-control" placeholder="Esemény neve" required>
@@ -61,6 +62,12 @@
             <div class="form-group">
                 <label for="eventDescription">Leírás</label>
                 <textarea id="eventDescription" name="description" class="form-control" rows="5" placeholder="Esemény leírása"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="categories">Kategóriák</label>
+                <input type="text" id="categories" name="categories" class="form-control" placeholder="kat, kat, kat">
+                <div id="categories-div">
+                </div>
             </div>
             <div class="form-group">
                 <label for="startDate">Kezdő Dátum*</label>
@@ -91,11 +98,11 @@
             </div>
             <div class="form-group">
                 <label for="eventImages">Borítókép Feltöltése</label>
-                <input type="file" id="eventImages" name="cover" class="form-control">
+                <input type="file" id="eventImages" name="cover" class="form-control" accept="image/*">
             </div>
             <div class="form-group">
                 <label for="eventImages2">Galéria Képek Feltöltése</label>
-                <input type="file" id="eventImages2" name="gallery" class="form-control" multiple>
+                <input type="file" id="eventImages2" name="gallery" class="form-control" multiple accept="image/*">
             </div>
             <button type="submit" class="submitbutton">Létrehozás</button>
         </form>

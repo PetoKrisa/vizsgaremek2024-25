@@ -77,8 +77,13 @@ h1 {
     background-color: #00796b;
 }
 
-.tag-rock {
-    background-color: #512da8;
+.tag {
+    background-color: #cdcee9;
+    color: black !important;
+    font-size: 12pt !important;
+    padding: 5px !important;
+    font-weight: bold;
+
 }
 .content {
     display: flex;
@@ -214,6 +219,22 @@ h1 {
 
 .comment .text {
     margin-top: 6.5px;
+}
+
+.link-button {
+    background: none;
+    border: none;
+    color: #337ab7;
+    cursor: pointer;
+    display: inline;
+    font: inherit;
+    margin: 0;
+    padding: 0;
+  }
+
+.link-button:hover{
+    text-decoration: underline;
+    color: #23527c;
 }
 
 @media (max-width: 768px) {

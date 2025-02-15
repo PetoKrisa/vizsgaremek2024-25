@@ -33,7 +33,7 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a id="profileLink" href="/"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
                 <li><a id="profileEditLink" href="/"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Új esemény</a></li>
+                <li><a href="/event/create"><i class="glyphicon glyphicon-plus"></i> Új esemény</a></li>
                 <li><a href="#" onclick="logout()"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
             </ul>
         </div>
@@ -56,7 +56,7 @@
             <img id="cover-fill" src="https://unnepekaruhaza.hu/grafika/images/blog/felnott-szulinap.jpg" alt="Event Header">
         </div>
 
-        <div class="tags">
+        <div class="tags" id="tags">
             <span class="tag-18">
                 18+
                 <button class="delete-tag-button">X</button>
@@ -69,14 +69,14 @@
                 Rock
                 <button class="delete-tag-button">X</button>
             </span>
-            <button class="add-tag-button">+</button>
+            <button class="add-tag-button" onclick="openTags()">+</button>
         </div>
         <div class="content">
             <form class="details" enctype="multipart/form-data" method="put" action="javascript:void(0)" onsubmit="submitForm(this)">
                 <p class="EditFelhivasSzoveg"><strong>Adatok szerkesztése:</strong></p>
                 <p><strong>Borítókép:</strong></p>
                 
-                <input type="file" id="cover" name="cover">
+                <input type="file" id="cover" name="cover" accept="image/*">
                 <input type="button" onclick="deleteCover()" class="submitbutton" value="Borítókép Törlése">
 
                 <p><strong>Cím*:</strong></p>
@@ -115,6 +115,14 @@
 
         </div>
     </div>
+
+    <dialog id="addTagDialog">
+
+        <input type="text" class="edit-title" name="category" id="category-input" placeholder="Kategória" required>
+        <div id="tags2"></div>
+        <button onclick="uploadTag()">Hozzáadás</button>
+        <button onclick="closeTags()">Mégse</button>
+    </dialog>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>

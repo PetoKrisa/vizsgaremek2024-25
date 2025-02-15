@@ -1,4 +1,4 @@
--- Active: 1732526766833@@127.0.0.1@3306@projekt2425
+-- Active: 1739621813955@@127.0.0.1@3306
 CREATE DATABASE projekt2425;
 USE projekt2425;
 
@@ -85,14 +85,25 @@ Foreign Key (event_id) REFERENCES event(id) on delete CASCADE
 )
 
 
+INSERT INTO category (name) VALUES
+("koncert"),
+("előadás"),
+("borkostoló"),
+("sport"),
+("verseny"),
+("fesztivál"),
+("pop"),
+("jazz"),
+("dnb"),
+("kiállítás"),
+("seminar"),
+("online"),
+("rock");
+
 INSERT INTO `user` (id, username, email, password, cityId, role, completed)
 VALUES(1, "Admin", "petokrisa2006@gmail.com", "3b612c75a7b5048a435fb6ec81e52ff92d6d795a8b5a9c17070f6a63c97a53b2", 394, "admin", true);
 INSERT INTO `user` (username, email, password, cityId, role, completed)
 VALUES("dummy", "dummy@gmail.com", "3b612c75a7b5048a435fb6ec81e52ff92d6d795a8b5a9c17070f6a63c97a53b2", 394, "user", true);
 select * from user;
-select * from `event`;
+select * from `eventcategory`;
 delete from user where username="dummy";
-update user set pfp="test" where id=8;
-
-delete from eventgalleryimage WHERE `eventId` < 12;
-delete from `event` WHERE id < 12;

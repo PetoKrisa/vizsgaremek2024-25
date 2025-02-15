@@ -14,12 +14,20 @@ fetch(`/api/event/${eventId}`)
     document.getElementById("cover").src = "/"+data.cover
     document.getElementById("responses").innerText = data.maxResponse
     document.getElementById("location").innerText = data.location
+    document.getElementById("city").innerText = data.city.name
     document.getElementById("organizer").innerText = `${data.author.username}`
     document.getElementById("views").innerText = `${data.views}`
+
+    document.getElementById("tags").innerHTML = ""
+    for(let i = 0; i < data.categories.length; i++){
+        document.getElementById("tags").innerHTML += `<span class="tag">${data.categories[i].category.name}</span>`
+    }
 
     if(data.author.username == localStorage.getItem("username")){
         document.getElementById("editLink").classList.remove("hidden")
         document.getElementById("editLink").href = `/event/${eventId}/edit`
+
+        document.getElementById("deleteLink").classList.remove("hidden")
     }
 
     if(data.ageLimit){
@@ -59,3 +67,18 @@ fetch(`/api/event/${eventId}`)
 fetch(`/api/event/${eventId}/view`, {
     headers: {"Authorization": `bearer ${localStorage.getItem("token")}`}
 })
+
+function deleteEvent(){
+    confirmPopup("Biztosan törli az eseményt?", ()=>{
+        fetch(`/api/event/${eventId}`, {method: "delete"})
+        .then(r=>r.json())
+        .then(d=>{
+            if(d.status != 200){
+                showErrorMessage(d.message)
+                return
+            }
+            window.location = `/user/@${localStorage.getItem("username")}`
+
+        })
+    })
+}

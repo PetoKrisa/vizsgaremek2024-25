@@ -37,6 +37,8 @@ async function createEvent(eventObject){
     }
     let gallery = eventObjectToPush.gallery
     delete eventObjectToPush.gallery
+    delete eventObjectToPush.categories
+
     if(eventObjectToPush.cover != null){
         eventObjectToPush.cover.replace("\\", "/")
     }
@@ -78,10 +80,15 @@ async function getEventById(id) {
     }
     let gallery = await prisma.eventgalleryimage.findMany({where: {eventId: parseInt(id)}})
     let cityData = await prisma.city.findFirst({where: {id: parseInt(events[0].cityId)}})
+    let categoryData = await prisma.eventcategory.findMany({
+        where: {eventId: parseInt(id)},
+        include: {category: true}
+    })
     events[0].gallery = []
     events[0].gallery = gallery
     events[0].author = await user.getUserById(events[0].userId)
     events[0].city = cityData
+    events[0].categories = categoryData
     delete events[0].cityId
 
     let views = await prisma.eventuser.count({where: {eventId: parseInt(id), type: "view"}})
@@ -91,7 +98,12 @@ async function getEventById(id) {
     return events[0]
 }
 
+
 async function deleteEventById(id) {
+    await db.query("delete from eventgalleryimage where eventId = ?", [parseInt(id)])
+    await db.query("delete from eventuser where eventId = ?", [parseInt(id)])
+    await db.query("delete from eventcomment where eventId = ?", [parseInt(id)])
+    
     await prisma.event.delete({where: {id: parseInt(id)}})
 }
 
@@ -107,39 +119,39 @@ async function updateEventById(id, body) {
         location: null,
         maxResponse: 10,
         ageLimit: false
-}
-let eventObjectToPush = {...defaultObject, ...body}
-if(body.title == null ||
-    body.startDate == null ||
-    body.city == null
-){  
-    throw new Error("A Cím, kezdő időpont vagy város üres!", {cause: 400})
-}
-//fixing data types
-if(eventObjectToPush.cover != null){
-    eventObjectToPush.cover.replace("\\", "/")
-} else{
-    delete eventObjectToPush.cover
-}
-let cityData = await city.getCities(eventObjectToPush.city)
-eventObjectToPush.cityId = cityData[0].id
-delete eventObjectToPush.city
+    }
+    let eventObjectToPush = {...defaultObject, ...body}
+    if(body.title == null ||
+        body.startDate == null ||
+        body.city == null
+    ){  
+        throw new Error("A Cím, kezdő időpont vagy város üres!", {cause: 400})
+    }
+    //fixing data types
+    if(eventObjectToPush.cover != null){
+        eventObjectToPush.cover.replace("\\", "/")
+    } else{
+        delete eventObjectToPush.cover
+    }
+    let cityData = await city.getCities(eventObjectToPush.city)
+    eventObjectToPush.cityId = cityData[0].id
+    delete eventObjectToPush.city
 
-let startDate = new Date(eventObjectToPush.startDate)
-if(eventObjectToPush.endDate != null){
-    let endDate = new Date(eventObjectToPush.endDate)
-    endDate.setHours(endDate.getHours()+1)
-    eventObjectToPush.endDate = endDate
-}
-startDate.setHours(startDate.getHours()+1)
-eventObjectToPush.startDate = startDate
-eventObjectToPush.ageLimit = Boolean(eventObjectToPush.ageLimit)
-eventObjectToPush.maxResponse = parseInt(eventObjectToPush.maxResponse)
-//updating event
-let eventCreated = await prisma.event.update({
-    where: {id: parseInt(id)},
-    data: eventObjectToPush
-})
+    let startDate = new Date(eventObjectToPush.startDate)
+    if(eventObjectToPush.endDate != null){
+        let endDate = new Date(eventObjectToPush.endDate)
+        endDate.setHours(endDate.getHours()+1)
+        eventObjectToPush.endDate = endDate
+    }
+    startDate.setHours(startDate.getHours()+1)
+    eventObjectToPush.startDate = startDate
+    eventObjectToPush.ageLimit = Boolean(eventObjectToPush.ageLimit)
+    eventObjectToPush.maxResponse = parseInt(eventObjectToPush.maxResponse)
+    //updating event
+    let eventCreated = await prisma.event.update({
+        where: {id: parseInt(id)},
+        data: eventObjectToPush
+    })
 
 }
 
@@ -177,4 +189,41 @@ async function addView(eventId, userId){
     }
 }
 
-module.exports = {createEvent, getEventById, deleteEventById, updateEventById, saveGalleryImages, deleteGalleryImage, addView}
+async function getCategories(query = ""){
+    let cities = await prisma.category.findMany({where: {
+        name: {
+            contains: query
+        }
+    }})
+    if(cities.length == 0){
+        throw Error("Nem létezik ilyen nevű kategória", {cause: 404})
+    }
+    return cities
+}
+
+async function addCategoryToEvent(catId, evId) {
+    let cats = await prisma.eventcategory.count({where: {
+            eventId: parseInt(evId),
+            categoryId: parseInt(catId)
+    }}) 
+    if(cats > 0){
+        throw new Error("Már van ilyen kategória az eseményen", {cause: 400})
+    }
+    await prisma.eventcategory.create({data: 
+        {
+            eventId: parseInt(evId),
+            categoryId: parseInt(catId)
+        }
+    })
+}
+
+async function deleteCategoryFromEvent(catId, evId) {
+    await prisma.eventcategory.delete({where: 
+        {
+            eventId: parseInt(evId),
+            categoryId: parseInt(catId)
+        }
+    })
+}
+
+module.exports = {createEvent, getEventById, deleteEventById, updateEventById, saveGalleryImages, deleteGalleryImage, addView, getCategories, addCategoryToEvent,deleteCategoryFromEvent }

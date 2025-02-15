@@ -24,13 +24,29 @@ const eventStorage = multer.diskStorage({
     },
   });
 
-const saveFiles = multer({storage: eventStorage}).fields([
+const saveFiles = multer({
+  storage: eventStorage,
+  fileFilter: function (req, file, callback) {
+    var ext = path.extname(file.originalname);
+    if(!file.mimetype.includes("image")) {
+        callback(null, false)
+        return
+    }
+    callback(null, true)
+},
+}).fields([
   {name: "cover", maxCount: 1},
   {name: "gallery", maxCount: 8}
 ])
 
 router.post("/api/event", auth.decodeJWT, saveFiles, async (req,res)=>{
-    try{
+    try{  
+        if(req.xerror != undefined){
+          throw req.xerror
+        }
+
+        let categories = req.body.categories
+
         let hasPerm = await auth.hasPermission(req.decodedToken, req.decodedToken.username, ["create:event"], ["create:event"])
         if(!hasPerm){
             res.status(403).json({status: 403, message: "Nincs jogosultsága"})
@@ -39,6 +55,7 @@ router.post("/api/event", auth.decodeJWT, saveFiles, async (req,res)=>{
         if(req.files.cover != undefined){
           req.body.cover = req.files.cover[0].path.replace(basePath, "") || null
         }
+
         req.body.gallery = []
         req.body.userId = parseInt(req.decodedToken.id)
         if(req.files.gallery != undefined){
@@ -46,7 +63,17 @@ router.post("/api/event", auth.decodeJWT, saveFiles, async (req,res)=>{
             req.body.gallery.push(req.files.gallery[i].path.replace(basePath, ""))
           }
         }
-        let eventCreated = await event.createEvent(req.body)
+
+        
+
+        var eventCreated = await event.createEvent(req.body)
+
+        for(let i of categories.split(",")){
+          console.log(i.trim())
+          let cat = await event.getCategories(i.trim())
+          await event.addCategoryToEvent(cat[0].id, eventCreated)
+        }
+
         res.status(201).json({status: 201, id: eventCreated})
     } catch(e){
       console.error(e)
@@ -168,6 +195,51 @@ router.get("/api/event/:id/view", auth.decodeJWT, async (req,res)=>{
     
     await event.addView(req.params.id, req.decodedToken.id)
     res.status(200).json({status: 200, message: `megtekintve`})
+
+  } catch(e){
+    res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
+  }
+})
+
+router.get("/api/category", async (req,res)=>{
+  let cats = await event.getCategories()
+  res.json(cats)
+})
+
+router.post("/api/event/:id/category", auth.decodeJWT, async(req,res)=>{
+  try{
+    let [ownerResource] = await prisma.event.findMany({where: {id: parseInt(req.params.id)}})
+    let [owner] = await prisma.user.findMany({where: {id: ownerResource.userId}})
+    let hasPerm = await auth.hasPermission(req.decodedToken, owner.username, ["edit:event"], ["edit:allEvents"])
+    if(!hasPerm){
+        res.status(403).json({status: 403, message: "Nincs jogosultsága"})
+        return
+    }
+    console.log(req.body.category)
+    let [category] = await event.getCategories(req.body.category)
+    console.log(category)
+    await event.addCategoryToEvent(category.id, parseInt(req.params.id));
+
+    res.json({status: 200, message: "added category"})
+
+  } catch(e){
+    res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
+  }
+})
+
+router.delete("/api/event/:id/category/:cid", auth.decodeJWT, async(req,res)=>{
+  try{
+    let [ownerResource] = await prisma.event.findMany({where: {id: parseInt(req.params.id)}})
+    let [owner] = await prisma.user.findMany({where: {id: ownerResource.userId}})
+    let hasPerm = await auth.hasPermission(req.decodedToken, owner.username, ["edit:event"], ["edit:allEvents"])
+    if(!hasPerm){
+        res.status(403).json({status: 403, message: "Nincs jogosultsága"})
+        return
+    }
+
+    await db.query("delete from eventcategory where eventId=? and categoryId=?", [parseInt(req.params.id),parseInt(req.params.cid)])
+
+    res.json({status: 200, message: "category deleted"})
 
   } catch(e){
     res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})

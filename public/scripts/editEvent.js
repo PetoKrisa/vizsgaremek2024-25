@@ -27,6 +27,26 @@ fetch(`/api/event/${eventId}`)
     document.getElementById("gallery").innerHTML += `
     <button class="add-image-button">+</button>
     `
+
+    document.getElementById("tags").innerHTML = ""
+    for(let i = 0; i < data.categories.length; i++){
+        document.getElementById("tags").innerHTML += `
+         <span class="tag">
+                ${data.categories[i].category.name}
+                <button onclick="deleteTag(${data.categories[i].category.id})" class="delete-tag-button">X</button>
+            </span>
+        `
+
+    }
+    document.getElementById("tags").innerHTML += `<button class="add-tag-button" onclick="openTags()">+</button>`
+})
+
+fetch("/api/category")
+.then(r=>r.json())
+.then(d=>{
+    for(let i = 0; i < d.length; i++){
+        document.getElementById("tags2").innerHTML += `<span class="tag" onclick="addTag('${d[i].name}')">${d[i].name}</span>`
+    }
 })
 
 async function deleteImg(button){
@@ -36,6 +56,14 @@ async function deleteImg(button){
         window.location.reload()
     })
     
+}
+
+function openTags(){
+    document.getElementById("addTagDialog").showModal()
+}
+
+function closeTags(){
+    document.getElementById("addTagDialog").close()
 }
 
 async function submitForm(form) {
@@ -76,4 +104,36 @@ async function deleteCover(){
         })
         })
     
+}
+
+function addTag(tag){
+    document.getElementById("category-input").value = tag;
+}
+
+function uploadTag(){
+    let tag = document.getElementById("category-input").value
+    fetch(`/api/event/${eventId}/category`, {
+        method: "post",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({category: tag})
+    }).then(r=>r.json())
+    .then(d=>{
+        if(d.status != 200){
+            showErrorMessage(d.message)
+        }
+        window.location.reload()
+    })
+    
+}
+
+
+function deleteTag(id){
+    fetch(`/api/event/${eventId}/category/${id}`, {method: "delete"})
+    .then(r=>r.json())
+    .then(d=>{
+        if(d.status != 200){
+            showErrorMessage(d.message)
+        }
+        window.location.reload()
+    })
 }

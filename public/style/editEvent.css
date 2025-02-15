@@ -279,6 +279,51 @@ input[type="datetime-local"],
     display: none;
 }
 
+dialog{
+    max-width: 95%;
+    text-align: center;
+    width: fit-content;
+    padding: 8px;
+    padding-left: 16px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    z-index: 999;
+    visibility: visible;
+    opacity: 1;
+
+    transition: all 0.5ms ease-in-out;
+}
+
+dialog button{
+    color: white;
+    background-color: var(--light);
+    border-radius: 16px;
+    font-size: large;
+    border: 1px solid var(--border);
+    outline: none;
+}
+
+.tag {
+    background-color: #cdcee9;
+    color: black !important;
+    font-size: 12pt !important;
+    padding: 5px !important;
+    font-weight: bold;
+    margin: 5px;
+    border-radius: 5px;
+    display:  inline-block;
+}
+
+#tags2{
+    padding: 15px;
+}
+
+#addTagDialog{
+    word-break: normal;
+    max-width: 40vw !important;
+}
+
 @media (min-width: 768px) {
     .content {
         flex-direction: row;

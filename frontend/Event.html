@@ -33,7 +33,7 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a id="profileLink" href="/"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
                 <li><a id="profileEditLink" href="/"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Új esemény</a></li>
+                <li><a href="/event/create"><i class="glyphicon glyphicon-plus"></i> Új esemény</a></li>
                 <li><a href="#" onclick="logout()"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
             </ul>
         </div>
@@ -58,10 +58,10 @@
         </div>
         <div id="tags" class="tags">
             
-            <span class="tag-koncert">Koncert</span>
-            <span class="tag-rock">Rock</span>
+            <span class="tag">Rock</span>
         </div>
         <a id="editLink" class="hidden" href="">Szerkesztés</a>  
+        <button id="deleteLink" class="hidden link-button" onclick="deleteEvent()">Törlés</button>  
         <div class="content">
             <div id="description" class="details">
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget orci ullamcorper, commodo enim nec, mattis eros. Cras venenatis egestas tellus in convallis. Praesent commodo libero purus, vitae gravida metus dapibus ut. In hac habitasse platea dictumst. Praesent placerat dictum justo ut egestas.</p>
@@ -72,8 +72,9 @@
                 <button>Meghívó Küldése</button>
                 <p>
                     <i class="glyphicon glyphicon-calendar" title="dátum"></i><strong id="date" title="dátum"> ###-###</strong><br>
+                    <i class="glyphicon glyphicon-pushpin" title="város"></i><strong id="city" title="város"> #####</strong><br>
                     <i class="glyphicon glyphicon-pushpin" title="helyszín"></i><strong id="location" title="helyszín"> ###</strong><br>
-                    <i class="glyphicon glyphicon-user" title="érdeklődések"></i><strong id="responses" title="érdeklődések"> 0/0</strong><br>
+                    <i class="glyphicon glyphicon-user" title="férőhely"></i><strong id="responses" title="férőhely"> 0/0</strong><br>
                     <i class="glyphicon glyphicon-eye-open" title="megtekintések"></i><strong id="views" title="megtekintések"> 0</strong>
                 </p>
                 <p id="intrested"></p>

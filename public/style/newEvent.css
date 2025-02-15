@@ -25,6 +25,18 @@ body, html {
     color: #000000;
 }
 
+.tag {
+    background-color: #cdcee9;
+    color: black !important;
+    font-size: 12pt !important;
+    padding: 5px !important;
+    font-weight: normal;
+    margin: 5px;
+    display: inline-block;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 .dropdown-menu {
     min-width: 160px;
     border-radius: 8px;

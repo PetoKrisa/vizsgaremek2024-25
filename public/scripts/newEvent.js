@@ -12,3 +12,20 @@ function uploadEvent(form){
     })
 
 }
+
+fetch("/api/category")
+.then(r=>r.json())
+.then(d=>{
+    console.log(d)
+    for(let i = 0; i < d.length; i++){
+        document.getElementById("categories-div").innerHTML += `<span class="tag" onclick="addCategory('${d[i].name}')">${d[i].name}</span>`
+    }
+})
+
+function addCategory(name){
+    if(document.getElementById("categories").value == ""){
+        document.getElementById("categories").value = name
+    } else{
+        document.getElementById("categories").value += `, ${name}`
+    }
+}
