@@ -107,3 +107,4 @@ VALUES("dummy", "dummy@gmail.com", "3b612c75a7b5048a435fb6ec81e52ff92d6d795a8b5a
 select * from user;
 select * from `eventcategory`;
 delete from user where username="dummy";
+select * from eventuser;

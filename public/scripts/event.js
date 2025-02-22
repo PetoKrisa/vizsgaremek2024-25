@@ -9,6 +9,8 @@ fetch(`/api/event/${eventId}`)
         alert("Hiba: " + data.message)
         return
     }
+    
+
     document.getElementById("title").innerText = data.title
     document.getElementById("description").innerText = data.description
     document.getElementById("cover").src = "/"+data.cover
@@ -68,6 +70,16 @@ fetch(`/api/event/${eventId}/view`, {
     headers: {"Authorization": `bearer ${localStorage.getItem("token")}`}
 })
 
+if(Boolean(localStorage.getItem("isLoggedIn"))){
+    fetch(`/api/event/${eventId}/response`)
+    .then(r=>r.json())
+    .then(d=>{
+        if(d.resp){
+            document.getElementById("respondBtn").innerText = "Nem Érdekel"
+        }
+    })       
+}
+
 function deleteEvent(){
     confirmPopup("Biztosan törli az eseményt?", ()=>{
         fetch(`/api/event/${eventId}`, {method: "delete"})
@@ -80,5 +92,12 @@ function deleteEvent(){
             window.location = `/user/@${localStorage.getItem("username")}`
 
         })
+    })
+}
+
+function respond(){
+    fetch(`/api/event/${eventId}/respond`, {method: "post"})
+    .then(r=>{
+        window.location.reload()
     })
 }

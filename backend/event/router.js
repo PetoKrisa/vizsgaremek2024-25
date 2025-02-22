@@ -246,4 +246,34 @@ router.delete("/api/event/:id/category/:cid", auth.decodeJWT, async(req,res)=>{
   }
 })
 
+router.post("/api/event/:id/respond", auth.decodeJWT, async(req,res)=>{
+  try{
+    console.log(req.decodedToken)
+    await event.respond(req.decodedToken.id,req.params.id)
+    res.status(200).json({status: 200, message: "response toggled"})
+    
+  }catch(e){
+    res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
+  }
+})
+
+router.get("/api/event/:id/response", auth.decodeJWT, async(req,res)=>{
+  try{
+    let response = await prisma.eventuser.count({where: 
+      {
+        type: "response",
+        userId: req.decodedToken.id,
+        eventId: parseInt(req.params.id)
+      }
+    }) 
+    if(response>0){
+      res.json({status: 200, resp: true})
+    } else{
+      res.json({status: 200, resp: false})
+    }
+  }catch(e){
+    res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
+  }
+})
+
 module.exports = router

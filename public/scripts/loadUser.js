@@ -9,6 +9,7 @@ fetch(`/api/user/${userName}`)
         alert("Hiba: "+ data.message)
         return
     }
+    console.log(data)
     document.getElementById("username").innerText = data.username
     document.getElementById("username2").innerText = data.username
     document.getElementById("username3").innerText = data.username
@@ -25,6 +26,23 @@ fetch(`/api/user/${userName}`)
     eventCards.innerHTML = ""
     console.log(data.events)
     for(let i of data.events){
+        eventCards.innerHTML += 
+        `
+        <a href="/event/${i.id}}">
+        <div class="event-card">
+        <img src="/${i.cover}" alt="Esemény">
+        <div class="content">
+            <h4>${i.title}</h4>
+            <p><i class="glyphicon glyphicon-pushpin"></i> ${i.city.name}, ${i.location}</p>
+            <p class="event-date"><i class="glyphicon glyphicon-calendar"></i>${new Date(i.startDate).toLocaleString("hu-HU")}</p>
+        </div>
+        </div>
+        </a>
+        `
+    }
+    eventCards = document.getElementById("response-cards")
+    eventCards.innerHTML = ""
+    for(let i of data.respondedEvents){
         eventCards.innerHTML += 
         `
         <a href="/event/${i.id}}">

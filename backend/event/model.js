@@ -226,4 +226,23 @@ async function deleteCategoryFromEvent(catId, evId) {
     })
 }
 
-module.exports = {createEvent, getEventById, deleteEventById, updateEventById, saveGalleryImages, deleteGalleryImage, addView, getCategories, addCategoryToEvent,deleteCategoryFromEvent }
+async function respond(userId, eventId){
+    let responseCount = await prisma.eventuser.count({where: {type: "response", eventId: parseInt(eventId), userId: parseInt(userId)}})
+    if(responseCount>0){
+        await db.query("delete from eventuser where eventId = ? and userId = ? and type = 'response'", [parseInt(eventId), parseInt(userId)])
+    } else{
+        await prisma.eventuser.create({data: {type: "response", eventId: parseInt(eventId), userId: parseInt(userId)}})
+    }
+}
+
+async function getResponses(userId){
+    let responses = []
+    let userevents = await prisma.eventuser.findMany({where: {type: "response", userId: parseInt(userId)}})
+    for(let i = 0; i < userevents.length; i++){
+        let temp = await getEventById(userevents[i].eventId)
+        responses.push(temp)
+    }
+    return responses
+}
+
+module.exports = {createEvent, getEventById, deleteEventById, updateEventById, saveGalleryImages, deleteGalleryImage, addView, getCategories, addCategoryToEvent,deleteCategoryFromEvent, respond,getResponses }

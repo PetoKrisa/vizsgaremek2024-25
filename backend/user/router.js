@@ -35,6 +35,8 @@ router.get("/api/user/@:username", async (req,res)=>{
             let tempEvent = await event.getEventById(i.id)
             userData.events.push(tempEvent)
         }
+        let responses = await event.getResponses(userData.id)
+        userData.respondedEvents = responses
         
         res.json(userData)
     } catch(e){
