@@ -25,7 +25,7 @@ fetch(`/api/event/${eventId}`)
     }
 
     document.getElementById("gallery").innerHTML += `
-    <button class="add-image-button">+</button>
+    <button class="add-image-button" onclick="openGallery()">+</button>
     `
 
     document.getElementById("tags").innerHTML = ""
@@ -132,6 +132,27 @@ function deleteTag(id){
     .then(r=>r.json())
     .then(d=>{
         if(d.status != 200){
+            showErrorMessage(d.message)
+        }
+        window.location.reload()
+    })
+}
+
+function openGallery(){
+    document.getElementById("galleryDialog").showModal()
+}
+
+function closeGallery(){
+    document.getElementById("galleryDialog").close()
+}
+
+function uploadGallery(){
+    let form1 = new FormData(document.getElementById("galleryForm"))
+
+    fetch(`/api/event/${eventId}/gallery`, {method: "post", body: form1})
+    .then(r=>r.json())
+    .then(d=>{
+        if(d.status != 200 && d.status != 201){
             showErrorMessage(d.message)
         }
         window.location.reload()

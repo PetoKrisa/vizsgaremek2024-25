@@ -117,11 +117,22 @@
     </div>
 
     <dialog id="addTagDialog">
-
         <input type="text" class="edit-title" name="category" id="category-input" placeholder="Kategória" required>
         <div id="tags2"></div>
         <button onclick="uploadTag()">Hozzáadás</button>
         <button onclick="closeTags()">Mégse</button>
+    </dialog>
+
+    <dialog id="galleryDialog">
+        <form action="javascript:void(0)" enctype="multipart/form-data" id="galleryForm" onsubmit="uploadGallery()">
+            <label for="gal">Kép(ek) kiválasztása</label>
+            <input name="gallery" id="gal" type="file" accept="image/*" multiple>
+            <br>
+            <button type="submit">Feltöltés</button>
+            <button onclick="closeGallery()">Mégse</button>
+        </form>
+        <br>
+        
     </dialog>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
