@@ -58,6 +58,10 @@ fetch(`/api/user/${userName}`)
         `
     }
 
+    for(let i of data.interests){
+        document.getElementById("interests").innerHTML += `<p class="tag">${i}</p>`
+    }
+
     document.getElementById("pfp").src = data.pfp
     document.title = `@${data.username} profil`
 })

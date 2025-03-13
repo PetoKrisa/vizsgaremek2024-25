@@ -3,8 +3,6 @@ require("dotenv").config()
 const crypto = require("crypto")
 const city = require("../city/model")
 const user = require("../user/model")
-const { start } = require("repl")
-const { error } = require("console")
 
 const basePath =  __dirname.replace("backend\\event", "")
 
@@ -245,4 +243,73 @@ async function getResponses(userId){
     return responses
 }
 
-module.exports = {createEvent, getEventById, deleteEventById, updateEventById, saveGalleryImages, deleteGalleryImage, addView, getCategories, addCategoryToEvent,deleteCategoryFromEvent, respond,getResponses }
+async function addComment(eventId, userId, text, superCommentID){
+    await prisma.eventcomment.create({data: {
+        eventId: parseInt(eventId),
+        userId: parseInt(userId),
+        commentText: text,
+        superCommentId: superCommentID
+    }})
+}
+
+async function deleteComment(commentId) {
+    await prisma.eventcomment.delete({where: {
+        id: commentId
+    }})
+}
+
+async function getComments(eventId) {
+    let allComments = await prisma.eventcomment.findMany(
+    {where: {
+        eventId: parseInt(eventId)
+    },
+    include: {user: {
+        select: {
+            id: true,
+            username: true,
+            pfp: true
+        }
+    }},
+    orderBy: {
+        date: "desc"
+    }
+    })
+
+    return (await (groupRepliesUnderTopLevel(allComments)))
+
+}
+
+async function groupRepliesUnderTopLevel(comments) {
+    const commentMap = new Map();
+    const topLevelComments = [];
+
+    comments.forEach(comment => {
+      comment.replies = [];
+      commentMap.set(comment.id, comment);
+    });
+  
+    await comments.forEach(async (comment) => {
+        console.log(comment)
+      if (comment.superCommentId) {
+        comment.replyingTo = commentMap.get(comment.superCommentId).user
+
+        let topLevelAncestor = commentMap.get(comment.superCommentId);
+        while (topLevelAncestor?.superCommentId) {
+          topLevelAncestor = commentMap.get(topLevelAncestor.superCommentId);
+        }
+  
+        if (topLevelAncestor) {
+          topLevelAncestor.replies.push(comment);
+        }
+      } else {
+        topLevelComments.push(comment);
+      }
+    });
+  
+    return topLevelComments;
+  }
+  
+  
+
+
+module.exports = {createEvent, getEventById, deleteEventById, updateEventById, saveGalleryImages, deleteGalleryImage, addView, getCategories, addCategoryToEvent,deleteCategoryFromEvent, respond,getResponses, addComment, deleteComment,getComments }

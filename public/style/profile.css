@@ -187,6 +187,18 @@
         padding: 15px;
     }
 
+    .tag {
+        background-color: #cdcee9;
+        color: black !important;
+        font-size: 12pt !important;
+        padding: 5px !important;
+        font-weight: bold;
+        border-radius: 10px;
+        display: inline-block;
+        margin-left: 5px;
+        margin-bottom: 5px;
+    }
+
     .event-card .content h4 {
         margin: 0 0 10px;
         font-size: 18px;

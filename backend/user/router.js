@@ -8,6 +8,7 @@ const path = require("path")
 const fs = require("fs")
 const crypto = require("crypto")
 const jwt = require("jsonwebtoken")
+const search = require("../search/model")
 
 const basePath =  __dirname.replace("backend\\user", "")
 const pfpStorage = multer.diskStorage({
@@ -37,7 +38,9 @@ router.get("/api/user/@:username", async (req,res)=>{
         }
         let responses = await event.getResponses(userData.id)
         userData.respondedEvents = responses
-        
+
+        let interests = await search.getUserIntrests(parseInt(userData.id))
+        userData.interests = Array.from(interests)
         res.json(userData)
     } catch(e){
         console.log(e)

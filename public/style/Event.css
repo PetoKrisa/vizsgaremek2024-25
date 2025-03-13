@@ -237,6 +237,19 @@ h1 {
     color: #23527c;
 }
 
+.black{
+    color: black !important;
+}
+
+.reply{
+    padding: 0px;
+    margin: 0px;
+    padding-top: 13px;
+    padding-left: 40px;
+    background: rgb(90,99,156);
+    background: linear-gradient(90deg, rgba(255,255,255,1) 13px,rgba(119,118,179,1) 13px, rgba(119,118,179,1) 23px, rgba(255,255,255,1) 23px);
+}
+
 @media (max-width: 768px) {
     .content {
         flex-direction: column;

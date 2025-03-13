@@ -88,22 +88,31 @@
         </div>
         <div class="comments">
             <h3>Hozzászólások</h3>
+            <span id="replyingTo" style="display: block;"></span>
+            <br>
             <div class="comment-input">
-                <input type="text" placeholder="Hozzászólás írása...">
-                <button>Küld</button>
+                
+                
+                <input id="commentInput" type="text" placeholder="Hozzászólás írása...">
+                <button onclick="submitComment()">Küld</button>
             </div>
-            <div class="comment">
-                <p class="author">User1:</p>
-                <p class="text">Lorem ipsum teszt teszt</p>
+            <div id="comments">
+                <div class="comment">
+                    <p class="author">User1:</p>
+                    <p class="text">Lorem ipsum teszt teszt</p>
+                </div>
+                
+                <div class="comment">
+                    <p class="author">User2:</p>
+                    <p class="text">Valasz: idk xdd</p>
+                </div>
+
+                <div class="comment">
+                    <p class="author">User3:</p>
+                    <p class="text">Teszt szöveg hozzászólás</p>
+                </div>
             </div>
-            <div class="comment">
-                <p class="author">User2:</p>
-                <p class="text">Valasz: idk xdd</p>
-            </div>
-            <div class="comment">
-                <p class="author">User3:</p>
-                <p class="text">Teszt szöveg hozzászólás</p>
-            </div>
+            
         </div>
     </div>
 
@@ -113,5 +122,6 @@
     <script src="/public/scripts/popups.js"></script>
     <script src="/public/scripts/showLoggedInStuff.js"></script>
     <script src="/public/scripts/event.js"></script>
+    <script src="/public/scripts/comments.js"></script>
 </body>
 </html>

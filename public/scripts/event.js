@@ -96,6 +96,9 @@ function deleteEvent(){
 }
 
 function respond(){
+    if(!Boolean(localStorage.getItem("isLoggedIn"))){
+        window.location = "/login"
+    }
     fetch(`/api/event/${eventId}/respond`, {method: "post"})
     .then(r=>{
         window.location.reload()

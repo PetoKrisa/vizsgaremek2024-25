@@ -259,6 +259,7 @@ router.post("/api/event/:id/respond", auth.decodeJWT, async(req,res)=>{
 
 router.get("/api/event/:id/response", auth.decodeJWT, async(req,res)=>{
   try{
+    console.log("someone responded")
     let response = await prisma.eventuser.count({where: 
       {
         type: "response",
@@ -271,6 +272,41 @@ router.get("/api/event/:id/response", auth.decodeJWT, async(req,res)=>{
     } else{
       res.json({status: 200, resp: false})
     }
+  }catch(e){
+    res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
+  }
+})
+
+router.post("/api/event/:id/comment", auth.decodeJWT, async(req,res)=>{
+  try{
+    await event.addComment(req.params.id, req.decodedToken.id, req.body.text, req.body.superCommentId)
+    res.json({status: 200, message: "komment hozzáadva"})
+  }catch(e){
+    res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
+  }
+})
+
+router.get("/api/event/:id/comment", auth.decodeJWT, async(req,res)=>{
+  try{
+    
+    let comments = await event.getComments(req.params.id)
+    res.json({status: 200, comments: comments})
+  }catch(e){
+    res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
+  }
+})
+
+router.delete("/api/event/:id/comment/:commentId", auth.decodeJWT, async(req,res)=>{
+  try{
+    let [ownerResource] = await prisma.eventcomment.findMany({where: {id: parseInt(req.params.commentId)}})
+    let [owner] = await prisma.user.findMany({where: {id: ownerResource.userId}})
+    let hasPerm = await auth.hasPermission(req.decodedToken, owner.username, ["delete:comment"], ["delete:allComments"])
+    if(!hasPerm){
+        res.status(403).json({status: 403, message: "Nincs jogosultsága"})
+        return
+    }
+    await event.deleteComment(req.params.id)
+    res.json({status: 200, message: "törölve"})
   }catch(e){
     res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
   }
