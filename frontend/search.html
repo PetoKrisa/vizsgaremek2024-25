@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Események keresése</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="search.css">
+</head>
+<body>
+  <header>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="search-container">
+      <input type="text" placeholder="Keresés...">
+      <button><i class="glyphicon glyphicon-search"></i></button>
+    </div>
+    <div class="hamburger-icon">
+      <i class="glyphicon glyphicon-menu-hamburger"></i>
+    </div>
+    <div class="dropdown circle-icon">
+      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="glyphicon glyphicon-user"></i>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li><a href="#"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
+        <li><a href="#"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
+        <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Új esemény</a></li>
+        <li><a href="#"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <div class="container container-main">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="filter-panel">
+          <h3>Szűrők</h3>
+          <div class="form-group">
+            <label>Kategóriák:</label>
+            <div class="filter-categories">
+              <div class="checkbox"><label><input type="checkbox"> Koncert</label></div>
+              <div class="checkbox"><label><input type="checkbox"> Házi buli</label></div>
+              <div class="checkbox"><label><input type="checkbox"> Rock</label></div>
+              <div class="checkbox"><label><input type="checkbox"> Fesztivál</label></div>
+              <div class="checkbox"><label><input type="checkbox"> Gasztro</label></div>
+              <div class="checkbox"><label><input type="checkbox"> Egyéb 1</label></div>
+              <div class="checkbox"><label><input type="checkbox"> Egyéb 2</label></div>
+              <div class="checkbox"><label><input type="checkbox"> Egyéb 3</label></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="megye">Megye:</label>
+            <select class="form-control" id="megye">
+              <option>Pest</option>
+              <option>Heves</option>
+              <option>Borsod-Abaúj-Zemplén</option>
+              <option>Fejér</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="varos">Város:</label>
+            <input type="text" class="form-control" id="varos" placeholder="Budapest, stb.">
+          </div>
+          <div class="form-group">
+            <label for="start-date">Kezdés:</label>
+            <input type="date" class="form-control" id="start-date">
+          </div>
+          <div class="form-group">
+            <label>Korhatár:</label>
+            <div class="radio"><label><input type="radio" name="korhatar" value="nincs" checked> Nincs korhatár</label></div>
+            <div class="radio"><label><input type="radio" name="korhatar" value="16+"> 16+</label></div>
+            <div class="radio"><label><input type="radio" name="korhatar" value="18+"> 18+</label></div>
+          </div>
+          <button class="btn btn-purple btn-block">Keresés</button>
+        </div>
+      </div>
+
+      <div class="col-sm-9">
+        <div class="event-list-container">
+          <h2>Talált események (3db):</h2>
+          <div class="event-card">
+            <img src="https://thumbs.dreamstime.com/b/young-party-cheerful-people-showered-confetti-club-31137048.jpg" alt="Esemény képe">
+            <div class="event-details">
+              <div class="tags">
+                <span class="tag tag-koncert">Koncert</span>
+                <span class="tag tag-rock">Rock</span>
+              </div>
+              <div class="event-title">Esemény címe</div>
+              <div class="event-meta">
+                <span><i class="glyphicon glyphicon-map-marker"></i> Budapest, gerencséri utca</span><br>
+                <span><i class="glyphicon glyphicon-calendar"></i> 2024.12.06 10:00</span><br>
+                <span><i class="glyphicon glyphicon-user"></i> 21/36</span>
+              </div>
+            </div>
+          </div>
+          <div class="event-card">
+            <img src="https://thumbs.dreamstime.com/b/young-party-cheerful-people-showered-confetti-club-31137048.jpg" alt="Esemény képe">
+            <div class="event-details">
+              <div class="tags">
+                <span class="tag tag-koncert">Koncert</span>
+                <span class="tag tag-rock">Rock</span>
+              </div>
+              <div class="event-title">Esemény címe</div>
+              <div class="event-meta">
+                <span><i class="glyphicon glyphicon-map-marker"></i> Budapest, gerencséri utca</span><br>
+                <span><i class="glyphicon glyphicon-calendar"></i> 2024.12.06 10:00</span><br>
+                <span><i class="glyphicon glyphicon-user"></i> 22/36</span>
+              </div>
+            </div>
+          </div>
+          <div class="event-card">
+            <img src="https://thumbs.dreamstime.com/b/young-party-cheerful-people-showered-confetti-club-31137048.jpg" alt="Esemény képe">
+            <div class="event-details">
+              <div class="tags">
+                <span class="tag tag-koncert">Koncert</span>
+                <span class="tag tag-rock">Rock</span>
+              </div>
+              <div class="event-title">Esemény címe</div>
+              <div class="event-meta">
+                <span><i class="glyphicon glyphicon-map-marker"></i> Budapest, gerencséri utca</span><br>
+                <span><i class="glyphicon glyphicon-calendar"></i> 2024.12.06 10:00</span><br>
+                <span><i class="glyphicon glyphicon-user"></i> 23/36</span>
+              </div>
+            </div>
+          </div>
+          <div class="pagination-container">
+            <a href="#">1</a> - 
+            <a href="#">2</a> - 
+            <a href="#">3</a> ... 
+            <a href="#">12</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
