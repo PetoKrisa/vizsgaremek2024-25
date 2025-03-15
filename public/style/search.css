@@ -1,0 +1,244 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #F5F3F5;
+  }
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  header .left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 55%;
+    height: 100%;
+    background-color: #5A639C;
+    clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%);
+  }
+  header .right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 55%;
+    height: 100%;
+    background-color: #7776B3;
+    clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+  header .search-container {
+    height: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    z-index: 2;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 60%;
+    background-color: white;
+  }
+  header .search-container input {
+    background: none;
+    outline: none;
+    border: none;
+    width: 100%;
+  }
+  header .search-container button {
+    font-size: 18px;
+    background: none;
+    outline: none;
+    border: none;
+    color: #777;
+  }
+  header .hamburger-icon {
+    position: absolute;
+    left: 20px;
+    background-color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #7776B3;
+    cursor: pointer;
+    z-index: 3;
+  }
+  header .hamburger-icon i {
+    font-size: 18px;
+    color: #000;
+  }
+  header .circle-icon {
+    position: absolute;
+    right: 20px;
+    background-color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #7776B3;
+    cursor: pointer;
+    z-index: 3;
+  }
+  header .circle-icon i {
+    font-size: 18px;
+    color: #000;
+  }
+  header .dropdown-menu {
+    min-width: 160px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    padding: 5px 0;
+    position: absolute;
+    left: -160px;
+    top: 50px;
+    border: 1px solid #ccc;
+  }
+  header .dropdown-menu li {
+    padding: 8px 12px;
+    transition: background-color 0.3s ease;
+  }
+  header .dropdown-menu li:hover {
+    background-color: #e9ecef;
+  }
+  header .dropdown-menu a {
+    padding-left: 0;
+  }
+
+  .container-main {
+    margin-top: 100px;
+    margin-bottom: 20px;
+  }
+  .filter-panel {
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+  }
+  .filter-panel h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  .filter-categories {
+    max-height: 120px;
+    overflow-y: auto;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    padding-top: 0;
+    margin-top: 0;
+  }
+  .filter-categories .checkbox {
+    margin-bottom: 5px;
+  }
+  .checkbox label, .radio label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  .event-list-container {
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+  .event-list-container h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  .event-card {
+    display: flex;
+    flex-direction: row;
+    background-color: #fff;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    padding: 10px;
+  }
+  .event-card img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 15px;
+  }
+  .event-details {
+    flex: 1;
+  }
+  .event-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .tags {
+    margin-bottom: 5px;
+  }
+  .tag {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 3px 8px;
+    border-radius: 16px;
+    color: #fff;
+    font-size: 12px;
+  }
+  .tag-koncert {
+    background-color: #D32F2F;
+  }
+  .tag-rock {
+    background-color: #7B1FA2;
+  }
+  .event-meta {
+    font-size: 14px;
+    color: #555;
+    margin-top: 3px;
+  }
+  .btn-purple {
+    background-color: #6200ea;
+    border-color: #6200ea;
+    color: #fff;
+    border-radius: 12px;
+  }
+  .btn-purple:hover {
+    background-color: #3700b3;
+    border-color: #3700b3;
+  }
+  .pagination-container {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  .pagination-container a {
+    margin: 0 3px;
+    color: #333;
+    text-decoration: none;
+  }
+  @media (max-width: 768px) {
+    .event-card {
+      flex-direction: column;
+      align-items: center;
+    }
+    .event-card img {
+      width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+    }
+    .event-details {
+      width: 100%;
+    }
+  }
