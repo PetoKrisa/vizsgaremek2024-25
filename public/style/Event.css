@@ -250,6 +250,12 @@ h1 {
     background: linear-gradient(90deg, rgba(255,255,255,1) 13px,rgba(119,118,179,1) 13px, rgba(119,118,179,1) 23px, rgba(255,255,255,1) 23px);
 }
 
+.replybtn{
+    float: right;
+    display: inline;
+    cursor: pointer;
+}
+
 @media (max-width: 768px) {
     .content {
         flex-direction: column;

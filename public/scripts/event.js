@@ -2,7 +2,9 @@ const path = window.location.pathname.split("/")
 const eventId = path[path.length-1]
 
 fetch(`/api/event/${eventId}`)
-.then(r=>r.json())
+.then(r=>{
+    return r.json()
+})
 .then(data=>{
     console.log(data)
     if(data.status != undefined && data.status != 200){
@@ -72,7 +74,13 @@ fetch(`/api/event/${eventId}/view`, {
 
 if(Boolean(localStorage.getItem("isLoggedIn"))){
     fetch(`/api/event/${eventId}/response`)
-    .then(r=>r.json())
+    .then(r=>{
+        if(r.redirected){
+            logout()
+            return;
+        }
+        return r.json()
+    })
     .then(d=>{
         if(d.resp){
             document.getElementById("respondBtn").innerText = "Nem Érdekel"

@@ -286,11 +286,19 @@ router.post("/api/event/:id/comment", auth.decodeJWT, async(req,res)=>{
   }
 })
 
-router.get("/api/event/:id/comment", auth.decodeJWT, async(req,res)=>{
+router.get("/api/event/:id/comment", async(req,res)=>{
   try{
-    
     let comments = await event.getComments(req.params.id)
     res.json({status: 200, comments: comments})
+  }catch(e){
+    res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
+  }
+})
+
+router.get("/api/event/:id/comment/:cid", async(req,res)=>{
+  try{
+    let comment = await event.getComment(req.params.cid)
+    res.json({status: 200, comment: comment})
   }catch(e){
     res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})
   }

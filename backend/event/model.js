@@ -289,7 +289,6 @@ async function groupRepliesUnderTopLevel(comments) {
     });
   
     await comments.forEach(async (comment) => {
-        console.log(comment)
       if (comment.superCommentId) {
         comment.replyingTo = commentMap.get(comment.superCommentId).user
 
@@ -309,7 +308,22 @@ async function groupRepliesUnderTopLevel(comments) {
     return topLevelComments;
   }
   
+async function getComment(id) {
+    let comment = await prisma.eventcomment.findFirst(
+        {where: {
+            id: parseInt(id)
+        },
+        include: {user: {
+            select: {
+                id: true,
+                username: true,
+                pfp: true
+            }
+        }}
+        })
+    return comment
+}
   
 
 
-module.exports = {createEvent, getEventById, deleteEventById, updateEventById, saveGalleryImages, deleteGalleryImage, addView, getCategories, addCategoryToEvent,deleteCategoryFromEvent, respond,getResponses, addComment, deleteComment,getComments }
+module.exports = {createEvent, getEventById, deleteEventById, updateEventById, saveGalleryImages, deleteGalleryImage, addView, getCategories, addCategoryToEvent,deleteCategoryFromEvent, respond,getResponses, addComment, deleteComment,getComments,getComment }
