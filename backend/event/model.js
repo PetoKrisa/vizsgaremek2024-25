@@ -89,6 +89,10 @@ async function getEventById(id) {
     events[0].categories = categoryData
     delete events[0].cityId
 
+    if(events[0].cover == null || events[0].cover == undefined){
+        events[0].cover = "public/assets/placeholder2.jpeg"
+    }
+
     let views = await prisma.eventuser.count({where: {eventId: parseInt(id), type: "view"}})
 
     events[0].views = views
@@ -243,14 +247,16 @@ async function getResponses(userId){
     return responses
 }
 
-async function addComment(eventId, userId, text, superCommentID){
+async function addComment(eventId, userId, text, topLevelCommentId, superCommentID){
     await prisma.eventcomment.create({data: {
         eventId: parseInt(eventId),
         userId: parseInt(userId),
+        topLevelCommentId: parseInt(topLevelCommentId),
         commentText: text,
         superCommentId: superCommentID
     }})
 }
+
 
 async function deleteComment(commentId) {
     await prisma.eventcomment.delete({where: {
@@ -258,10 +264,20 @@ async function deleteComment(commentId) {
     }})
 }
 
-async function getComments(eventId) {
+async function getComments(eventId, page) {
+    if(page == null || page == undefined){
+        page = 0
+    }
+    page = parseInt(page)
+
     let allComments = await prisma.eventcomment.findMany(
-    {where: {
-        eventId: parseInt(eventId)
+    {   
+        skip: page*10,
+        take: 10,
+        where: {
+        eventId: parseInt(eventId),
+        topLevelCommentId: null,
+        superCommentId: null
     },
     include: {user: {
         select: {
@@ -269,44 +285,36 @@ async function getComments(eventId) {
             username: true,
             pfp: true
         }
+    }, replies: {
+        include: {
+            user: {
+                select: {
+                    id: true,
+                    username: true,
+                    pfp: true
+                }
+            },
+            replyingTo: {
+                include: {
+                    user: {
+                        select: {
+                            id: true,
+                            username: true,
+                            pfp: true
+                        }
+                    }
+                }
+            }
+        }
     }},
     orderBy: {
         date: "desc"
     }
     })
 
-    return (await (groupRepliesUnderTopLevel(allComments)))
+    return allComments
 
 }
-
-async function groupRepliesUnderTopLevel(comments) {
-    const commentMap = new Map();
-    const topLevelComments = [];
-
-    comments.forEach(comment => {
-      comment.replies = [];
-      commentMap.set(comment.id, comment);
-    });
-  
-    await comments.forEach(async (comment) => {
-      if (comment.superCommentId) {
-        comment.replyingTo = commentMap.get(comment.superCommentId).user
-
-        let topLevelAncestor = commentMap.get(comment.superCommentId);
-        while (topLevelAncestor?.superCommentId) {
-          topLevelAncestor = commentMap.get(topLevelAncestor.superCommentId);
-        }
-  
-        if (topLevelAncestor) {
-          topLevelAncestor.replies.push(comment);
-        }
-      } else {
-        topLevelComments.push(comment);
-      }
-    });
-  
-    return topLevelComments;
-  }
   
 async function getComment(id) {
     let comment = await prisma.eventcomment.findFirst(

@@ -26,8 +26,7 @@ fetch(`/api/event/${eventId}`)
     for(let i = 0; i < data.categories.length; i++){
         document.getElementById("tags").innerHTML += `<span class="tag">${data.categories[i].category.name}</span>`
     }
-
-    if(data.author.username == localStorage.getItem("username")){
+    if(data.author.username.toLowerCase() == localStorage.getItem("username").toLowerCase()){
         document.getElementById("editLink").classList.remove("hidden")
         document.getElementById("editLink").href = `/event/${eventId}/edit`
 

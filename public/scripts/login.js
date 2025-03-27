@@ -55,7 +55,7 @@ function register(){
             return
         }
 
-        confirmPopup("Emailben küldünk egy hitelesítő linket!\n"+data.link, ()=>{
+        confirmPopup(data.link, ()=>{
         window.location = "/login"
         })
     })

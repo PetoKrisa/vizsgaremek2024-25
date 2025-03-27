@@ -67,6 +67,10 @@ router.get("/event/:id/edit",auth.decodeJWT, async (req,res)=>{
     }
 })
 
+router.get("/", async(req,res)=>{
+    res.sendFile(basePath+"\\frontend\\Main.html")
+})
+
 
 
 module.exports = router

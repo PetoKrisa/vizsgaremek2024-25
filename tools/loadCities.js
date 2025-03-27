@@ -1,4 +1,4 @@
-const db = require("../backend/db")
+const {db} = require("../backend/db")
 const fs = require('node:fs');
 
 var file = fs.readFileSync("./tools/városok.csv", "utf-8")

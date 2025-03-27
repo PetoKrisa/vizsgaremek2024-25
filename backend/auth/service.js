@@ -14,6 +14,7 @@ const permissions = {
         "create:event",
         "delete:event",
         "edit:event",
+        "edit:allEvents",
         "delete:allEvents",
         "delete:allEvents",
         "read:allEvents",
@@ -231,6 +232,9 @@ async function hasPermission(decodedJwt, ownerUsername, ownerPermissionList, per
     let hasPerm = true;
 
     if(user.id != owner.id){
+        console.log("not the owner accessing")
+        console.log(permissions[user.role])
+        console.log(permissionList)
         hasPerm = true;
         for (let i of permissionList){
             if(!permissions[user.role].has(i)){

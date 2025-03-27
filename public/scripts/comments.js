@@ -1,17 +1,22 @@
 var replyTo = null
+var replyToTopLevel = null 
+var page = 0;
 var comments = []
 
 async function loadComments(){
-    let response = await fetch(`/api/event/${eventId}/comment`, {redirect: "follow"})
+    let response = await fetch(`/api/event/${eventId}/comment?page=${page}`, {redirect: "follow"})
     let data = await response.json()
     comments = data.comments
     displayComments(data.comments)
+    page++;
 }
 
 function displayComments(comments){
     let commentsDiv = document.getElementById("comments")
     console.log(comments)
-    commentsDiv.innerHTML = ""
+    if(page==0){
+        commentsDiv.innerHTML = ""
+    }
     for(let comment of comments){
         commentsDiv.innerHTML += 
         `
@@ -21,10 +26,11 @@ function displayComments(comments){
         </div>
         `
         for(let reply of comment.replies){
+            console.log(reply)
             commentsDiv.innerHTML += 
             `
             <div class="comment reply">
-                        <p class="author">${reply.user.username} <span class="black">&gt;</span> ${reply.replyingTo.username}</p>
+                        <p class="author">${reply.user.username} <span class="black">&gt;</span> <span title="${reply.replyingTo.commentText}">${reply.replyingTo.user.username}</span></p>
                         <p class="text">${reply.commentText} 
                         <i class="glyphicon glyphicon-share-alt replybtn" onclick="replyToComment(${reply.id})">Válasz</i>
                         
@@ -50,7 +56,8 @@ function submitComment(){
         method: "post",
         body: JSON.stringify({
             text: comment,
-            superCommentId: replyTo
+            superCommentId: replyTo,
+            topLevelCommentId: replyToTopLevel
         }),
         headers: {
             "Content-Type": "application/json"
@@ -77,7 +84,13 @@ function replyToComment(id){
             showErrorMessage(d.message)
             return;
         }
-
+        console.log(d.comment)
+        if(d.comment.topLevelCommentId == null){
+            replyToTopLevel = d.comment.id
+        } else{
+            replyToTopLevel = d.comment.topLevelCommentId
+        }
+    console.log(replyTo, replyToTopLevel)
     document.getElementById("replyingTo").innerHTML = `Válasz ${d.comment.user.username} részére <i style="cursor: pointer;" class="glyphicon glyphicon-remove" onclick="clearReply()"></i>`
     })
        
@@ -86,5 +99,6 @@ function replyToComment(id){
 
 function clearReply(){
     replyTo = null
+    replyToTopLevel = null
     document.getElementById("replyingTo").innerText = ``
 }

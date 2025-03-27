@@ -65,9 +65,14 @@ model eventcomment {
   userId          Int?
   commentText     String   @db.VarChar(255)
   superCommentId Int?
+  topLevelCommentId Int?
   date             DateTime @default(now()) @db.DateTime(0)
-  user             user?    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "eventcomment_ibfk_1")
-  event            event?   @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "eventcomment_ibfk_2")
+  user              user?    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "eventcomment_ibfk_1")
+  event             event?   @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "eventcomment_ibfk_2")
+  parent            eventcomment?  @relation("CommentReplies", fields: [topLevelCommentId], references: [id],onDelete: Cascade, onUpdate: Restrict)
+  replies           eventcomment[] @relation("CommentReplies")
+  replyingTo        eventcomment?  @relation("CommentReplyingTo", fields: [superCommentId], references: [id]) 
+  repliesTo         eventcomment[] @relation("CommentReplyingTo")
 
   @@index([eventId], map: "eventId")
   @@index([userId], map: "userId")
