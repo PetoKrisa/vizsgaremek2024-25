@@ -9,10 +9,19 @@ fetch(`/api/event/${eventId}`)
     document.getElementById("cover-fill").src = `/${data.cover}`
     document.getElementById("city").value = data.city.name
     document.getElementById("description").value = data.description
-    document.getElementById("startDate").value = new Date(data.startDate).toISOString().replace("Z", "")
-    document.getElementById("endDate").value = new Date(data.endDate).toISOString().replace("Z", "")
+    var startDate = new Date(data.startDate)
+    var endDate = new Date(data.endDate)
+    startDate.setHours(startDate.getHours())
+    endDate.setHours(endDate.getHours())
+    
+    document.getElementById("startDate").value = startDate.toISOString().replace("Z", "")
+    document.getElementById("endDate").value = endDate.toISOString().replace("Z", "")
     document.getElementById("location").value = data.location
     document.getElementById("maxResponse").value = data.maxResponse
+
+    if(data.endDate == null){
+        document.getElementById("endDate").value = ''
+    }
 
     for(let i of data.gallery){
         document.getElementById("gallery").innerHTML += `
@@ -51,7 +60,7 @@ fetch("/api/category")
 
 async function deleteImg(button){
     let id = button.dataset.id
-    confirmPopup("Biztosn törli a képet?", async ()=>{
+    confirmPopup("Biztosan törli a képet?", async ()=>{
         await fetch(`/api/event/${eventId}/gallery/${id}`, {method: "delete"})
         window.location.reload()
     })

@@ -5,31 +5,52 @@
   <title>Eventor - Főoldal</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="/public/style/main.css">
+  <link rel="stylesheet" href="/public/style/header.css">
+  <link rel="stylesheet" href="/public/style/auth.css">
 </head>
 <body>
 
-  <header>
-    <div class="left"></div>
-    <div class="right"></div>
+  <header> 
     <div class="search-container">
-      <input type="text" placeholder="Keresés...">
-      <button><i class="glyphicon glyphicon-search"></i></button>
+        <input type="text" placeholder="Keresés...">
+        <button><i class="glyphicon glyphicon-search"></i></button>
     </div>
+
     <div class="hamburger-icon">
-      <i class="glyphicon glyphicon-menu-hamburger"></i>
+        <i class="glyphicon glyphicon-menu-hamburger"></i>
     </div>
-    <div class="dropdown circle-icon">
-      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="glyphicon glyphicon-user"></i>
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li><a href="#"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
-        <li><a href="#"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
-        <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Új esemény</a></li>
-        <li><a href="#"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
-      </ul>
+
+    <div class="loginLinks loggedOut">
+        <a href="/login" class="link-light">Login</a>
+        &nbsp;•&nbsp;
+        <a href="/register" class="link-light">Register</a>
     </div>
-  </header>
+
+    <div class="dropdown circle-icon loggedIn" id="profile-dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img id="headerPfp" src="/public/assets/placeholder.png" alt="profilkép">
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a id="profileLink" href="/"><i class="glyphicon glyphicon-user"></i> Profil</a></li>
+            <li><a id="profileEditLink" href="/"><i class="glyphicon glyphicon-wrench"></i> Fiók</a></li>
+            <li><a href="/event/create"><i class="glyphicon glyphicon-plus"></i> Új esemény</a></li>
+            <li><a href="#" onclick="logout()"><i class="glyphicon glyphicon-arrow-right"></i> Kijelentkezés</a></li>
+        </ul>
+    </div>
+    <div id="message">
+        <h3 id="messageText">Üzenet</h3>
+    </div>
+    <div id="errorMessage">
+        <h3 id="errorMessageText">Üzenet</h3>
+    </div>
+    <dialog id="confirmPopup">
+        <h3 id="confirmPopupText">
+
+        </h3>
+        <button id="confirmPopupOk">Ok</button>
+        <button id="confirmPopupBack">Mégse</button>
+    </dialog>
+</header>
 
   <section class="hero">
     <div class="hero-content">
@@ -44,9 +65,9 @@
     <div class="featured-container">
       <div class="heading-row">
         <h3>Felkapott</h3>
-        <a href="#">Mutass többet</a>
+        <a href="#" onclick="loadPopular()">Mutass többet</a>
       </div>
-      <div class="cards-row">
+      <div class="cards-row" id="popular">
         <div class="event-card">
           <img src="https://thumbs.dreamstime.com/b/young-party-cheerful-people-showered-confetti-club-31137048.jpg" alt="Esemény képe">
           <div class="overlay">
@@ -103,9 +124,9 @@
     <div class="featured-container">
       <div class="heading-row">
         <h3>Ajánlott</h3>
-        <a href="#">Mutass többet</a>
+        <a href="#" onclick="loadRecommended()">Mutass többet</a>
       </div>
-      <div class="cards-row">
+      <div class="cards-row hidden" id="recommended">
         <div class="event-card">
           <img src="https://thumbs.dreamstime.com/b/young-party-cheerful-people-showered-confetti-club-31137048.jpg" alt="Esemény képe">
           <div class="overlay">
@@ -162,9 +183,9 @@
     <div class="featured-container">
       <div class="heading-row">
         <h3>Közeledben</h3>
-        <a href="#">Mutass többet</a>
+        <a href="#" onclick="loadNearby()">Mutass többet</a>
       </div>
-      <div class="cards-row">
+      <div class="cards-row hidden" id="nearby">
         <div class="event-card">
           <img src="https://thumbs.dreamstime.com/b/young-party-cheerful-people-showered-confetti-club-31137048.jpg" alt="Esemény képe">
           <div class="overlay">
@@ -220,6 +241,11 @@
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <script src="/public/scripts/popups.js"></script>
+  <script src="/public/scripts/showLoggedInStuff.js"></script>
+  <script src="/public/scripts/main.js"></script>
+
 </body>
 </html>

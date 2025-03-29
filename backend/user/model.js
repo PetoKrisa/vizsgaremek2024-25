@@ -23,7 +23,7 @@ async function getUserById(id){
         role: u.role
     }
     if(u.pfp != null){
-        user.pfp = `${process.env.url}public/user/${u.pfp}`
+        user.pfp = `${process.env.url}public/user${u.pfp}`
     } else{
         user.pfp = `${process.env.url}public/assets/placeholder.png`
     }
@@ -99,7 +99,6 @@ async function updateUserData(userId, cityName, bio) {
     })
 }
 
-
 async function deleteUser(userId) {
     let exitsRows = await prisma.user.count({where:{
         id: parseInt(userId)
@@ -107,6 +106,16 @@ async function deleteUser(userId) {
     if(exitsRows == 0){
         throw new Error("A felhasználó nem létezik", {cause: 404})
     }
+    await prisma.eventuser.deleteMany({where: {
+        userId: parseInt(userId)
+    }})
+    await prisma.event.deleteMany({where: {
+        userId: parseInt(userId)
+    }})
+    await prisma.eventcomment.deleteMany({where: {
+        userId: parseInt(userId)
+    }})
+    
     await prisma.user.delete({where: {
         id: parseInt(userId)
     }})

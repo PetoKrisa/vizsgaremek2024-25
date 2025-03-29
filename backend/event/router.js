@@ -119,7 +119,6 @@ router.put("/api/event/:id", auth.decodeJWT, saveFiles, async (req,res)=>{
     if(req.files != undefined && req.files.cover != undefined){
       req.body.cover = req.files.cover[0].path.replace(basePath, "")
     }
-
     await event.updateEventById(parseInt(req.params.id), req.body)
     res.status(200).json({status: 200, message: "updated"})
   } catch(e){
@@ -314,7 +313,7 @@ router.delete("/api/event/:id/comment/:commentId", auth.decodeJWT, async(req,res
         res.status(403).json({status: 403, message: "Nincs jogosultsága"})
         return
     }
-    await event.deleteComment(req.params.id)
+    await event.deleteComment(req.params.commentId)
     res.json({status: 200, message: "törölve"})
   }catch(e){
     res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})

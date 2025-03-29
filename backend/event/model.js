@@ -129,7 +129,6 @@ async function updateEventById(id, body) {
     ){  
         throw new Error("A Cím, kezdő időpont vagy város üres!", {cause: 400})
     }
-    //fixing data types
     if(eventObjectToPush.cover != null){
         eventObjectToPush.cover.replace("\\", "/")
     } else{
@@ -140,11 +139,16 @@ async function updateEventById(id, body) {
     delete eventObjectToPush.city
 
     let startDate = new Date(eventObjectToPush.startDate)
+    if(eventObjectToPush.endDate == null || eventObjectToPush.endDate == undefined || eventObjectToPush.endDate == ''){
+        eventObjectToPush.endDate = null;
+    }
+    console.log(eventObjectToPush)
     if(eventObjectToPush.endDate != null){
         let endDate = new Date(eventObjectToPush.endDate)
         endDate.setHours(endDate.getHours()+1)
         eventObjectToPush.endDate = endDate
     }
+    
     startDate.setHours(startDate.getHours()+1)
     eventObjectToPush.startDate = startDate
     eventObjectToPush.ageLimit = Boolean(eventObjectToPush.ageLimit)
@@ -259,8 +263,9 @@ async function addComment(eventId, userId, text, topLevelCommentId, superComment
 
 
 async function deleteComment(commentId) {
+    console.log(commentId)
     await prisma.eventcomment.delete({where: {
-        id: commentId
+        id: parseInt(commentId)
     }})
 }
 

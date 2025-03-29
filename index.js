@@ -23,12 +23,14 @@ const frontendRouter = require("./backend/frontendRouter")
 const cityRouter = require("./backend/city/router")
 const authRouter = require("./backend/auth/router")
 const eventRouter = require("./backend/event/router")
+const searchRouter = require("./backend/search/router")
 
 app.use("/", userRouter)
 app.use("/", frontendRouter)
 app.use("/", cityRouter)
 app.use("/", authRouter)
 app.use("/", eventRouter)
+app.use("/", searchRouter)
 
 app.get("/test", (req,res)=>{
     res.sendFile(__dirname+"/test.html") 

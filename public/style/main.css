@@ -6,6 +6,7 @@ html, body {
     height: 100%;
     overflow-x: hidden;
   }
+
   header {
     position: relative;
     height: 80px;

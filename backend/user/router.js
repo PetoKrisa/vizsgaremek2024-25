@@ -70,7 +70,16 @@ router.delete("/api/user/@:username", auth.decodeJWT, async(req,res)=>{
             res.status(403).json({status: 403, message: "Nincs jogosultsága"})
             return
         }
-        let userToDelete = await user.getUserByUsername(req.params.username)
+        let userToDelete = await prisma.user.findFirst({
+            where: {
+                username: req.params.username
+            }
+        })
+        let passHash = crypto.createHash('sha256').update(req.body.password).digest('hex');
+        if(passHash != userToDelete.password){
+            res.status(403).json({status: 403, message: "A jelszó helytelen"})
+            return
+        }
         await user.deleteUser(parseInt(userToDelete.id))
 
         res.json({status: 200, message: "ok"})

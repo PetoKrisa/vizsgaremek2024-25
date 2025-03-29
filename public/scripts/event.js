@@ -19,7 +19,7 @@ fetch(`/api/event/${eventId}`)
     document.getElementById("responses").innerText = data.maxResponse
     document.getElementById("location").innerText = data.location
     document.getElementById("city").innerText = data.city.name
-    document.getElementById("organizer").innerText = `${data.author.username}`
+    document.getElementById("organizer").innerHTML = `<a href="/user/@${data.author.username}">@${data.author.username}</a>`
     document.getElementById("views").innerText = `${data.views}`
 
     document.getElementById("tags").innerHTML = ""

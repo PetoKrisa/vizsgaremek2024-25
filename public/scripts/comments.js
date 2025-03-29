@@ -21,20 +21,21 @@ function displayComments(comments){
         commentsDiv.innerHTML += 
         `
         <div class="comment">
-                    <p class="author">${comment.user.username}</p>
-                    <p class="text">${comment.commentText} <i class="glyphicon glyphicon-share-alt replybtn" onclick="replyToComment(${comment.id})">Válasz</i></p>
-        </div>
+                    <p class="author"><a href="/user/@${comment.user.username}">${comment.user.username}</a></p>
+                    <p class="text">${comment.commentText} <i class="glyphicon glyphicon-share-alt replybtn" onclick="replyToComment(${comment.id})">Válasz&nbsp;</i>
+                        <i class="glyphicon glyphicon-trash replybtn" onclick="deleteComment(${comment.id})">Törlés&nbsp;</i>
+                    </p>
+                    </div>
         `
         for(let reply of comment.replies){
             console.log(reply)
             commentsDiv.innerHTML += 
             `
             <div class="comment reply">
-                        <p class="author">${reply.user.username} <span class="black">&gt;</span> <span title="${reply.replyingTo.commentText}">${reply.replyingTo.user.username}</span></p>
+                        <p class="author"><a href="/user/@${reply.user.username}">${reply.user.username}</a> <span class="black">&gt;</span> <span title="${reply.replyingTo.commentText}"><a href="/user/@${reply.replyingTo.user.username}">${reply.replyingTo.user.username}</a></span></p>
                         <p class="text">${reply.commentText} 
-                        <i class="glyphicon glyphicon-share-alt replybtn" onclick="replyToComment(${reply.id})">Válasz</i>
-                        
-                        
+                        <i class="glyphicon glyphicon-share-alt replybtn" onclick="replyToComment(${reply.id})">Válasz&nbsp;</i>
+                        <i class="glyphicon glyphicon-trash replybtn" onclick="deleteComment(${reply.id})">Törlés&nbsp;</i>
                         </p>
                         
             </div>
@@ -45,6 +46,17 @@ function displayComments(comments){
 
 loadComments()
 
+function deleteComment(id){
+fetch(`/api/event/${eventId}/comment/${id}`, {method: "delete"})
+.then(r=>r.json())
+.then(d=>{
+    if(d.status != 200){
+        showErrorMessage(d.message)
+    } else{
+        showMessage(d.message)
+    }
+})
+}
 
 
 function submitComment(){
