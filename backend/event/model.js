@@ -336,7 +336,15 @@ async function getComment(id) {
         })
     return comment
 }
-  
+
+async function convertCategoryNameToId(name) {
+    let tag = await prisma.category.findFirst({where: {name: name}})
+    if(tag == null){
+        return null
+    } else{
+        return tag.id
+    }
+}
 
 
-module.exports = {createEvent, getEventById, deleteEventById, updateEventById, saveGalleryImages, deleteGalleryImage, addView, getCategories, addCategoryToEvent,deleteCategoryFromEvent, respond,getResponses, addComment, deleteComment,getComments,getComment }
+module.exports = {convertCategoryNameToId, createEvent, getEventById, deleteEventById, updateEventById, saveGalleryImages, deleteGalleryImage, addView, getCategories, addCategoryToEvent,deleteCategoryFromEvent, respond,getResponses, addComment, deleteComment,getComments,getComment }

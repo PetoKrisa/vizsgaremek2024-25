@@ -279,7 +279,7 @@ router.get("/api/event/:id/response", auth.decodeJWT, async(req,res)=>{
 router.post("/api/event/:id/comment", auth.decodeJWT, async(req,res)=>{
   try{
     console.log(req.body)
-    await event.addComment(req.params.id, req.decodedToken.id, req.body.text, req.body.superCommentId, req.body.topLevelCommentId)
+    await event.addComment(req.params.id, req.decodedToken.id, req.body.text, req.body.topLevelCommentId, req.body.superCommentId)
     res.json({status: 200, message: "komment hozzáadva"})
   }catch(e){
     res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})

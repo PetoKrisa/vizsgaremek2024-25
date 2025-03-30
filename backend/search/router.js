@@ -36,4 +36,13 @@ router.get("/api/search/nearby", auth.decodeJWT, async (req,res)=>{
     }
 })
 
+router.get("/api/search", async(req,res)=>{
+    try{
+        let results = await search.search(req.query)
+        res.send(results)
+    }catch(e){
+        res.status(e.cause || 500).json({status: e.cause || 500, message: e.message})
+    }
+})
+
 module.exports = router

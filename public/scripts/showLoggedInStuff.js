@@ -28,3 +28,15 @@ function logout(){
     console.log(window.location)
     window.location = `${window.location.origin}/`
 }
+
+function search(){
+    window.location = `/search?q=${document.getElementById("searchBar").value}`
+}
+
+if(document.getElementById("searchBar") != undefined){
+    document.getElementById("searchBar").addEventListener("keypress", (e)=>{
+        if(e.key == "Enter"){
+            search()
+        }
+    })
+}

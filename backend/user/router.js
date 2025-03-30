@@ -227,7 +227,6 @@ router.get("/api/user/verify", async(req,res)=>{
 
 router.post("/api/user/login", async (req,res)=>{
     try{
-        console.log(req.body)
         let token = await auth.login(req.body.username, req.body.password)
         res.cookie("token", token)
         res.status(200).json({status: 200, jwt: token})

@@ -67,6 +67,14 @@ router.get("/event/:id/edit",auth.decodeJWT, async (req,res)=>{
     }
 })
 
+router.get("/search", async(req,res)=>{
+    try{
+        res.sendFile(basePath+"\\frontend\\search.html")
+    } catch{
+        res.status(500).send("Hiba a keresés betöltésekor")
+    }
+})
+
 router.get("/", async(req,res)=>{
     res.sendFile(basePath+"\\frontend\\Main.html")
 })

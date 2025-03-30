@@ -26,27 +26,23 @@ fetch(`/api/event/${eventId}`)
     for(let i = 0; i < data.categories.length; i++){
         document.getElementById("tags").innerHTML += `<span class="tag">${data.categories[i].category.name}</span>`
     }
-    if(data.author.username.toLowerCase() == localStorage.getItem("username").toLowerCase()){
-        document.getElementById("editLink").classList.remove("hidden")
-        document.getElementById("editLink").href = `/event/${eventId}/edit`
-
-        document.getElementById("deleteLink").classList.remove("hidden")
-    }
+    
 
     if(data.ageLimit){
         document.getElementById("tags").innerHTML = "<span class='tag-18'>18+</span>" + document.getElementById("tags").innerHTML
     }
 
     let startDate = new Date(data.startDate)
+
     let t1 = startDate.getMonth()+1 
-    let t2 = startDate.getHours()-1 
+    let t2 = startDate.getHours()-2 
     startDate.setMonth(t1)
     startDate.setHours(t2)
     let endDate;
     if(data.endDate != null){
         endDate = new Date(data.endDate)
         let t3 = endDate.getMonth()+1 
-        let t4 = endDate.getHours()-1 
+        let t4 = endDate.getHours()-2 
         endDate.setMonth(t3)
         endDate.setHours(t4)
     } else{
@@ -63,6 +59,13 @@ fetch(`/api/event/${eventId}`)
     for(let i of data.gallery){
         document.getElementById("gallery").innerHTML = document.getElementById("gallery").innerHTML + 
         `<img src='/${i.image}' />`
+    }
+
+    if(data.author.username.toLowerCase() == localStorage.getItem("username").toLowerCase()){
+        document.getElementById("editLink").classList.remove("hidden")
+        document.getElementById("editLink").href = `/event/${eventId}/edit`
+
+        document.getElementById("deleteLink").classList.remove("hidden")
     }
 
 })

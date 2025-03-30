@@ -124,5 +124,66 @@ async function getEventsBasedOnCounty(userId, page){
     return events
 }
 
+async function search(query) {
+    let categoryIds = []
+    let filter = {}
+    let page = 0;
+    if(query.q){
+        filter.title = {contains: query.q}
+    }
+    if(query.tags){
+        filter.eventcategory = {some: {
+                categoryId: {in: JSON.parse(query.tags)}
+            }}
+    }
+    if(query.startDate){
+        filter.startDate = {gte: new Date(query.startDate)}
+    }
+    if(query.city){
+        filter.city = {name: query.city}
+    }
+    if(query.county){
+        filter.city = {county: query.county}
+    }
+    if(query.city && query.county){
+        filter.city = {
+            name: query.city,
+            county: query.county
+        }
+    }
+    if(query.ageLimit){
+        if(query.ageLimit.toLowerCase() == "true"){
+            filter.ageLimit = true
+        } else if(query.ageLimit.toLowerCase() == "false"){
+            filter.OR =[
+                {ageLimit: false},
+                {ageLimit: null}
+            ]
+        }
+        
+    }
+    if(query.page){
+        page = parseInt(query.page)-1
+    }
 
-module.exports = {getUserIntrests, getPopular, getEventsBasedOnInterests, getEventsBasedOnCounty}
+    let result = await prisma.event.findMany({
+        where: { AND: filter },
+        skip: page*8,
+        take: 8})
+
+    let resultcount = await prisma.event.count({
+        where: { AND: filter }})
+    
+    let result2 = []
+
+    for(let i of result){
+        let temp = await event.getEventById(i.id)
+        result2.push(temp)
+    }
+    let output = {currentPage: page+1, allResultCount: resultcount, pages: Math.ceil(resultcount/8), results: result2}
+    return output
+}
+
+
+
+module.exports = {getUserIntrests, getPopular, getEventsBasedOnInterests, getEventsBasedOnCounty, search}

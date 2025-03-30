@@ -13,6 +13,10 @@ async function loadComments(){
 
 function displayComments(comments){
     let commentsDiv = document.getElementById("comments")
+    if(!Boolean(localStorage.getItem("isLoggedIn"))){
+        document.getElementById("commentInput").classList.add("hidden")
+        document.getElementById("replyingTo").classList.add("hidden")
+    }
     console.log(comments)
     if(page==0){
         commentsDiv.innerHTML = ""
@@ -28,7 +32,6 @@ function displayComments(comments){
                     </div>
         `
         for(let reply of comment.replies){
-            console.log(reply)
             commentsDiv.innerHTML += 
             `
             <div class="comment reply">
@@ -47,6 +50,10 @@ function displayComments(comments){
 loadComments()
 
 function deleteComment(id){
+if(!Boolean(localStorage.getItem("isLoggedIn"))){
+    window.location = "/login"
+}
+
 fetch(`/api/event/${eventId}/comment/${id}`, {method: "delete"})
 .then(r=>r.json())
 .then(d=>{
