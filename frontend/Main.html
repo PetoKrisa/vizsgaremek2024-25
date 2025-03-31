@@ -12,9 +12,9 @@
 
   <header> 
     <div class="search-container">
-        <input type="text" placeholder="Keresés...">
-        <button><i class="glyphicon glyphicon-search"></i></button>
-    </div>
+      <input type="text" placeholder="Keresés..." id="searchBar">
+      <button onclick="search()"><i class="glyphicon glyphicon-search"></i></button>
+  </div>
 
     <div class="hamburger-icon">
         <i class="glyphicon glyphicon-menu-hamburger"></i>
@@ -56,7 +56,7 @@
     <div class="hero-content">
       <h1>EVENTOR</h1>
       <p>Ne unatkozz! Keress a hétvégére egy programot még ma!</p>
-      <button class="btn-hero">Keresés</button>
+      <button class="btn-hero" onclick="window.location = '/search'">Keresés</button>
     </div>
   </section>
 

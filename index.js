@@ -10,10 +10,11 @@ app.use(cookieParser());
 const baseDirectory = __dirname
 
 app.use(bodyParser.urlencoded({
-    extended: false
+    extended: false,
+    limit: "2gb"
 }));
-app.use(bodyParser.json());
-app.use(cors())
+app.use(bodyParser.json({ limit: "2gb" }));
+app.use(cors("*"))
 
 app.use('/public', express.static('public'))
 

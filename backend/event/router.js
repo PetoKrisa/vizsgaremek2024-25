@@ -160,6 +160,7 @@ router.post("/api/event/:id/gallery", auth.decodeJWT, saveFiles, async (req,res)
     if(req.files != undefined && req.files.gallery != undefined){
       await event.saveGalleryImages(parseInt(req.params.id), req.files.gallery)
       res.status(200).json({status: 200, message: "updated"})
+      res.end()
       return
     } else{
       res.status(400).json({status: 400, message: "No images were submitted with the request"})

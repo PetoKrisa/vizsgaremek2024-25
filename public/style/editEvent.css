@@ -313,6 +313,7 @@ dialog button{
     margin: 5px;
     border-radius: 5px;
     display:  inline-block;
+    cursor: pointer;
 }
 
 #tags2{

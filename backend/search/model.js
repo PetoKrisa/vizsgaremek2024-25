@@ -168,6 +168,7 @@ async function search(query) {
 
     let result = await prisma.event.findMany({
         where: { AND: filter },
+        orderBy: {date: "desc"},
         skip: page*8,
         take: 8})
 

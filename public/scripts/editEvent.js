@@ -156,14 +156,32 @@ function closeGallery(){
 }
 
 function uploadGallery(){
-    let form1 = new FormData(document.getElementById("galleryForm"))
+    let form1 = new FormData(document.getElementById("galleryForm"));
+    let xhr = new XMLHttpRequest();
 
-    fetch(`/api/event/${eventId}/gallery`, {method: "post", body: form1})
-    .then(r=>r.json())
-    .then(d=>{
-        if(d.status != 200 && d.status != 201){
-            showErrorMessage(d.message)
+    xhr.open("POST", `/api/event/${eventId}/gallery`, true);
+    xhr.timeout = 0
+    xhr.upload.onprogress = function (event) {
+        if (event.lengthComputable) {
+            let percentComplete = (event.loaded / event.total) * 100;
+            console.log(`Upload progress: ${percentComplete.toFixed(2)}%`);
+            document.getElementById("uploadProgress").value = Math.floor(percentComplete)
+            document.getElementById("uploadProgressText").innerText = `${Math.floor(percentComplete)}%`
         }
-        window.location.reload()
-    })
+    };
+
+    xhr.onload = function () {
+        if (xhr.status !== 200 && xhr.status !== 201) {
+            let response = JSON.parse(xhr.responseText);
+            showErrorMessage(response.message);
+        }
+        window.location.reload();
+    };
+
+    xhr.onerror = function () {
+        console.error("Upload failed.");
+    };
+
+    document.getElementById("uploadProgress").classList.remove("hidden")
+    xhr.send(form1);
 }
