@@ -9,6 +9,7 @@ const fs = require("fs")
 const crypto = require("crypto")
 const jwt = require("jsonwebtoken")
 const search = require("../search/model")
+const email = require("../email/service")
 
 const basePath =  __dirname.replace("backend\\user", "")
 const pfpStorage = multer.diskStorage({
@@ -206,10 +207,10 @@ router.post("/api/user/register", async (req,res)=>{
             res.status(400).json({status: 400, message: "Az email üres"})
             return
         }
-        let verification = await auth.register(req.body.username, req.body.password, req.body.email, req.body.city)
-        console.log(verification)
+        let createdUserId = await auth.register(req.body.username, req.body.password, req.body.email, req.body.city)
         //todo email
-        res.json({status: 200, message: "Sikeres regisztráció", link: verification})
+        email.sendVerificationEmailToUserId(createdUserId)
+        res.json({status: 200, message: "Sikeres regisztráció"})
     } catch(e){
         console.error(e)
         res.status(e.cause || 500).json({status: e.cause || 500,  message: e.message})

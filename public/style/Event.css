@@ -83,6 +83,14 @@ h1 {
 
 .tag-18 {
     background-color: #d32f2f;
+    font-size: 12pt !important;
+    padding: 5px !important;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tag-18:hover{
+    text-decoration: underline;
 }
 
 .tag-koncert {
@@ -95,7 +103,12 @@ h1 {
     font-size: 12pt !important;
     padding: 5px !important;
     font-weight: bold;
+    cursor: pointer;
 
+}
+
+.tag:hover{
+    text-decoration: underline;
 }
 .content {
     display: flex;

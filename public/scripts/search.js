@@ -2,7 +2,7 @@ var searchParams = new URLSearchParams(window.location.search)
 fetch(`/api/search${window.location.search}`).then(r=>r.json())
 .then(d=>{
     console.log(d)
-    document.getElementById("resultsCount").innerText = `Talált események (${d.allResultCount}db) ${d.currentPage}. oldal`
+    document.getElementById("resultsCount").innerHTML = `Talált események (${d.allResultCount}db) <span class="pageIndicator">${d.currentPage}. oldal</span>`
 
     document.getElementById("results").innerHTML = ""
 
@@ -152,4 +152,22 @@ function applyFilters(){
 
     window.history.pushState({}, "", "/search?"+newSearchParams.toString())
     window.location.reload()
+}
+
+function resetTags(){
+    for(let i of document.querySelectorAll("input[type='checkbox']")){
+        i.checked=false
+    }
+}
+
+function resetCounty(){
+    document.getElementById("megye").value = ""
+}
+
+function resetCity(){
+    document.getElementById("varos").value = ""
+}
+
+function resetStartDate(){
+    document.getElementById("start-date").value = ""
 }

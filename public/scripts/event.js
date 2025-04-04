@@ -24,12 +24,12 @@ fetch(`/api/event/${eventId}`)
 
     document.getElementById("tags").innerHTML = ""
     for(let i = 0; i < data.categories.length; i++){
-        document.getElementById("tags").innerHTML += `<span class="tag">${data.categories[i].category.name}</span>`
+        document.getElementById("tags").innerHTML += `<span class="tag" onclick="window.location='/search?tags=[${data.categories[i].category.id}]'">${data.categories[i].category.name}</span>`
     }
     
 
     if(data.ageLimit){
-        document.getElementById("tags").innerHTML = "<span class='tag-18'>18+</span>" + document.getElementById("tags").innerHTML
+        document.getElementById("tags").innerHTML = `<span class='tag-18' onclick='window.location="/search?ageLimit=true"'>18+</span>` + document.getElementById("tags").innerHTML
     }
 
     let startDate = new Date(data.startDate)

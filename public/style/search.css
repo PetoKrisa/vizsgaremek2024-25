@@ -115,6 +115,23 @@ body, html {
     color: #333;
     text-decoration: none;
   }
+
+  .resetButton{
+    color: gray;
+    text-decoration: underline;
+    border: none;
+    background-color: transparent;
+    float: right;
+  }
+
+  .pageIndicator{
+    font-weight: normal;
+    font-size: large;
+    color: gray;
+    float: right;
+    margin-top: 10px;
+  }
+
   @media (max-width: 768px) {
     .event-card {
       flex-direction: column;

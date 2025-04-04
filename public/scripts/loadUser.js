@@ -18,7 +18,13 @@ fetch(`/api/user/${userName}`)
     var time = new Date(data.joinDate)
     var city = `${data.city.name}, ${data.city.county}`
     
-    joinDate.innerText = `Csatlakozott: ${time.getFullYear()}.${time.getMonth()+1}.${time.getDate()-1} • ${city}`
+    joinDate.innerText = `Csatlakozott: ${time.getFullYear()}.${time.getMonth()+1}.${time.getDate()} • ${city}`
+    if(data.role == "admin"){
+        joinDate.innerText += ` • Adminisztrátor`
+    }
+    if(data.role == "moderator"){
+        joinDate.innerText += ` • Moderátor`
+    }
 
     document.getElementById("bio").innerText = data.bio
 

@@ -58,7 +58,7 @@
         <div class="filter-panel">
           <h3>Szűrők</h3>
           <div class="form-group">
-            <label>Kategóriák:</label>
+            <label>Kategóriák:</label> <button onclick="resetTags()" class="resetButton">törlés</button>
             <div class="filter-categories" id="filterCategories">
               <div class="checkbox"><label><input type="checkbox" class="tagCheckbox" value="a"> Koncert</label></div>
               <div class="checkbox"><label><input type="checkbox"> Házi buli</label></div>
@@ -71,7 +71,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="megye">Megye:</label>
+            <label for="megye">Megye:</label> <button onclick="resetCounty()" class="resetButton">törlés</button>
             <select class="form-control" id="megye">
               <option></option>
               <option>bács-kiskun</option>
@@ -97,12 +97,12 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="varos">Város:</label>
+            <label for="varos">Város:</label> <button onclick="resetCity()" class="resetButton">törlés</button>
             <input list="cityInputDatalist" type="text" class="form-control cityInput" id="varos" placeholder="Budapest, stb.">
             <datalist id="cityInputDatalist"></datalist>
           </div>
           <div class="form-group">
-            <label for="start-date">Kezdés:</label>
+            <label for="start-date">Kezdés:</label> <button onclick="resetStartDate()" class="resetButton">törlés</button>
             <input type="date" class="form-control" id="start-date">
           </div>
           <div class="form-group">

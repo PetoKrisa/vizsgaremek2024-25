@@ -150,7 +150,7 @@ async function register(username, password, email, cityName) {
     }
     })
 
-    return `${process.env.url}api/user/verify?username=${username}&id=${rows.id}&pin=${pin}`
+    return rows.id
 }
 
 async function verifyEmail(username, userid, tempPin){
