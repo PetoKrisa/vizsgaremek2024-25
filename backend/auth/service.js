@@ -20,6 +20,7 @@ const permissions = {
         "read:allEvents",
 
         "read:admin",
+        "update:admin",
 
         "edit:allUsers",
         "delete:allUsers",
@@ -38,6 +39,8 @@ const permissions = {
         "delete:allEvents",
         "delete:allEvents",
         
+        "read:admin",
+
         "edit:allUsers",
         "delete:allUsers",
         "edit:user",
@@ -207,6 +210,33 @@ function decodeJWT(req, res, next){
     
 }
 
+async function checkReadAdmin(req,res,next) {
+    try{
+        if(permissions[req.decodedToken.role].has("read:admin")){
+            next()
+        } else{
+            res.status(403).json({status: 403, message: "Nincs ilyen jogosultsága: read:admin"})
+        }
+    }catch(e){
+        res.status(500).json({status: 500, message: "Hiba az admin oldal betöltése közben, ha van jogod az adminfelülethez, jelentkezz ki és jelentkezz be újra"})
+        console.log(e)
+        return
+    }
+}
+
+async function checkUpdateAdmin(req,res,next) {
+    try{
+        if(permissions[req.decodedToken.role].has("update:admin")){
+            next()
+        } else{
+            res.status(403).json({status: 403, message: "Nincs ilyen jogosultsága: update:admin"})
+        }
+    }catch(e){
+        res.status(500).json({status: 500, message: "Hiba az admin oldal betöltése közben, ha van jogod az adminfelülethez, jelentkezz ki és jelentkezz be újra"})
+        return
+    }
+}
+
 async function hasPermission(decodedJwt, ownerUsername, ownerPermissionList, permissionList) {
 
     if(decodedJwt.username == null || decodedJwt.username == undefined){
@@ -267,4 +297,4 @@ async function googleGetTokenFromCode(code){
     return response.access_token
 }
 
-module.exports = {login, register, verifyEmail, hasPermission, decodeJWT, googleGetTokenFromCode, oauthLogin}
+module.exports = {login, register, verifyEmail, hasPermission, decodeJWT, googleGetTokenFromCode, oauthLogin, checkUpdateAdmin, checkReadAdmin}
