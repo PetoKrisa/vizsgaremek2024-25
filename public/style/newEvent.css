@@ -5,83 +5,6 @@ body, html {
     background-color: #F5F3F5;
 }
 
-.circle-icon {
-    position: absolute;
-    right: 20px;
-    background-color: white;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #7776B3;
-    cursor: pointer;
-    z-index: 3;
-}
-
-.circle-icon i {
-    font-size: 18px;
-    color: #000000;
-}
-
-.tag {
-    background-color: #cdcee9;
-    color: black !important;
-    font-size: 12pt !important;
-    padding: 5px !important;
-    font-weight: normal;
-    margin: 5px;
-    display: inline-block;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.dropdown-menu {
-    min-width: 160px;
-    border-radius: 8px;
-    background-color: #f8f9fa;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 5px 0;
-    position: absolute;
-    left: -160px;
-    top: 50px;
-    border: 1px solid #ccc;
-}
-
-.dropdown-menu li {
-    padding: 8px 12px;
-    transition: background-color 0.3s ease;
-}
-
-.dropdown-menu li:hover {
-    background-color: #e9ecef;
-}
-
-.dropdown-menu a {
-    padding-left: 0;
-}
-
-.hamburger-icon {
-    position: absolute;
-    left: 20px;
-    background-color: white;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #7776B3;
-    cursor: pointer;
-    z-index: 3;
-}
-
-.hamburger-icon i {
-    font-size: 18px;
-    color: #000000;
-}
-
 .container {
     margin: 4%;
     width: auto;
@@ -93,7 +16,7 @@ body, html {
     font-size: 1.3rem;
 }
 
-.submitbutton{
+.submitbutton {
     background-color: #6200ea;
     color: white;
     border: none;
@@ -109,9 +32,34 @@ body, html {
     text-align: center;
 }
 
-.submitbutton :hover{
+.submitbutton:hover {
     background-color: #3700b3;
 }
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.tag {
+    background-color: #cdcee9;
+    color: black !important;
+    font-size: 0.95rem;
+    padding: 6px 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 18px;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+.tag:hover {
+    background-color: #b3b5d6;
+}
+
+
 @media (min-width: 768px) {
     .content {
         flex-direction: row;
@@ -126,7 +74,8 @@ body, html {
     .comments {
         max-width: 80%;
     }
-    .submitbutton{
+
+    .submitbutton {
         max-width: 200px;
         font-size: 90%;
     }

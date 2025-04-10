@@ -10,8 +10,8 @@
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 30px;
-    width: 75%; /* A kártya szélessége 75% az oldal szélességéhez képest */
-    max-width: 1200px; /* Maximális szélesség, hogy nagy képernyőkön ne nyúljon túl hosszúra */
+    width: 75%;
+    max-width: 1200px;
     margin: 40px auto;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     text-align: left;
@@ -67,7 +67,6 @@
 }
 
 .interests .badge {
-    /*background-color: #ee40d7;*/
     color: white;
     padding: 12px 18px;
     margin-right: 10px;
@@ -75,7 +74,6 @@
     font-size: 16px;
 }
 
-/* Reszponzív kialakítás kisebb képernyőkhöz */
 @media (max-width: 768px) {
     .profile-card {
         width: 95%;
@@ -86,6 +84,11 @@
         width: 70px;
         height: 70px;
         font-size: 30px;
+    }
+
+    .profile-icon img{
+        width: 75px;
+        height: 75px;
     }
 
     .profile-card h2 {
@@ -116,7 +119,7 @@
     }
 }
 .event-container {
-        position: relative; /* szükséges a belső abszolút elemek pozícionálásához */
+        position: relative;
         display: flex;
         flex-direction: column;
         gap: 20px;
