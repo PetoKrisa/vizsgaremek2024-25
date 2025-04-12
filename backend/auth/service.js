@@ -204,6 +204,7 @@ function decodeJWT(req, res, next){
         req.decodedToken = decodedToken
         next()
     } catch(e){
+        console.error(e)
         res.status(403).json({status: 403, message: "A token hibás vagy üres"})
         return
     }

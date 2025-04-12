@@ -33,6 +33,22 @@ router.get("/admin/users", auth.decodeJWT, auth.checkReadAdmin, async (req,res)=
     }
 })
 
+router.get("/admin/events", auth.decodeJWT, auth.checkReadAdmin, async (req,res)=>{
+    try{
+        res.sendFile(basePath+"frontend\\admin\\events.html")
+    } catch(e){
+        res.status(500).json({status: 500, message: "Hiba az admin oldal betöltése közben"})
+    }
+})
+
+router.get("/admin/comments", auth.decodeJWT, auth.checkReadAdmin, async (req,res)=>{
+    try{
+        res.sendFile(basePath+"frontend\\admin\\comments.html")
+    } catch(e){
+        res.status(500).json({status: 500, message: "Hiba az admin oldal betöltése közben"})
+    }
+})
+
 //api
 
 //users
@@ -105,6 +121,125 @@ router.put("/api/admin/users",auth.decodeJWT, auth.checkUpdateAdmin, async(req,r
         await admin.users.updateUser(req.body)
 
         res.json({status: 200, message: "Sikeresen frissítette a felhasználót"})
+    }catch(e){
+        console.log(e)
+        res.status(500).json({status: 500, message: e.message})
+    }
+})
+
+//events
+router.get("/api/admin/events", auth.decodeJWT, auth.checkReadAdmin, async (req,res)=>{
+    try{
+        let events = await admin.events.getEvents(req.query)
+        res.json(events)
+    } catch(e){
+        console.log(e)
+        res.status(500).json({status: 500, message: "Hiba az events betöltése közben"})
+    }
+})
+
+router.delete("/api/admin/events", auth.decodeJWT, auth.checkUpdateAdmin, async (req,res)=>{
+    try{
+        let userIdList = req.body.idList
+        
+        await admin.events.deleteEvents(userIdList)
+        res.json({message: `Sikeresent törölt ${userIdList.length} sort`})
+    } catch(e){
+        console.log(e)
+        res.status(500).json({status: 500, message: e.message})
+    }
+})
+
+router.put("/api/admin/events",auth.decodeJWT, auth.checkUpdateAdmin, async(req,res)=>{
+    try{
+        if(req.body.id == null || req.body.id == undefined || req.body.id == ''){
+            res.status(400).json({status: 400, message: "Az id hibás (nem lehet üres)"})
+            return
+        }
+        let user = await prisma.event.findFirst({where: {id: parseInt(req.body.id)}})
+        if(user == null){
+            res.status(404).json({status: 404, message: "A szerkesztett esemény nem létezik"})
+            return
+        }
+
+        if(req.body.cityId){
+            let citytemp = await city.getCities(req.body.cityId)
+            req.body.cityId = citytemp[0].id
+        }
+
+        if(req.body.cover){
+            delete req.body.cover
+        }
+
+        if(req.body.startDate){
+            req.body.startDate = new Date(req.body.startDate)
+        }
+        if(req.body.endDate){
+            req.body.endDate = new Date(req.body.endDate)
+        }
+
+        if(req.body.ageLimit){
+            req.body.ageLimit = req.body.ageLimit == "true"
+        }
+
+        await admin.events.updateEvent(req.body)
+
+        res.json({status: 200, message: "Sikeresen frissítette az eseményt"})
+    }catch(e){
+        console.log(e)
+        res.status(500).json({status: 500, message: e.message})
+    }
+})
+
+//comments
+router.get("/api/admin/comments", auth.decodeJWT, auth.checkReadAdmin, async (req,res)=>{
+    try{
+        let events = await admin.comments.getComments(req.query)
+        res.json(events)
+    } catch(e){
+        console.log(e)
+        res.status(500).json({status: 500, message: "Hiba az kommentek betöltése közben"})
+    }
+})
+
+router.delete("/api/admin/comments", auth.decodeJWT, auth.checkUpdateAdmin, async (req,res)=>{
+    try{
+        let userIdList = req.body.idList
+        
+        await admin.comments.deleteComments(userIdList)
+        res.json({message: `Sikeresent törölt ${userIdList.length} sort`})
+    } catch(e){
+        console.log(e)
+        res.status(500).json({status: 500, message: e.message})
+    }
+})
+
+router.put("/api/admin/comments",auth.decodeJWT, auth.checkUpdateAdmin, async(req,res)=>{
+    try{
+        console.log(req.body)
+        if(req.body.id == null || req.body.id == undefined || req.body.id == ''){
+            res.status(400).json({status: 400, message: "Az id hibás (nem lehet üres)"})
+            return
+        }
+        let user = await prisma.eventcomment.findFirst({where: {id: parseInt(req.body.id)}})
+        if(user == null){
+            res.status(404).json({status: 404, message: "A szerkesztett komment nem létezik"})
+            return
+        }
+
+        if(req.body.eventId){
+            req.body.eventId = parseInt(req.body.eventId)
+        }
+        if(req.body.id){
+            req.body.id = parseInt(req.body.id)
+        }
+        if(req.body.userId){
+            req.body.userId = parseInt(req.body.userId)
+        }
+
+        await admin.comments.updateComment(req.body)
+
+        res.json({status: 200, message: "Sikeresen frissítette a kommentet"})
     }catch(e){
         console.log(e)
         res.status(500).json({status: 500, message: e.message})

@@ -1,6 +1,4 @@
-fetch(`/api/user/@${localStorage.getItem("username")}/email`,{
-    headers: {"Authorization": `bearer ${localStorage.getItem("token")}`}
-})
+fetch(`/api/user/@${localStorage.getItem("username")}/email`)
 .then(r=>r.json())
 .then(data=>{
     if(data.status != undefined && data.status != 200){
@@ -95,8 +93,8 @@ function updateEmail(){
     fetch(`/api/user/@${localStorage.getItem("username")}/email`, {
         method: "post",
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `bearer ${localStorage.getItem("token")}`
+            "Content-Type": "application/json"
+            
         },
         body: json
     }).then(r=>r.json())

@@ -18,7 +18,7 @@ function showAlert(message, type = 'danger') {
 }
 
 function loadTable(){
-    fetch(`/api/admin/users${window.location.search}`)
+    fetch(`/api/admin/events${window.location.search}`)
     .then(r=>r.json())
     .then(d=>{
         if(d.status && d.status != 200){
@@ -44,16 +44,14 @@ function loadTable(){
                             </span>
                         </td>
                         <td title='${i.id}'>${i.id}</td>
-                        <td title='${i.username}'>${i.username != null ? i.username.substring(0,17)+(i.username.length>17?"..." : "") : "<span class='text-muted'>null</span>"}</td>
-                        <td title='${i.email}'>${i.email != null ? i.email.substring(0,17)+(i.email.length>17?"..." : "") : "<span class='text-muted'>null</span>"}</td>
-                        <td title='${i.password}'>${i.password != null ? i.password.substring(0,7)+"..." : "<span class='text-muted'>null</span>"}</td>
-                        <td title='${i.joinDate}'>${new Date(i.joinDate.replace("Z", "")).toLocaleDateString()}</td>
+                        <td title='${i.userId}'>${i.userId} - ${i.user.username != null ? i.user.username.substring(0,17)+(i.user.username.length>17?"..." : "") : "<span class='text-muted'>null</span>"}</td>
+                        <td title='${i.title}'>${i.title != null ? i.title.substring(0,17)+(i.title.length>17?"..." : "") : "<span class='text-muted'>null</span>"}</td>
+                        <td title='${i.description}'>${i.description != null ? i.description.substring(0,20)+(i.description.length>20?"..." : "") : "<span class='text-muted'>null</span>"}</td>
+                        <td title='${i.startDate}'>${new Date(i.startDate.replace("Z", "")).toLocaleDateString()}</td>
                         <td title='${i.cityId}'>${i.cityId} - ${i.city.name}</td>
-                        <td title='${i.bio}'>${i.bio != null ? i.bio.substring(0,20)+(i.bio.length>20?"..." : "") : "<span class='text-muted'>null</span>"}</td>
-                        <td title='${i.pfp}'>${i.pfp != null ? i.pfp.substring(0,10)+"..." : "<span class='text-muted'>null</span>"}</td>
-                        <td title='${i.completed}'>${i.completed}</td>
-                        <td title='${i.role}'>${i.role}</td>
-                        <td title='${i.oauthType}'>${i.oauthType != null ? i.oauthType : "<span class='text-muted'>null</span>"}</td>
+                        <td title='${i.location}'>${i.location != null ? i.location.substring(0,20)+(i.location.length>20?"..." : "") : "<span class='text-muted'>null</span>"}</td>
+                        <td title='${i.maxResponse}'>${i.maxResponse}</td>
+                        <td title='${i.ageLimit}'>${i.ageLimit}</td>
                     </tr>
                 `
             }
@@ -72,8 +70,8 @@ function loadTable(){
                            <label for="checkbox-${i.id}" class="w-100">#${i.id}</label>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">${i.username}</h5>
-                            <p class="card-text"><strong>email:</strong> ${i.email}<br><strong>bio:</strong> ${i.bio != null ? i.bio.substring(0,40)+(i.bio.length>40?"..." : "") : "<span class='text-muted'>null</span>"}<br><strong>city:</strong> ${i.city.id} - ${i.city.name}<br><strong>role:</strong> ${i.role} </p>
+                            <h5 class="card-title">${i.title}</h5>
+                            <p class="card-text"><strong>description:</strong> ${i.description != null ? i.description.substring(0,40)+(i.description>40?"..." : "") : "<span class='text-muted'>null</span>"}<br><strong>user:</strong>${i.userId} - ${i.user.username != null ? i.user.username.substring(0,40)+(i.user.username>40?"..." : "") : "<span class='text-muted'>null</span>"}<br><strong>city:</strong> ${i.city.id} - ${i.city.name}<br><strong>ageLimit:</strong> ${i.ageLimit} </p>
                             <button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#editPrompt" data-id="${i.id}" role="button">Szerkesztés</button>
                         </div>
                     </div>
@@ -173,7 +171,7 @@ function selectAll(){
 }
 
 function deleteSelected(){
-    fetch("/api/admin/users", {method: "delete", body: JSON.stringify({idList: selectedRows}), 
+    fetch("/api/admin/events", {method: "delete", body: JSON.stringify({idList: selectedRows}), 
 headers: {
     "content-type": "application/json"
 }})
@@ -198,22 +196,24 @@ headers: {
 function editRow(){
     let formData = new FormData(document.getElementById("editUserForm"))
     var json = Object.fromEntries(formData.entries());
-    if(json.password == ""){
-        delete json.password;
+    if(json.location == ""){
+        json.location == null
     }
-    if(json.oauthType == ""){
-        json.oauthType == null
+    
+    if(json.description == ""){
+        json.description = null
     }
-    if(json.bio == ""){
-        json.bio = null
-    }
-    json.completed = (json.completed == "true");
-    json.tempPin = parseInt(json.tempPin);
+
+    json.maxResponse = parseInt(json.maxResponse);
     json.id = parseInt(json.id);
-    json.joinDate = json.joinDate.replace("T", " ")+"Z"
+    json.userId = parseInt(json.userId);
+    json.startDate = json.startDate.replace("T", " ")+"Z"
+    if(json.endDate){
+        json.endDate = json.endDate.replace("T", " ")+"Z"
+    }
     console.log(JSON.stringify(json));
 
-    fetch(`/api/admin/users`, {method: "put", body: JSON.stringify(json), 
+    fetch(`/api/admin/events`, {method: "put", body: JSON.stringify(json), 
         headers: {
             "content-type": "application/json"
         }
@@ -244,75 +244,35 @@ if (editPrompt) {
     editPrompt.addEventListener('show.bs.modal', event => {
     var openedBy = event.relatedTarget
 
-    fetch(`/api/admin/users?id=${openedBy.dataset.id}`)
+    fetch(`/api/admin/events?id=${openedBy.dataset.id}`)
     .then(r=>r.json())
     .then(d=>{
-        user = d.results[0]
-        console.log(`${user.completed}`)
-        editPrompt.querySelector("#editId").value = user.id
-        editPrompt.querySelector("#editUsername").value = user.username
-        editPrompt.querySelector("#editEmail").value = user.email
-        editPrompt.querySelector("#editCurrentPassword").innerText = user.password
-        editPrompt.querySelector("#editJoinDate").value = new Date(user.joinDate).toISOString().slice(0, 16)
-        editPrompt.querySelector("#editCityId").value = user.city.name
-        editPrompt.querySelector("#editBio").value = user.bio
-        editPrompt.querySelector("#editCompleted").value = `${user.completed}`
-        editPrompt.querySelector("#editTempPin").value = user.tempPin
-        editPrompt.querySelector("#editRole").value = user.role
-        editPrompt.querySelector("#editOuathType").value = user.oauthType
-        editPrompt.querySelector("#editCurrentPfp").innerText = user.pfp
-        editPrompt.querySelector("#currentPfp").src = user.pfp
+        event = d.results[0]
+        editPrompt.querySelector("#editId").value = event.id
+        editPrompt.querySelector("#editUserId").value = event.userId
+        editPrompt.querySelector("#editTitle").value = event.title
+        editPrompt.querySelector("#editDescription").innerText = event.description
+        editPrompt.querySelector("#editStartDate").value = new Date(event.startDate).toISOString().slice(0, 16)
+        editPrompt.querySelector("#editEndDate").value = new Date(event.endDate).toISOString().slice(0, 16)
+        editPrompt.querySelector("#editCityId").value = event.city.name
+        editPrompt.querySelector("#editLocation").value = event.location
+        editPrompt.querySelector("#editAgeLimit").value = `${event.ageLimit}`
+        editPrompt.querySelector("#editMaxResponse").value = event.maxResponse
 
-        editPrompt.querySelector("#userVerificationLink").innerText = `/api/user/verify?username=${user.username}&id=${user.id}&pin=${user.tempPin}`
-        editPrompt.querySelector("#userVerificationLink").href = `/api/user/verify?username=${user.username}&id=${user.id}&pin=${user.tempPin}`
 
-        editPrompt.querySelector("#userEventsLink").innerText = `Események`
-        editPrompt.querySelector("#userEventsLink").href = `/admin/events?userId=${user.id}`
+        editPrompt.querySelector("#eventUserLink").innerText = `/admin/users?id=${event.userId}`
+        editPrompt.querySelector("#eventUserLink").href = `/admin/users?id=${event.userId}`
 
-        editPrompt.querySelector("#userCommentsLink").innerText = `Kommentek`
-        editPrompt.querySelector("#userCommentsLink").href = `/admin/comments?userId=${user.id}`
+        editPrompt.querySelector("#editEventLink").innerText = `Esemény szerkesztése az oldalon`
+        editPrompt.querySelector("#editEventLink").href = `/events/${event.id}/edit`
 
-        editPrompt.querySelector("#userProfileLink").innerText = `Profil`
-        editPrompt.querySelector("#userProfileLink").href = `/user/@${user.username}`
-
-        editPrompt.querySelector("#deletePfpBtn").dataset.username = user.username
-        editPrompt.querySelector("#editPfpBtn").dataset.username = user.username
+        editPrompt.querySelector("#eventCommentsLink").innerText = `Kommentek`
+        editPrompt.querySelector("#eventCommentsLink").href = `/admin/comments?eventId=${event.id}`
         
     })
 
 
   })
-}
-
-function deletePfp(e){
-    fetch(`/api/user/@${e.dataset.username}/pfp`, {method: "delete"})
-    .then(r=>r.json())
-    .then(d=>{
-        if(d.status && d.status != 200){
-            showAlert(d.message)
-        } else{
-            showAlert(d.message, "success")
-            loadTable()
-        }
-    })
-    var modal = bootstrap.Modal.getInstance(document.getElementById("editPrompt"))
-    modal.hide()
-}
-
-function updatePfp(e){
-    let formData = new FormData(document.getElementById("editPfpForm"))
-    fetch(`/api/user/@${e.dataset.username}/pfp`, {method: "post", body: formData})
-    .then(r=>r.json())
-    .then(d=>{
-        if(d.status && d.status != 200){
-            showAlert(d.message)
-        } else{
-            showAlert(d.message, "success")
-            loadTable()
-        }
-    })
-    var modal = bootstrap.Modal.getInstance(document.getElementById("editPrompt"))
-    modal.hide()
 }
 
 loadTable()

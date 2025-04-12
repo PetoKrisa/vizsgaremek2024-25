@@ -77,7 +77,7 @@ router.delete("/api/user/@:username", auth.decodeJWT, async(req,res)=>{
             }
         })
         let passHash = crypto.createHash('sha256').update(req.body.password).digest('hex');
-        if(passHash != userToDelete.password){
+        if(passHash != userToDelete.password && !(userToDelete.oauthType == "google")){
             res.status(403).json({status: 403, message: "A jelszó helytelen"})
             return
         }
