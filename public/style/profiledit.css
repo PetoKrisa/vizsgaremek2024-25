@@ -81,3 +81,31 @@ input[type=file]::-webkit-file-upload-button{
 .soft-text{
     color: var(--soft-text);
 }
+
+@media (max-width: 768px) {
+    .profile-icon img{
+        width: 75px;
+        height: 75px;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-row label {
+        min-width: auto;
+        width: 100%;
+    }
+
+    .form-row .form-control,
+    .form-row .btn,
+    .form-row input[type="file"] {
+        width: 100%;
+        flex: none;
+    }
+
+    input[type="file"]::-webkit-file-upload-button {
+        width: 100%;
+    }
+}
