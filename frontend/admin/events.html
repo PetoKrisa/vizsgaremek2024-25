@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Felhasználók</title>
+    <title>Admin - Események</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=delete,edit_square" />
 
@@ -39,10 +39,10 @@
                         <a class="nav-link" href="/admin">Analitika</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/admin/users">Felhasználók</a>
+                        <a class="nav-link" href="/admin/users">Felhasználók</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/events">Események</a>
+                        <a class="nav-link active" href="/admin/events">Események</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/comments">Kommentek</a>
@@ -71,41 +71,18 @@
                         
                     </th>
                     <th>id</th>
-                    <th>username</th>
-                    <th>email</th>
-                    <th>password</th>
-                    <th>joinDate</th>
+                    <th>userId</th>
+                    <th>title</th>
+                    <th>description</th>
+                    <th>startDate</th>
                     <th>cityId</th>
-                    <th>bio</th>
-                    <th>pfp</th>
-                    <th>completed</th>
-                    <th>role</th>
-                    <th>oauthType</th>
+                    <th>location</th>
+                    <th>maxResponse</th>
+                    <th>ageLimit</th>
                 </tr>
             </thead>
             <tbody id="tableBody" class="w-100">
-                <tr>
-                    <td class="text-center"><input type="checkbox"></td>
-                    <td class="text-center w-auto px-0">
-                        <span class="material-symbols-outlined">
-                            edit_square
-                        </span>
-                        <span class="material-symbols-outlined">
-                            delete
-                        </span>
-                    </td>
-                    <td>username</td>
-                    <td>email</td>
-                    <td>password</td>
-                    <td>joinDate</td>
-                    <td>cityId</td>
-                    <td>bio</td>
-                    <td>pfp</td>
-                    <td>completed</td>
-                    <td>tempPin</td>
-                    <td>role</td>
-                    <td>oauthType</td>
-                </tr>
+                
             </tbody>
         </table>
 
@@ -168,22 +145,21 @@
             <div class="modal-body">
                 <!--edit prompt form-->
                 <form action="javascript:void(0)" id="editUserForm">
-                  <h5>User data</h5>
+                  <h5>Event data</h5>
                   <label for="editId">id</label>
                   <input type="number" class="form-control" readonly id="editId" name="id">
                   
-                  <label for="editUsername">username</label>
-                  <input type="text" class="form-control" id="editUsername" name="username">
+                  <label for="editUserId">userId</label>
+                  <input type="text" class="form-control" id="editUserId" name="userId">
 
-                  <label for="editEmail">email</label>
-                  <input type="email" class="form-control" id="editEmail" name="email">
+                  <label for="editTitle">title</label>
+                  <input type="text" class="form-control" id="editTitle" name="title">
 
-                  <label for="editPassword">password</label><br>
-                  <span class="text-muted text-break" >Jelenlegi hash: <span id="editCurrentPassword"></span></span>
-                  <input placeholder="Új jelszó" type="text" class="form-control" id="editPassword" name="password">
-
-                  <label for="editJoinDate">joinDate</label>
-                  <input type="datetime-local" class="form-control" id="editJoinDate" name="joinDate">  
+                  <label for="editStartDate">startDate</label>
+                  <input type="datetime-local" class="form-control" id="editStartDate" name="startDate">
+                  
+                  <label for="editEndDate">endDate</label>
+                  <input type="datetime-local" class="form-control" id="editEndDate" name="endDate">  
 
                   <label for="editCityId">city</label>
                   <input type="text" class="form-control cityInput" id="editCityId" name="cityId" list="cityInputDatalist">
@@ -191,57 +167,36 @@
 
                   </datalist>
 
-                  <label for="editBio">bio</label>
-                  <textarea name="bio" id="editBio" class="form-control"></textarea>
+                  <label for="editLocation">location</label>
+                  <input type="text" class="form-control" id="editLocation" name="location">
 
-                  <label for="editCompleted">completed</label>
-                  <select name="completed" id="editCompleted" class="form-control">
+                  <label for="editDescription">description</label>
+                  <textarea name="description" id="editDescription" class="form-control"></textarea>
+
+                  <label for="editAgeLimit">ageLimit</label>
+                  <select name="ageLimit" id="editAgeLimit" class="form-control">
                     <option>true</option>
                     <option>false</option>
                   </select>
 
-                  <label for="editTempPin">tempPin</label>
-                  <input type="number" class="form-control" id="editTempPin" name="tempPin">
-                  
-                  <label for="editRole">role</label>
-                  <select name="role" id="editRole" class="form-control">
-                    <option value="admin">admin</option>
-                    <option value="moderator">moderator</option>
-                    <option value="user">user</option>
-                  </select>
-
-                  <label for="editOuathType">oauthType</label>
-                  <input type="text" class="form-control" id="editOuathType" name="oauthType">
+                  <label for="editMaxResponse">maxResponse</label>
+                  <input type="number" class="form-control" id="editMaxResponse" name="maxResponse">
                 </form>
                 <hr>
-                <form action="javascript:void(0)" id="editPfpForm" method="post" enctype="multipart/form-data">
-                  <h5>Profile picture</h5>
-                  <img id="currentPfp" class="mx-auto img-thumbnail text-center" style="max-width: 200px; max-height: 200px; object-fit: cover; aspect-ratio: 1/1;" src="" alt="">
-                  <br>
-                  <span class="text-muted">Jelenlegi: <span id="editCurrentPfp">null</span></span>
-                  <div class="input-group">
-                    <input type="file" name="pfp" id="editPfp" class="form-control">
-                    <input type="button" value="Törlés" class="btn btn-outline-danger" onclick="deletePfp(this)" id="deletePfpBtn">
-                  </div>
-                  <input onclick="updatePfp(this)" id="editPfpBtn" value="Profilkép feltöltése" class="btn btn-outline-primary">
-                </form>
+                
 
                 <hr>
-                <h5>Linkek</h5>
-                <span>Verifikáció:</span>
-                <a id="userVerificationLink" href="" class="text-break"></a>
+                <br>
+                <span>Felhasználó:</span>
+                <a id="eventUserLink" href="" class="text-break"></a>
 
                 <br>
-                <span>Események:</span>
-                <a id="userEventsLink" href="" class="text-break"></a>
+                <span>Esemény szerkesztése:</span>
+                <a id="editEventLink" href="" class="text-break"></a>
 
                 <br>
                 <span>Kommentek:</span>
-                <a id="userCommentsLink" href="" class="text-break"></a>
-
-                <br>
-                <span>Profil:</span>
-                <a id="userProfileLink" href="" class="text-break"></a>
+                <a id="eventCommentsLink" href="" class="text-break"></a>
               </div>
               
             <div class="modal-footer">
@@ -253,7 +208,7 @@
       </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/public/scripts/admin/users.js"></script>
+    <script src="/public/scripts/admin/events.js"></script>
     <script src="/public/scripts/cityInput.js"></script>
     
 </body>

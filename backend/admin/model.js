@@ -172,5 +172,365 @@ async function getUsers(query){
 
 }
 
+//events
+var events = {
+    deleteEventById: deleteEventById,
+    createEvent: createEvent,
+    deleteEvents: deleteEvents,
+    updateEvent: updateEvent,
+    getEvents: getEvents
+} 
 
-module.exports = {getAdminAnalyticsJSON, users}
+async function deleteEventById(eventId) {
+    let event = await prisma.event.count({where: {id: parseInt(eventId)}})
+    if(event==0){
+        throw new Error("Nincs ilyen esemény, vagy már törölve lett", {cause: 404})
+    }
+
+    await db.query("delete from eventuser where eventId = ?", [parseInt(eventId)])
+    await db.query("delete from eventgalleryimage where eventId = ?", [parseInt(eventId)])
+    await db.query("delete from eventcomment where eventId = ?", [parseInt(eventId)])
+    await db.query("delete from event where id = ?", [parseInt(eventId)])
+}
+
+async function createEvent(eventObject){
+    if(eventObject.title == null || eventObject.startDate == null){
+        throw new Error("A cím és a kezdődátum nem lehet null", {cause: 400})
+    }
+    let defaultEventObject = {
+        id: null,
+        userId: null,
+        title: null,
+        description: null,
+        startDate: null,
+        endDate: null,
+        cityId: null,
+        location: null,
+        maxResponse: null,
+        ageLimit: null
+    }
+    let mergedEventData = new Map([
+        ...Object.entries(defaultEventObject),
+        ...Object.entries(eventObject)
+    ])
+
+    let createEventData = Object.fromEntries(mergedEventData)
+    
+    await prisma.event.create(createEventData)
+}
+
+async function deleteEvents(eventIdList) {
+    for(let i of eventIdList){
+        await deleteEventById(parseInt(i))
+    }
+}
+
+async function updateEvent(eventObject) {
+    if(eventObject.id == null){
+        throw new Error("Az id-t kötelező megadni", {cause: 400})
+    }
+    let eventId = eventObject.id
+    delete eventObject.id
+    if(eventObject.title == null || eventObject.startDate == null){
+        throw new Error("A cím és a kezdődátum nem lehet null", {cause: 400})
+    }
+    let user = await prisma.event.count({where: {id: parseInt(eventId)}})
+    if(user==0){
+        throw new Error("Nincs ilyen esemény, vagy már törölve lett", {cause: 404})
+    }
+    let defaultEventObject = await prisma.event.findFirst({where: {id: parseInt(eventId)}})
+    let mergedEventData = new Map([
+        ...Object.entries(defaultEventObject),
+        ...Object.entries(eventObject)
+    ])
+
+    let updateEventData = Object.fromEntries(mergedEventData)
+    
+    await prisma.event.update({
+        where: {id: parseInt(eventId)},
+        data: updateEventData
+    })
+}
+
+async function getEvents(query){
+    let userQuery = []
+    let page = 0
+
+    if(query.title){
+        userQuery.push({title: {contains: query.title}})
+    }
+    if(query.id){
+        userQuery.push({id: parseInt(query.id)})
+    }
+    if(query.userId){
+        userQuery.push({userId: parseInt(query.userId)})
+    }
+    if(query.page){
+        page = parseInt(query.page)-1
+    }
+    
+
+    if(query.q){
+        if(!isNaN(parseInt(query.q))){
+            userQuery.push({id: parseInt(query.q)})
+        }
+        
+        userQuery.push({title: {contains: query.q}})
+    }
+
+    let OrUserQuery = {OR: userQuery}
+    if(userQuery.length == 0){
+        OrUserQuery = {}
+    }
+
+    let resultCount = await prisma.event.count({
+        where: OrUserQuery
+    })
+    let results = await prisma.event.findMany({where: OrUserQuery,
+    take: 12, skip: page*12, include: {city: true, user: true}, orderBy: {startDate: "desc"}})
+
+    let output = {
+        currentPage: page+1,
+        maxPages: Math.ceil(resultCount/12),
+        allResultsCount: resultCount,
+        results: results
+    }
+
+    return output
+
+}
+
+//comments
+var comments = {
+    deleteCommentById: deleteCommentById,
+    createComment: createComment,
+    deleteComments: deleteComments,
+    updateComment: updateComment,
+    getComments: getComments
+} 
+
+async function deleteCommentById(eventId) {
+    let event = await prisma.eventcomment.count({where: {id: parseInt(eventId)}})
+    if(event==0){
+        throw new Error("Nincs ilyen komment, vagy már törölve lett", {cause: 404})
+    }
+
+    await db.query("delete from eventcomment where id = ?", [parseInt(eventId)])
+}
+
+async function createComment(commentObject){
+    if(commentObject.id == null || commentObject.commentText == null || commentObject.userId == null || commentObject.eventId == null){
+        throw new Error("Az id, szöveg, userId, és az eventId nem lehet null", {cause: 400})
+    }
+    let defaultCommentObject = {
+        id: null,
+        eventId: null,
+        userId: null,
+        commentText: null
+    }
+    let mergedCommentData = new Map([
+        ...Object.entries(defaultCommentObject),
+        ...Object.entries(mergedCommentData)
+    ])
+
+    let createCommentData = Object.fromEntries(mergedCommentData)
+    
+    await prisma.eventcomment.create(createCommentData)
+}
+
+async function deleteComments(commentIdList) {
+    for(let i of commentIdList){
+        await deleteCommentById(parseInt(i))
+    }
+}
+
+async function updateComment(commentObject) {
+    if(commentObject.id == null){
+        throw new Error("Az id-t kötelező megadni", {cause: 400})
+    }
+    let commentId = commentObject.id
+    delete commentObject.id
+    if(commentObject.commentText == null || commentObject.userId == null || commentObject.eventId == null){
+        console.log(commentObject)
+        throw new Error("A szöveg, userId, és az eventId nem lehet null", {cause: 400})
+    }
+    let user = await prisma.eventcomment.count({where: {id: parseInt(commentId)}})
+    if(user==0){
+        throw new Error("Nincs ilyen komment, vagy már törölve lett", {cause: 404})
+    }
+    let defaultCommentObject = await prisma.eventcomment.findFirst({where: {id: parseInt(commentId)}})
+    let mergedCommentData = new Map([
+        ...Object.entries(defaultCommentObject),
+        ...Object.entries(commentObject)
+    ])
+
+    let updateCommentData = Object.fromEntries(mergedCommentData)
+    
+    await prisma.eventcomment.update({
+        where: {id: parseInt(commentId)},
+        data: updateCommentData
+    })
+}
+
+async function getComments(query){
+    let userQuery = []
+    let page = 0
+
+    if(query.eventId){
+        userQuery.push({eventId: parseInt(query.eventId)})
+    }
+    if(query.userId){
+        userQuery.push({userId: parseInt(query.userId)})
+    }
+    if(query.id){
+        userQuery.push({id: parseInt(query.id)})
+    }
+    if(query.page){
+        page = parseInt(query.page)-1
+    }
+    
+
+    if(query.q){
+        if(!isNaN(parseInt(query.q))){
+            userQuery.push({id: parseInt(query.q)})
+        }
+        
+        userQuery.push({commentText: {contains: query.q}})
+    }
+
+    let OrUserQuery = {OR: userQuery}
+    if(userQuery.length == 0){
+        OrUserQuery = {}
+    }
+
+    let resultCount = await prisma.eventcomment.count({
+        where: OrUserQuery
+    })
+    let results = await prisma.eventcomment.findMany({where: OrUserQuery,
+    take: 12, skip: page*12, include: {event: true, user: true}, orderBy: {date: "desc"}})
+
+    let output = {
+        currentPage: page+1,
+        maxPages: Math.ceil(resultCount/12),
+        allResultsCount: resultCount,
+        results: results
+    }
+
+    return output
+
+}
+
+//categories
+var categories = {
+    deleteCategoryById: deleteCategoryById,
+    createCategory: createCategory,
+    deleteCategories: deleteCategories,
+    updateCategory: updateCategory,
+    getCategories: getCategories
+} 
+
+async function deleteCategoryById(eventId) {
+    let event = await prisma.category.count({where: {id: parseInt(eventId)}})
+    if(event==0){
+        throw new Error("Nincs ilyen kategória, vagy már törölve lett", {cause: 404})
+    }
+
+    await db.query("delete from eventcategory where categoryId = ?", [parseInt(eventId)])
+    await db.query("delete from category where id = ?", [parseInt(eventId)])
+}
+
+async function createCategory(commentObject){
+    if(commentObject.name == null){
+        throw new Error("A név nem lehet null", {cause: 400})
+    }
+    let defaultCommentObject = {
+        name: null
+    }
+    let mergedCommentData = new Map([
+        ...Object.entries(defaultCommentObject),
+        ...Object.entries(commentObject)
+    ])
+
+    let createCommentData = Object.fromEntries(mergedCommentData)
+    
+    await prisma.category.create({data: createCommentData})
+}
+
+async function deleteCategories(commentIdList) {
+    for(let i of commentIdList){
+        await deleteCategoryById(parseInt(i))
+    }
+}
+
+async function updateCategory(commentObject) {
+    if(commentObject.id == null){
+        throw new Error("Az id-t kötelező megadni", {cause: 400})
+    }
+    let commentId = commentObject.id
+    delete commentObject.id
+    if(commentObject.name == null){
+        console.log(commentObject)
+        throw new Error("A név nem lehet null", {cause: 400})
+    }
+    let user = await prisma.category.count({where: {id: parseInt(commentId)}})
+    if(user==0){
+        throw new Error("Nincs ilyen kategória, vagy már törölve lett", {cause: 404})
+    }
+    let defaultCommentObject = await prisma.category.findFirst({where: {id: parseInt(commentId)}})
+    let mergedCommentData = new Map([
+        ...Object.entries(defaultCommentObject),
+        ...Object.entries(commentObject)
+    ])
+
+    let updateCommentData = Object.fromEntries(mergedCommentData)
+    
+    await prisma.category.update({
+        where: {id: parseInt(commentId)},
+        data: updateCommentData
+    })
+}
+
+async function getCategories(query){
+    let userQuery = []
+    let page = 0
+
+    if(query.id){
+        userQuery.push({id: parseInt(query.id)})
+    }
+    if(query.page){
+        page = parseInt(query.page)-1
+    }
+    
+
+    if(query.q){
+        if(!isNaN(parseInt(query.q))){
+            userQuery.push({id: parseInt(query.q)})
+        }
+        
+        userQuery.push({name: {contains: query.q}})
+    }
+
+    let OrUserQuery = {OR: userQuery}
+    if(userQuery.length == 0){
+        OrUserQuery = {}
+    }
+
+    let resultCount = await prisma.category.count({
+        where: OrUserQuery
+    })
+    let results = await prisma.category.findMany({where: OrUserQuery,
+    take: 12, skip: page*12})
+
+    let output = {
+        currentPage: page+1,
+        maxPages: Math.ceil(resultCount/12),
+        allResultsCount: resultCount,
+        results: results
+    }
+
+    return output
+
+}
+
+
+module.exports = {getAdminAnalyticsJSON, users, events, comments, categories}

@@ -16,7 +16,7 @@ router.get("/oauthLogin", async (req, res)=>{
         let code = req.query.code
         let token = await auth.googleGetTokenFromCode(code)
         let jwtToken = await auth.oauthLogin(token)
-        res.cookie("token", token)
+        res.cookie("token", jwtToken[0])
         res.status(200).json({status: 200, jwt: jwtToken[0], username: jwtToken[1]})
     } catch(e){
         res.status(e.cause || 500).json({status: e.cause || 500, message: e.message})
