@@ -130,24 +130,24 @@ h1 {
     padding-left: 0;
 }
 
-.hamburger-icon {
+.hamburger-icon-div {
     position: absolute;
-    left: 20px;
+    left: 0px;
+    margin-left: 20px;
     background-color: white;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    border-radius: 20%;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid var(--light);
-    cursor: pointer;
     z-index: 3;
 }
 
-.hamburger-icon i {
-    font-size: 18px;
-    color: #000000;
+.hamburger-icon {
+    padding: 0px;
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    border-radius: 20%;
 }
 
 #message{
@@ -226,4 +226,19 @@ h1 {
 }
 #confirmPopup button:hover{
     filter: brightness(0.8);
+}
+
+.link-light{
+    background-color: #6200ea;
+    border-radius: 12px;
+    padding: 7px;
+    margin-left: 5px;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.link-light:hover{
+    background-color: #3700b3;
+    color: white;
 }
