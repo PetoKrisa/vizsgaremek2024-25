@@ -49,6 +49,14 @@ router.get("/admin/comments", auth.decodeJWT, auth.checkReadAdmin, async (req,re
     }
 })
 
+router.get("/admin/categories", auth.decodeJWT, auth.checkReadAdmin, async (req,res)=>{
+    try{
+        res.sendFile(basePath+"frontend\\admin\\categories.html")
+    } catch(e){
+        res.status(500).json({status: 500, message: "Hiba az admin oldal betöltése közben"})
+    }
+})
+
 //api
 
 //users
@@ -240,6 +248,63 @@ router.put("/api/admin/comments",auth.decodeJWT, auth.checkUpdateAdmin, async(re
         await admin.comments.updateComment(req.body)
 
         res.json({status: 200, message: "Sikeresen frissítette a kommentet"})
+    }catch(e){
+        console.log(e)
+        res.status(500).json({status: 500, message: e.message})
+    }
+})
+
+//categories
+router.get("/api/admin/categories", auth.decodeJWT, auth.checkReadAdmin, async (req,res)=>{
+    try{
+        let events = await admin.categories.getCategories(req.query)
+        res.json(events)
+    } catch(e){
+        console.log(e)
+        res.status(500).json({status: 500, message: "Hiba az kategóriák betöltése közben"})
+    }
+})
+
+router.delete("/api/admin/categories", auth.decodeJWT, auth.checkUpdateAdmin, async (req,res)=>{
+    try{
+        let userIdList = req.body.idList
+        
+        await admin.categories.deleteCategories(userIdList)
+        res.json({message: `Sikeresent törölt ${userIdList.length} sort`})
+    } catch(e){
+        console.log(e)
+        res.status(500).json({status: 500, message: e.message})
+    }
+})
+
+router.put("/api/admin/categories",auth.decodeJWT, auth.checkUpdateAdmin, async(req,res)=>{
+    try{
+        console.log(req.body)
+
+        let user = await prisma.category.findFirst({where: {id: parseInt(req.body.id)}})
+        if(user == null){
+            res.status(404).json({status: 404, message: "A szerkesztett kategória nem létezik"})
+            return
+        }
+
+        if(req.body.id){
+            req.body.id = parseInt(req.body.id)
+        }
+
+        await admin.categories.updateCategory(req.body)
+
+        res.json({status: 200, message: "Sikeresen frissítette a kategóriát"})
+    }catch(e){
+        console.log(e)
+        res.status(500).json({status: 500, message: e.message})
+    }
+})
+
+router.post("/api/admin/categories",auth.decodeJWT, auth.checkUpdateAdmin, async(req,res)=>{
+    try{
+        await admin.categories.createCategory(req.body)
+
+        res.json({status: 200, message: "Sikeresen létrehozott egy kategóriát"})
     }catch(e){
         console.log(e)
         res.status(500).json({status: 500, message: e.message})

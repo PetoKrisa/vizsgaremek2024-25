@@ -420,5 +420,117 @@ async function getComments(query){
 
 }
 
+//categories
+var categories = {
+    deleteCategoryById: deleteCategoryById,
+    createCategory: createCategory,
+    deleteCategories: deleteCategories,
+    updateCategory: updateCategory,
+    getCategories: getCategories
+} 
 
-module.exports = {getAdminAnalyticsJSON, users, events, comments}
+async function deleteCategoryById(eventId) {
+    let event = await prisma.category.count({where: {id: parseInt(eventId)}})
+    if(event==0){
+        throw new Error("Nincs ilyen kategória, vagy már törölve lett", {cause: 404})
+    }
+
+    await db.query("delete from eventcategory where categoryId = ?", [parseInt(eventId)])
+    await db.query("delete from category where id = ?", [parseInt(eventId)])
+}
+
+async function createCategory(commentObject){
+    if(commentObject.name == null){
+        throw new Error("A név nem lehet null", {cause: 400})
+    }
+    let defaultCommentObject = {
+        name: null
+    }
+    let mergedCommentData = new Map([
+        ...Object.entries(defaultCommentObject),
+        ...Object.entries(commentObject)
+    ])
+
+    let createCommentData = Object.fromEntries(mergedCommentData)
+    
+    await prisma.category.create({data: createCommentData})
+}
+
+async function deleteCategories(commentIdList) {
+    for(let i of commentIdList){
+        await deleteCategoryById(parseInt(i))
+    }
+}
+
+async function updateCategory(commentObject) {
+    if(commentObject.id == null){
+        throw new Error("Az id-t kötelező megadni", {cause: 400})
+    }
+    let commentId = commentObject.id
+    delete commentObject.id
+    if(commentObject.name == null){
+        console.log(commentObject)
+        throw new Error("A név nem lehet null", {cause: 400})
+    }
+    let user = await prisma.category.count({where: {id: parseInt(commentId)}})
+    if(user==0){
+        throw new Error("Nincs ilyen kategória, vagy már törölve lett", {cause: 404})
+    }
+    let defaultCommentObject = await prisma.category.findFirst({where: {id: parseInt(commentId)}})
+    let mergedCommentData = new Map([
+        ...Object.entries(defaultCommentObject),
+        ...Object.entries(commentObject)
+    ])
+
+    let updateCommentData = Object.fromEntries(mergedCommentData)
+    
+    await prisma.category.update({
+        where: {id: parseInt(commentId)},
+        data: updateCommentData
+    })
+}
+
+async function getCategories(query){
+    let userQuery = []
+    let page = 0
+
+    if(query.id){
+        userQuery.push({id: parseInt(query.id)})
+    }
+    if(query.page){
+        page = parseInt(query.page)-1
+    }
+    
+
+    if(query.q){
+        if(!isNaN(parseInt(query.q))){
+            userQuery.push({id: parseInt(query.q)})
+        }
+        
+        userQuery.push({name: {contains: query.q}})
+    }
+
+    let OrUserQuery = {OR: userQuery}
+    if(userQuery.length == 0){
+        OrUserQuery = {}
+    }
+
+    let resultCount = await prisma.category.count({
+        where: OrUserQuery
+    })
+    let results = await prisma.category.findMany({where: OrUserQuery,
+    take: 12, skip: page*12})
+
+    let output = {
+        currentPage: page+1,
+        maxPages: Math.ceil(resultCount/12),
+        allResultsCount: resultCount,
+        results: results
+    }
+
+    return output
+
+}
+
+
+module.exports = {getAdminAnalyticsJSON, users, events, comments, categories}
